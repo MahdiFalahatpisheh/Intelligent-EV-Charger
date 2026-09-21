@@ -39,6 +39,11 @@ BASE_CONFIG = (
 
 CONVERSION_TIME_S = 0.001  # >1 sample period at 1600 SPS
 
+# AIN2 is wired to a TMP235A2DBZR analog temperature sensor
+TMP235_CHANNEL = 2
+TMP235_OFFSET_V = 0.500  # V_OUT at 0 degC
+TMP235_SCALE_V_PER_C = 0.010  # V_OUT slope
+
 
 def _read_channel_raw(bus, channel):
     """Trigger a single-shot conversion on the given channel and return the raw 12-bit value."""
@@ -59,11 +64,19 @@ def read_all_voltages(bus):
     return [_read_channel_raw(bus, channel) * LSB_VOLTS for channel in range(4)]
 
 
+def tmp235_voltage_to_celsius(voltage):
+    """Convert a TMP235A2 output voltage to degrees Celsius."""
+    return (voltage - TMP235_OFFSET_V) / TMP235_SCALE_V_PER_C
+
+
 def main():
     with SMBus(I2C_BUS) as bus:
         voltages = read_all_voltages(bus)
         for channel, voltage in enumerate(voltages):
             print(f"ADS1015 @ 0x{ADS1015_ADDRESS:02X} AIN{channel}: {voltage:.4f} V")
+
+        temperature_c = tmp235_voltage_to_celsius(voltages[TMP235_CHANNEL])
+        print(f"TMP235A2 temperature (AIN{TMP235_CHANNEL}): {temperature_c:.2f} degC")
 
 
 if __name__ == "__main__":
