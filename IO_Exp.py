@@ -54,6 +54,7 @@ from smbus2 import SMBus
 # PCA9535 register addresses
 REG_INPUT_PORT0 = 0x00
 REG_INPUT_PORT1 = 0x01
+REG_OUTPUT_PORT1 = 0x03
 REG_CONFIG_PORT0 = 0x04
 REG_CONFIG_PORT1 = 0x05
 
@@ -62,6 +63,9 @@ ALL_INPUT = 0xFF
 
 # I2C addresses for A2A1A0 = 000, 001, 010
 EXPANDER_ADDRESSES = [0x20, 0x21, 0x22]
+
+# Port1 pins 5 and 6 on the first expander are driven high as outputs
+OUTPUT_PINS_MASK = (1 << 5) | (1 << 6)
 
 # I2C bus 1 uses GPIO2 (SDA) and GPIO3 (SCL) on the Raspberry Pi
 I2C_BUS = 1
@@ -80,6 +84,13 @@ def read_inputs(bus, address):
     return port0, port1
 
 
+def set_port1_pins_output_high(bus, address, pin_mask):
+    """Switch the masked Port1 pins to output and drive them high."""
+    bus.write_byte_data(address, REG_OUTPUT_PORT1, pin_mask)
+    config = bus.read_byte_data(address, REG_CONFIG_PORT1)
+    bus.write_byte_data(address, REG_CONFIG_PORT1, config & ~pin_mask)
+
+
 def main():
     with SMBus(I2C_BUS) as bus:
         for address in EXPANDER_ADDRESSES:
@@ -89,6 +100,12 @@ def main():
                 f"PCA9535 @ 0x{address:02X}: configured as input "
                 f"(Port0=0b{port0:08b}, Port1=0b{port1:08b})"
             )
+
+        first_address = EXPANDER_ADDRESSES[0]
+        set_port1_pins_output_high(bus, first_address, OUTPUT_PINS_MASK)
+        print(
+            f"PCA9535 @ 0x{first_address:02X}: Port1 pins 5 and 6 set as output, driven high"
+        )
 
 
 if __name__ == "__main__":
