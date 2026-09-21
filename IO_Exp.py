@@ -15,13 +15,27 @@ On first run this script enables the Pi's I2C interface (raspi-config) and
 installs the smbus2 package if it is missing, then continues automatically.
 """
 
+import os
 import subprocess
 import sys
 
 
 def _ensure_i2c_enabled():
-    """Enable the Raspberry Pi I2C interface via raspi-config, if not already on."""
+    """Enable the I2C interface and make sure /dev/i2c-1 is actually present."""
     subprocess.run(["sudo", "raspi-config", "nonint", "do_i2c", "0"], check=True)
+    if os.path.exists("/dev/i2c-1"):
+        return
+
+    # The overlay was just enabled in /boot/config.txt but not loaded yet;
+    # try loading the kernel modules without requiring a reboot.
+    subprocess.run(["sudo", "modprobe", "i2c-dev"], check=False)
+    subprocess.run(["sudo", "modprobe", "i2c-bcm2835"], check=False)
+
+    if not os.path.exists("/dev/i2c-1"):
+        sys.exit(
+            "I2C was just enabled but /dev/i2c-1 is still missing. "
+            "Reboot the Raspberry Pi (sudo reboot) and run this script again."
+        )
 
 
 def _ensure_smbus2_installed():
