@@ -55,8 +55,8 @@ from smbus2 import SMBus
 REG_INPUT_PORT0 = 0x00
 REG_INPUT_PORT1 = 0x01
 REG_OUTPUT_PORT1 = 0x03
-REG_CONFIG_PORT0 = 0x04
-REG_CONFIG_PORT1 = 0x05
+REG_CONFIG_PORT0 = 0x06
+REG_CONFIG_PORT1 = 0x07
 
 # All bits = 1 configures each port fully as input
 ALL_INPUT = 0xFF
