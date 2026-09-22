@@ -1,0 +1,72 @@
+"""
+WISUN: drive IO1_6 on the second PCA9535BS IO expander (A2A1A0 = 001,
+address 0x21) as an output, driven high. This pin enables WISUN power.
+"""
+
+import os
+import subprocess
+import sys
+
+
+def _ensure_i2c_enabled():
+    """Enable the I2C interface and make sure /dev/i2c-1 is actually present."""
+    subprocess.run(["sudo", "raspi-config", "nonint", "do_i2c", "0"], check=True)
+    if os.path.exists("/dev/i2c-1"):
+        return
+
+    # The overlay was just enabled in /boot/config.txt but not loaded yet;
+    # try loading the kernel modules without requiring a reboot.
+    subprocess.run(["sudo", "modprobe", "i2c-dev"], check=False)
+    subprocess.run(["sudo", "modprobe", "i2c-bcm2835"], check=False)
+
+    if not os.path.exists("/dev/i2c-1"):
+        sys.exit(
+            "I2C was just enabled but /dev/i2c-1 is still missing. "
+            "Reboot the Raspberry Pi (sudo reboot) and run this script again."
+        )
+
+
+def _ensure_smbus2_installed():
+    """Install smbus2 with pip if it isn't importable yet."""
+    try:
+        import smbus2  # noqa: F401
+    except ImportError:
+        subprocess.run([sys.executable, "-m", "pip", "install", "smbus2"], check=True)
+
+
+_ensure_i2c_enabled()
+_ensure_smbus2_installed()
+
+from smbus2 import SMBus
+
+# PCA9535 register addresses
+REG_OUTPUT_PORT1 = 0x03
+REG_CONFIG_PORT1 = 0x07
+
+# I2C address for the second expander (A2A1A0 = 001)
+WISUN_ADDRESS = 0x21
+
+# I2C bus 1 uses GPIO2 (SDA) and GPIO3 (SCL) on the Raspberry Pi
+I2C_BUS = 1
+
+# IO1_6 is Port1 bit 6, and enables WISUN power
+IO1_6_MASK = 1 << 6
+
+
+def set_io1_6_output_high(bus, address, pin_mask):
+    """Switch the masked Port1 pins to output and drive them high."""
+    bus.write_byte_data(address, REG_OUTPUT_PORT1, pin_mask)
+    config = bus.read_byte_data(address, REG_CONFIG_PORT1)
+    bus.write_byte_data(address, REG_CONFIG_PORT1, config & ~pin_mask)
+
+
+def main():
+    with SMBus(I2C_BUS) as bus:
+        set_io1_6_output_high(bus, WISUN_ADDRESS, IO1_6_MASK)
+        print(
+            f"PCA9535 @ 0x{WISUN_ADDRESS:02X}: IO1_6 set as output, driven high (WISUN power enabled)"
+        )
+
+
+if __name__ == "__main__":
+    main()
