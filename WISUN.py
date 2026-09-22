@@ -1,6 +1,6 @@
 """
 WISUN: drive IO1_6 on the second PCA9535BS IO expander (A2A1A0 = 001,
-address 0x21) as an output, driven high. This pin enables WISUN power.
+address 0x21) as an output, driven low. This pin enables WISUN power.
 """
 
 import os
@@ -53,18 +53,18 @@ I2C_BUS = 1
 IO1_6_MASK = 1 << 6
 
 
-def set_io1_6_output_high(bus, address, pin_mask):
-    """Switch the masked Port1 pins to output and drive them high."""
-    bus.write_byte_data(address, REG_OUTPUT_PORT1, pin_mask)
+def set_io1_6_output_low(bus, address, pin_mask):
+    """Switch the masked Port1 pins to output and drive them low."""
+    bus.write_byte_data(address, REG_OUTPUT_PORT1, 0x00)
     config = bus.read_byte_data(address, REG_CONFIG_PORT1)
     bus.write_byte_data(address, REG_CONFIG_PORT1, config & ~pin_mask)
 
 
 def main():
     with SMBus(I2C_BUS) as bus:
-        set_io1_6_output_high(bus, WISUN_ADDRESS, IO1_6_MASK)
+        set_io1_6_output_low(bus, WISUN_ADDRESS, IO1_6_MASK)
         print(
-            f"PCA9535 @ 0x{WISUN_ADDRESS:02X}: IO1_6 set as output, driven high (WISUN power enabled)"
+            f"PCA9535 @ 0x{WISUN_ADDRESS:02X}: IO1_6 set as output, driven low (WISUN power disabled)"
         )
 
 
