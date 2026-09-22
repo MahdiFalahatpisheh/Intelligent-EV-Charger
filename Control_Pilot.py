@@ -6,6 +6,7 @@ address 0x21) as an output, driven high.
 import os
 import subprocess
 import sys
+import time
 
 
 def _ensure_i2c_enabled():
@@ -68,8 +69,12 @@ IO0_4_MASK = 1 << 4
 GPIO25_PIN = 25
 
 # The ADC readings on AIN0/AIN1 come out attenuated; divide by this factor
-# to recover the actual voltage
+# to recover the actual voltage. Recalibrated so the CP high level reads as
+# the true 12 V (previously 0.081 produced ~19-23 V for a 12 V signal).
 VOLTAGE_CORRECTION_FACTOR = 0.081
+
+# Delay after switching an output to let the CP signal settle before sampling
+SWITCH_SETTLE_TIME_S = 0.05
 
 
 def set_io0_4_output_high(bus, address, pin_mask):
@@ -89,6 +94,7 @@ def set_gpio25_output_high():
 def set_gpio25(level):
     """Drive GPIO25 to the given boolean level (already configured as output)."""
     GPIO.output(GPIO25_PIN, GPIO.HIGH if level else GPIO.LOW)
+    time.sleep(SWITCH_SETTLE_TIME_S)
 
 
 def read_ain0_ain1(bus):
@@ -106,6 +112,7 @@ def main():
 
         set_gpio25_output_high()
         print(f"Raspberry Pi GPIO{GPIO25_PIN}: set as output, driven high")
+        time.sleep(SWITCH_SETTLE_TIME_S)
 
         for cycle in range(1, 6):
             ain0, ain1 = read_ain0_ain1(bus)

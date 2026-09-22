@@ -37,7 +37,11 @@ BASE_CONFIG = (
     | 0x0003  # COMP_QUE = disable comparator
 )
 
-CONVERSION_TIME_S = 0.001  # >1 sample period at 1600 SPS
+CONVERSION_TIME_S = 0.002  # margin above the ~0.625 ms sample period at 1600 SPS
+
+# Averaging rejects the noise that the small VOLTAGE_CORRECTION_FACTOR
+# in Control_Pilot.py would otherwise amplify
+SAMPLES_PER_READING = 8
 
 # AIN2 is wired to a TMP235A2DBZR analog temperature sensor
 TMP235_CHANNEL = 2
@@ -45,7 +49,7 @@ TMP235_OFFSET_V = 0.500  # V_OUT at 0 degC
 TMP235_SCALE_V_PER_C = 0.010  # V_OUT slope
 
 
-def _read_channel_raw(bus, channel):
+def _trigger_and_read_raw(bus, channel):
     """Trigger a single-shot conversion on the given channel and return the raw 12-bit value."""
     config = 0x8000 | (CHANNEL_MUX[channel] << 12) | BASE_CONFIG
     bus.write_i2c_block_data(ADS1015_ADDRESS, REG_CONFIG, [(config >> 8) & 0xFF, config & 0xFF])
@@ -57,6 +61,15 @@ def _read_channel_raw(bus, channel):
     if raw & 0x800:  # sign-extend a negative 12-bit reading
         raw -= 1 << 12
     return raw
+
+
+def _read_channel_raw(bus, channel):
+    """Return the raw 12-bit value averaged over several conversions to reject noise."""
+    # The mux input needs one settled conversion after switching before its
+    # readings can be trusted; discard that first sample.
+    _trigger_and_read_raw(bus, channel)
+    samples = [_trigger_and_read_raw(bus, channel) for _ in range(SAMPLES_PER_READING)]
+    return sum(samples) / len(samples)
 
 
 def read_all_voltages(bus):
