@@ -86,6 +86,17 @@ def set_gpio25_output_high():
     GPIO.output(GPIO25_PIN, GPIO.HIGH)
 
 
+def set_gpio25(level):
+    """Drive GPIO25 to the given boolean level (already configured as output)."""
+    GPIO.output(GPIO25_PIN, GPIO.HIGH if level else GPIO.LOW)
+
+
+def read_ain0_ain1(bus):
+    """Read AIN0/AIN1 and apply the attenuation correction factor."""
+    ain0, ain1 = read_all_voltages(bus)[:2]
+    return ain0 / VOLTAGE_CORRECTION_FACTOR, ain1 / VOLTAGE_CORRECTION_FACTOR
+
+
 def main():
     with SMBus(I2C_BUS) as bus:
         set_io0_4_output_high(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK)
@@ -96,11 +107,15 @@ def main():
         set_gpio25_output_high()
         print(f"Raspberry Pi GPIO{GPIO25_PIN}: set as output, driven high")
 
-        ain0, ain1 = read_all_voltages(bus)[:2]
-        ain0 /= VOLTAGE_CORRECTION_FACTOR
-        ain1 /= VOLTAGE_CORRECTION_FACTOR
-        print(f"ADS1015 @ 0x{ADS1015_ADDRESS:02X} AIN0: {ain0:.4f} V")
-        print(f"ADS1015 @ 0x{ADS1015_ADDRESS:02X} AIN1: {ain1:.4f} V")
+        for cycle in range(1, 6):
+            ain0, ain1 = read_ain0_ain1(bus)
+            print(f"Cycle {cycle} - GPIO{GPIO25_PIN} HIGH: AIN0={ain0:.4f} V, AIN1={ain1:.4f} V")
+
+            set_gpio25(False)
+            ain0, ain1 = read_ain0_ain1(bus)
+            print(f"Cycle {cycle} - GPIO{GPIO25_PIN} LOW:  AIN0={ain0:.4f} V, AIN1={ain1:.4f} V")
+
+            set_gpio25(True)
 
 
 if __name__ == "__main__":
