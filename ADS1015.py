@@ -7,6 +7,7 @@ ADDR pin tied to GND gives I2C address 0x48 (GND=0x48, VDD=0x49, SDA=0x4A,
 SCL=0x4B) — update ADS1015_ADDRESS below to match the actual wiring.
 """
 
+import argparse
 import time
 
 from smbus2 import SMBus
@@ -77,13 +78,81 @@ def read_all_voltages(bus):
     return [_read_channel_raw(bus, channel) * LSB_VOLTS for channel in range(4)]
 
 
+def read_ain0_and_ain1(bus):
+    """Return the averaged AIN0 and AIN1 voltages in volts."""
+    ain0 = _read_channel_raw(bus, 0) * LSB_VOLTS
+    ain1 = _read_channel_raw(bus, 1) * LSB_VOLTS
+    return ain0, ain1
+
+
 def tmp235_voltage_to_celsius(voltage):
     """Convert a TMP235A2 output voltage to degrees Celsius."""
     return (voltage - TMP235_OFFSET_V) / TMP235_SCALE_V_PER_C
 
 
+def _default_gpio_callback(gpio_pin, gpio_state, bus):
+    """Read and print AIN0 and AIN1 whenever the GPIO state changes."""
+    ain0, ain1 = read_ain0_and_ain1(bus)
+    state_name = "HIGH" if gpio_state else "LOW"
+    print(
+        f"GPIO{gpio_pin} state: {state_name}; "
+        f"AIN0: {ain0:.4f} V; AIN1: {ain1:.4f} V"
+    )
+
+
+def monitor_gpio_state(gpio_pin, bus, edge="both", callback=None):
+    """Monitor a Raspberry Pi GPIO input and read AIN0/AIN1 on each edge."""
+    import RPi.GPIO as GPIO
+
+    edge_modes = {
+        "rising": GPIO.RISING,
+        "falling": GPIO.FALLING,
+        "both": GPIO.EITHER_EDGE,
+    }
+    if edge not in edge_modes:
+        raise ValueError("edge must be 'rising', 'falling', or 'both'")
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(gpio_pin, GPIO.IN)
+
+    if callback is None:
+        callback = lambda channel: _default_gpio_callback(
+            gpio_pin, bool(GPIO.input(gpio_pin)), bus
+        )
+
+    GPIO.add_event_detect(gpio_pin, edge_modes[edge], callback)
+    try:
+        print(f"Monitoring GPIO{gpio_pin} ({edge} edge)... Press Ctrl+C to stop.")
+        while True:
+            time.sleep(0.1)
+    finally:
+        GPIO.remove_event_detect(gpio_pin)
+        GPIO.cleanup(gpio_pin)
+
+
 def main():
+    parser = argparse.ArgumentParser(
+        description="Read ADS1015 AIN0/AIN1 voltages or monitor a GPIO state."
+    )
+    parser.add_argument(
+        "--gpio",
+        type=int,
+        default=None,
+        help="BCM GPIO number to monitor; omit to print one-time readings.",
+    )
+    parser.add_argument(
+        "--edge",
+        choices=("rising", "falling", "both"),
+        default="both",
+        help="GPIO edge that triggers the ADC readings (default: both).",
+    )
+    args = parser.parse_args()
+
     with SMBus(I2C_BUS) as bus:
+        if args.gpio is not None:
+            monitor_gpio_state(args.gpio, bus, edge=args.edge)
+            return
+
         voltages = read_all_voltages(bus)
         for channel, voltage in enumerate(voltages):
             print(f"ADS1015 @ 0x{ADS1015_ADDRESS:02X} AIN{channel}: {voltage:.4f} V")

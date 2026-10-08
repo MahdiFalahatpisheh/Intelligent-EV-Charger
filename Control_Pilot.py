@@ -47,6 +47,8 @@ _ensure_rpi_gpio_installed()
 import RPi.GPIO as GPIO
 from smbus2 import SMBus
 
+from ADS1015 import read_ain0_and_ain1
+
 # PCA9535 register addresses
 REG_OUTPUT_PORT0 = 0x02
 REG_CONFIG_PORT0 = 0x06
@@ -67,6 +69,7 @@ IO0_4_STEP_TIME_S = 3
 GPIO25_PWM_FREQUENCY_HZ = 1000
 GPIO25_PWM_DUTY_CYCLE = 50
 GPIO25_PWM_DURATION_S = 10
+GPIO25_PWM_SAMPLE_INTERVAL_S = 0.5
 
 
 def set_io0_4_output_low(bus, address, pin_mask):
@@ -87,8 +90,17 @@ def set_io0_4_level(bus, address, pin_mask, high):
     bus.write_byte_data(address, REG_OUTPUT_PORT0, output)
 
 
+def print_analog_inputs(bus):
+    """Print the averaged AIN0 and AIN1 voltages from the ADS1015."""
+    ain0, ain1 = read_ain0_and_ain1(bus)
+    print(f"AIN0: {ain0:.4f} V")
+    print(f"AIN1: {ain1:.4f} V")
+
+
 def main():
     with SMBus(I2C_BUS) as bus:
+        print_analog_inputs(bus)
+
         set_io0_4_output_low(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK)
         print(f"PCA9535 @ 0x{CONTROL_PILOT_ADDRESS:02X}: IO0_4 output LOW")
         time.sleep(IO0_4_STEP_TIME_S)
@@ -113,7 +125,13 @@ def main():
             f"GPIO{GPIO25_PIN}: {GPIO25_PWM_FREQUENCY_HZ} Hz PWM, "
             f"{GPIO25_PWM_DUTY_CYCLE}% duty cycle for {GPIO25_PWM_DURATION_S} seconds"
         )
-        time.sleep(GPIO25_PWM_DURATION_S)
+
+        with SMBus(I2C_BUS) as bus:
+            end_time = time.monotonic() + GPIO25_PWM_DURATION_S
+            while time.monotonic() < end_time:
+                print_analog_inputs(bus)
+                remaining_time = end_time - time.monotonic()
+                time.sleep(min(GPIO25_PWM_SAMPLE_INTERVAL_S, remaining_time))
     finally:
         pwm.stop()
         GPIO.cleanup(GPIO25_PIN)
