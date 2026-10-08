@@ -62,7 +62,9 @@ IO1_6_MASK = 1 << 6
 
 
 
-wisun_on = 1
+wisun_on =0
+
+print(wisun_on)
 
 def set_io0_2_output_high(bus, address, pin_mask):
     """Configure IO0_2 as an output and drive it high."""
