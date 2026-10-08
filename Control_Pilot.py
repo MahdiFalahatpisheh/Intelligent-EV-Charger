@@ -1,7 +1,4 @@
-"""
-Control Pilot: drive IO0_4 on the second PCA9535BS IO expander (A2A1A0 = 001,
-address 0x21) as an output, driven high.
-"""
+"""Exercise IO0_4 on the second PCA9535BS expander and GPIO25 PWM."""
 
 import os
 import subprocess
@@ -50,8 +47,6 @@ _ensure_rpi_gpio_installed()
 import RPi.GPIO as GPIO
 from smbus2 import SMBus
 
-from ADS1015 import ADS1015_ADDRESS, read_all_voltages
-
 # PCA9535 register addresses
 REG_OUTPUT_PORT0 = 0x02
 REG_CONFIG_PORT0 = 0x06
@@ -65,64 +60,63 @@ I2C_BUS = 1
 # IO0_4 is Port0 bit 4
 IO0_4_MASK = 1 << 4
 
-# Raspberry Pi GPIO25 (BCM numbering) is driven high
+# Raspberry Pi GPIO25 (BCM numbering)
 GPIO25_PIN = 25
 
-# The ADC readings on AIN0/AIN1 come out attenuated; divide by this factor
-# to recover the actual voltage. Recalibrated so the CP high level reads as
-# the true 12 V (previously 0.081 produced ~19-23 V for a 12 V signal).
-VOLTAGE_CORRECTION_FACTOR = 0.081
-
-# Delay after switching an output to let the CP signal settle before sampling
-SWITCH_SETTLE_TIME_S = 0.05
+IO0_4_STEP_TIME_S = 3
+GPIO25_PWM_FREQUENCY_HZ = 1000
+GPIO25_PWM_DUTY_CYCLE = 50
+GPIO25_PWM_DURATION_S = 10
 
 
-def set_io0_4_output_high(bus, address, pin_mask):
-    """Switch the masked Port0 pins to output and drive them high."""
-    bus.write_byte_data(address, REG_OUTPUT_PORT0, pin_mask)
+def set_io0_4_output_low(bus, address, pin_mask):
+    """Configure the masked Port0 pins as outputs, initially driven low."""
+    output = bus.read_byte_data(address, REG_OUTPUT_PORT0)
+    bus.write_byte_data(address, REG_OUTPUT_PORT0, output & ~pin_mask)
     config = bus.read_byte_data(address, REG_CONFIG_PORT0)
     bus.write_byte_data(address, REG_CONFIG_PORT0, config & ~pin_mask)
 
 
-def set_gpio25_output_high():
-    """Configure Raspberry Pi GPIO25 as output and drive it high."""
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(GPIO25_PIN, GPIO.OUT)
-    GPIO.output(GPIO25_PIN, GPIO.HIGH)
-
-
-def set_gpio25(level):
-    """Drive GPIO25 to the given boolean level (already configured as output)."""
-    GPIO.output(GPIO25_PIN, GPIO.HIGH if level else GPIO.LOW)
-    time.sleep(SWITCH_SETTLE_TIME_S)
-
-
-def read_ain0_ain1(bus):
-    """Read AIN0/AIN1 and apply the attenuation correction factor."""
-    ain0, ain1 = read_all_voltages(bus)[:2]
-    return ain0 / VOLTAGE_CORRECTION_FACTOR, ain1 / VOLTAGE_CORRECTION_FACTOR
+def set_io0_4_level(bus, address, pin_mask, high):
+    """Set the masked Port0 pins without changing the other output bits."""
+    output = bus.read_byte_data(address, REG_OUTPUT_PORT0)
+    if high:
+        output |= pin_mask
+    else:
+        output &= ~pin_mask
+    bus.write_byte_data(address, REG_OUTPUT_PORT0, output)
 
 
 def main():
     with SMBus(I2C_BUS) as bus:
-        set_io0_4_output_high(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK)
+        set_io0_4_output_low(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK)
+        print(f"PCA9535 @ 0x{CONTROL_PILOT_ADDRESS:02X}: IO0_4 output LOW")
+        time.sleep(IO0_4_STEP_TIME_S)
+
+        set_io0_4_level(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK, True)
+        print("IO0_4 HIGH")
+        time.sleep(IO0_4_STEP_TIME_S)
+
+        set_io0_4_level(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK, False)
+        print("IO0_4 LOW")
+        time.sleep(IO0_4_STEP_TIME_S)
+
+        set_io0_4_level(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK, True)
+        print("IO0_4 HIGH")
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(GPIO25_PIN, GPIO.OUT)
+    pwm = GPIO.PWM(GPIO25_PIN, GPIO25_PWM_FREQUENCY_HZ)
+    try:
+        pwm.start(GPIO25_PWM_DUTY_CYCLE)
         print(
-            f"PCA9535 @ 0x{CONTROL_PILOT_ADDRESS:02X}: IO0_4 set as output, driven high"
+            f"GPIO{GPIO25_PIN}: {GPIO25_PWM_FREQUENCY_HZ} Hz PWM, "
+            f"{GPIO25_PWM_DUTY_CYCLE}% duty cycle for {GPIO25_PWM_DURATION_S} seconds"
         )
-
-        set_gpio25_output_high()
-        print(f"Raspberry Pi GPIO{GPIO25_PIN}: set as output, driven high")
-        time.sleep(SWITCH_SETTLE_TIME_S)
-
-        for cycle in range(1, 6):
-            ain0, ain1 = read_ain0_ain1(bus)
-            print(f"Cycle {cycle} - GPIO{GPIO25_PIN} HIGH: AIN0={ain0:.4f} V, AIN1={ain1:.4f} V")
-
-            set_gpio25(False)
-            ain0, ain1 = read_ain0_ain1(bus)
-            print(f"Cycle {cycle} - GPIO{GPIO25_PIN} LOW:  AIN0={ain0:.4f} V, AIN1={ain1:.4f} V")
-
-            set_gpio25(True)
+        time.sleep(GPIO25_PWM_DURATION_S)
+    finally:
+        pwm.stop()
+        GPIO.cleanup(GPIO25_PIN)
 
 
 if __name__ == "__main__":
