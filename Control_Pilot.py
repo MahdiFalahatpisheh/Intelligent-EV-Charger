@@ -88,6 +88,10 @@ def set_io0_4_level(bus, address, pin_mask, high):
 
 
 def main():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(GPIO25_PIN, GPIO.OUT, initial=GPIO.LOW)
+    print(f"Raspberry Pi GPIO{GPIO25_PIN}: set as output, initial value 0 (LOW)")
+
     with SMBus(I2C_BUS) as bus:
         set_io0_4_output_low(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK)
         print(f"PCA9535 @ 0x{CONTROL_PILOT_ADDRESS:02X}: IO0_4 output LOW")
@@ -104,8 +108,6 @@ def main():
         set_io0_4_level(bus, CONTROL_PILOT_ADDRESS, IO0_4_MASK, True)
         print("IO0_4 HIGH")
 
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(GPIO25_PIN, GPIO.OUT)
     pwm = GPIO.PWM(GPIO25_PIN, GPIO25_PWM_FREQUENCY_HZ)
     try:
         pwm.start(GPIO25_PWM_DUTY_CYCLE)
