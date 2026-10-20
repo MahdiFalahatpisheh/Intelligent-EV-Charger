@@ -714,7 +714,7 @@ nav a:focus-visible::after{outline:3px solid var(--c-focus);outline-offset:2px}
 .s3-stage{position:relative;aspect-ratio:var(--ar,4/3);overflow:hidden;perspective:var(--persp,170cqw);perspective-origin:50% 38%;background-color:var(--c-bg);border:var(--bd);border-radius:var(--r);box-shadow:var(--shadow-1);
 background-image:linear-gradient(var(--c-grid) 1px,transparent 1px),linear-gradient(90deg,var(--c-grid) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px}
 /* the rig: a square plane centred in the stage; --rw is its edge. Isometric preset = rotateX(60deg) rotateZ(-45deg) */
-.s3-rig{--rw:56cqw;position:absolute;left:50%;top:50%;width:var(--rw);height:var(--rw);margin:calc(var(--rw)/-2) 0 0 calc(var(--rw)/-2);transform-style:preserve-3d;transform:rotateX(var(--rx,60deg)) rotateZ(var(--rz,-45deg))}
+.s3-rig{--rw:56cqw;position:absolute;left:50%;top:50%;width:var(--rw);height:var(--rw);margin:calc(var(--rw)/-2) 0 0 calc(var(--rw)/-2);transform-style:preserve-3d;transform:rotateX(var(--rx,60deg)) rotateZ(calc(var(--rz,-45deg) + var(--orb,0deg)))}
 .s3-rig>*{position:absolute}
 /* flat layer (SVG drawn in plane coordinates) lifted along Z */
 .s3-layer{inset:0;transform:translateZ(var(--z,0cqw))}
@@ -761,36 +761,103 @@ background-image:linear-gradient(var(--c-grid) 1px,transparent 1px),linear-gradi
 @media (prefers-reduced-motion:no-preference){
 @supports (animation-timeline:view()){
 @keyframes s3-fp{from{--sp:0}to{--sp:1}}
-.scene3d{animation:s3-fp linear both;animation-timeline:view();animation-range:entry 15% cover 52%}
+html.js .scene3d{animation:s3-fp linear both;animation-timeline:view();animation-range:entry 15% cover 52%}
 }
 }
 
-/* ===== scene (a) board into charger (W-3D-3). Box faces in true 3D; board tilts, moves in and the clear cover closes, all from --fp ===== */
+/* ===== v4 round 3 (W-3D-8): solid volumes, product fact "our board is the charger", looping CSS animation ===== */
+@property --lo{syntax:"<number>";inherits:true;initial-value:1}
+@property --led{syntax:"<color>";inherits:true;initial-value:#1650b8}
+@property --orb{syntax:"<angle>";inherits:true;initial-value:0deg}
+.scene3d{--led:var(--c-accent)}
 .s3d{padding-block:clamp(2.5rem,5vw,4rem);counter-reset:s3}
 .s3d-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-6) var(--s-5)}
-.s3-a{--W:25cqw;--H:43cqw;--D:12cqw;
---tg:clamp(0,calc(var(--fp)/.4),1);--xg:clamp(0,calc((var(--fp) - .15)/.4),1);--zg:clamp(0,calc((var(--fp) - .4)/.35),1);--lg:clamp(0,calc((var(--fp) - .75)/.25),1)}
+@media (min-width:64rem){.s3d-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.s3d-ctl{margin:var(--s-4) 0 0;text-align:center}
+.s3d-ctl .motion-btn{margin:0 auto}
+
+/* box volume: ONE element = top face; ::before = front (+y) face; ::after = side (-x) face. Size: --bw x --bd footprint, --bh height, --bz lift. 3 tint steps from tokens. */
+.b3{--bt:var(--s3-top);--bl:var(--s3-left);--br:var(--s3-right);position:absolute;left:var(--x);top:var(--y);width:var(--bw);height:var(--bd);background:var(--bt);box-shadow:inset 0 0 0 var(--s3-w) var(--s3-line);border-radius:1px;transform-style:preserve-3d;transform:translateZ(calc(var(--bh) + var(--bz,0cqw)))}
+.b3::before,.b3::after{content:"";position:absolute;box-shadow:inset 0 0 0 var(--s3-w) var(--s3-line)}
+.b3::before{left:0;top:100%;width:100%;height:var(--bh);background:var(--bl);transform-origin:50% 0;transform:rotateX(-90deg)}
+.b3::after{right:100%;top:0;width:var(--bh);height:100%;background:var(--br);transform-origin:100% 50%;transform:rotateY(-90deg)}
+/* our charger: front face carries display, socket and a status light (--lo breathes, --led colour) */
+.chg3{--bw:4.6cqw;--bd:3.8cqw;--bh:10cqw}
+.chg3::before{background:
+radial-gradient(circle at 50% 11%,color-mix(in srgb,var(--led) calc(var(--lo)*100%),transparent) 0 .55cqw,transparent .7cqw),
+linear-gradient(var(--c-bg),var(--c-bg)) 50% 38%/66% 22% no-repeat,
+linear-gradient(var(--c-accent),var(--c-accent)) 50% 38%/30% 5% no-repeat,
+linear-gradient(var(--s3-line),var(--s3-line)) 50% 85%/36% 8% no-repeat,var(--bl)}
+.chg3.is-limited{--led:var(--c-signal)}
+.unit3{--bw:6cqw;--bd:4cqw;--bh:7.5cqw}
+.unit3::before{background:
+linear-gradient(color-mix(in srgb,var(--c-accent) 22%,var(--c-bg)),color-mix(in srgb,var(--c-accent) 22%,var(--c-bg))) 50% 32%/70% 36% no-repeat,
+linear-gradient(var(--s3-line),var(--s3-line)) 50% 68%/70% 4% no-repeat,
+linear-gradient(var(--s3-line),var(--s3-line)) 50% 82%/70% 4% no-repeat,var(--bl)}
+/* car: extruded body, cabin, 4 discs for wheels (near pair real, far pair via ::before). Long axis along y, nose toward the charger. */
+.car3{--k:1;--cw:5.8cqw;--cl:11.4cqw;position:absolute;left:var(--x);top:var(--y);width:var(--cw);height:var(--cl);transform-style:preserve-3d}
+.car3 .b3{--x:0;--y:0;--bw:100%;--bd:100%;--bh:calc(var(--k)*2.3cqw);--bz:calc(var(--k)*.9cqw)}
+.car3 .cb{--bt:color-mix(in srgb,var(--ct,var(--c-text)) var(--cp,0%),var(--s3-top));--bl:color-mix(in srgb,var(--ct,var(--c-text)) var(--cp,0%),var(--s3-left));--br:color-mix(in srgb,var(--ct,var(--c-text)) var(--cp,0%),var(--s3-right))}
+.car3 .cc{--x:16%;--y:30%;--bw:68%;--bd:42%;--bh:calc(var(--k)*1.9cqw);--bz:calc(var(--k)*3.2cqw);--bt:color-mix(in srgb,var(--c-bg) 50%,var(--s3-top));--bl:color-mix(in srgb,var(--c-accent) 16%,var(--c-bg));--br:color-mix(in srgb,var(--c-accent) 26%,var(--c-bg))}
+.car3.is-blue{--ct:var(--c-accent);--cp:30%}
+.car3.is-amber{--ct:var(--c-signal);--cp:34%}
+.car3 .cw{position:absolute;left:calc(var(--k)*-1.9cqw);top:calc(var(--wy) - var(--k)*1.1cqw);width:calc(var(--k)*2.2cqw);height:calc(var(--k)*2.2cqw);border-radius:50%;background:radial-gradient(circle,var(--c-bg) 0 26%,transparent 28%),var(--s3-line);transform-style:preserve-3d;transform:translateZ(calc(var(--k)*1.1cqw)) rotateY(90deg)}
+.car3 .cw.w1{--wy:20%}.car3 .cw.w2{--wy:76%}
+.car3 .cw::before,.car3 .cw::after{content:"";position:absolute;inset:0;border-radius:50%;background:inherit}
+.car3 .cw::before{transform:translateZ(calc(var(--cw) + var(--k)*1.6cqw))}
+.car3 .cw::after{transform:translateZ(.7cqw);filter:brightness(.8)}
+.car3.lite .cw::before,.car3.lite .cw::after{display:none}
+.car3.lite .cw{background:var(--s3-line)}
+/* cables: drawn on the floor layer, full length in the static state */
+.s3-rig svg .k-cable{fill:none;stroke:var(--s3-line);stroke-width:.9;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.s3-rig svg .k-pulse{fill:none;stroke:var(--c-accent);stroke-width:.9;stroke-linecap:round;stroke-dasharray:.05 .15}
+.s3-rig svg .pkt{fill:var(--c-accent);stroke:var(--c-bg);stroke-width:.8;opacity:0;offset-rotate:0deg}
+
+/* ---- scene (a) exploded assembly of OUR charger: shell, control board with mesh radio, cover (W-3D-8) ---- */
+.s3-a{--W:25cqw;--H:43cqw;--D:12cqw;--bg:clamp(0,calc((var(--fp) - .1)/.45),1);--cg:clamp(0,calc((var(--fp) - .5)/.45),1)}
 .s3-a .s3-stage{--persp:140cqw}
-.s3-a .s3-rig{--rw:44cqw;transform:rotateX(-9deg) rotateY(calc(-36deg + var(--fp)*8deg))}
-.s3-a .s3-face,.s3-a .lid,.s3-a .s3-board{position:absolute;left:50%;top:50%;width:var(--fw);height:var(--fh);margin:calc(var(--fh)/-2) 0 0 calc(var(--fw)/-2)}
+.s3-a .s3-rig{--rw:44cqw;transform:rotateX(-9deg) rotateY(calc(-36deg + var(--fp)*8deg + var(--orb)))}
+.s3-a .s3-part{inset:0;transform-style:preserve-3d}
+.s3-a .s3-face,.s3-a .s3-board,.s3-a .cover{position:absolute;left:50%;top:50%;width:var(--fw);height:var(--fh);margin:calc(var(--fh)/-2) 0 0 calc(var(--fw)/-2)}
+.s3-a .s3-board,.s3-a .cover{inset:auto;left:50%;top:50%}
 .s3-a .back{--fw:var(--W);--fh:var(--H);transform:translateZ(calc(var(--D)/-2))}
 .s3-a .lft{--fw:var(--D);--fh:var(--H);transform:rotateY(-90deg) translateZ(calc(var(--W)/2))}
 .s3-a .rgt{--fw:var(--D);--fh:var(--H);transform:rotateY(90deg) translateZ(calc(var(--W)/2))}
 .s3-a .top{--fw:var(--W);--fh:var(--D);transform:rotateX(90deg) translateZ(calc(var(--H)/2))}
 .s3-a .bot{--fw:var(--W);--fh:var(--D);transform:rotateX(-90deg) translateZ(calc(var(--H)/2))}
 .s3-a .gnd{--fw:calc(var(--W) + 22cqw);--fh:calc(var(--D) + 20cqw);transform:rotateX(90deg) translateZ(calc(var(--H)/-2 - .4cqw));background:color-mix(in srgb,var(--c-tint) 70%,transparent);border:1.5px dashed var(--c-border-strong)}
-.s3-a .lid{--fw:var(--W);--fh:var(--H);transform-origin:0 50%;transform:translateZ(calc(var(--D)/2)) rotateY(calc((1 - var(--lg))*-102deg))}
-.s3-a .lid>svg,.s3-a .s3-board>svg{display:block;width:100%;height:100%}
-.s3-a .s3-board{--fw:19.5cqw;--fh:13cqw;border:var(--s3-w) solid var(--s3-line);border-radius:2px;background:var(--c-bg);overflow:hidden;
-transform:translate3d(calc((1 - var(--xg))*-18cqw),calc(-4cqw + (1 - var(--xg))*-10cqw),calc(var(--D)/-2 + 1cqw + (1 - var(--zg))*32cqw)) rotateX(calc((1 - var(--tg))*70deg)) rotateZ(calc((1 - var(--tg))*-30deg))}
-@media (min-width:64rem){.s3d-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.s3-a .s3-board{--fw:19.5cqw;--fh:13cqw;border:var(--s3-w) solid var(--s3-line);border-radius:2px;background:var(--c-bg);overflow:visible;
+transform:translate3d(0,-4cqw,calc(var(--D)/-2 + 1cqw + (1 - var(--bg))*34cqw))}
+.s3-a .s3-board>svg,.s3-a .cover>svg{display:block;width:100%;height:100%;overflow:visible}
+.s3-a .cover{--fw:var(--W);--fh:var(--H);--t:1.6cqw;transform-style:preserve-3d;transform:translateZ(calc(var(--D)/2 + var(--t) + (1 - var(--cg))*40cqw));background:radial-gradient(circle at 24% 9.8%,color-mix(in srgb,var(--led) calc(var(--lo)*100%),transparent) 0 1.1cqw,transparent 1.3cqw),color-mix(in srgb,var(--c-accent) 20%,transparent)}
+.s3-a .cover::before,.s3-a .cover::after{content:"";position:absolute;background:var(--s3-right);border:var(--s3-w) solid var(--c-accent)}
+.s3-a .cover::before{right:0;top:0;width:var(--t);height:100%;transform-origin:100% 50%;transform:rotateY(-90deg)}
+.s3-a .cover::after{left:0;top:0;width:100%;height:var(--t);border-radius:0;transform-origin:50% 0;transform:rotateX(-90deg);background:var(--s3-left)}
+.s3-a .radio .wave{opacity:0}
 
-/* ===== slab primitive: a flat floor (SVG top) with two visible edge faces, lifted by --z (used by scenes c and d) ===== */
+/* ---- scene (b) our charger on a parking wall ---- */
+.s3-b{--wg:clamp(0,calc(var(--fp)/.35),1);--cg:clamp(0,calc((var(--fp) - .25)/.3),1)}
+.s3-b .s3-rig{--rw:48cqw;top:62%;--rz:calc(-56deg + var(--fp)*11deg)}
+.s3-b .s3-wall{left:0;top:-28cqw;width:100%;height:28cqw;transform-origin:50% 100%;transform:rotateX(-90deg);translate:0 0 calc((1 - var(--wg))*-14cqw)}
+.s3-b .s3-wall>svg{display:block;width:100%;height:100%;overflow:visible}
+.s3-b .chg3{--bw:5.4cqw;--bd:4.2cqw;--bh:13cqw;--bz:4cqw;translate:0 0 calc((1 - var(--cg))*16cqw)}
+.s3-b .car3{--k:1.3;--cw:8.2cqw;--cl:16cqw}
+
+/* ---- scene (c) garage floor ---- */
+.s3-c .s3-rig{--rw:50cqw}
+.s3-c .car3{--k:1.3;--cw:7.5cqw;--cl:14.8cqw}
+.s3-c .s3-slab{--T:2.6cqw}
+.s3-c .chg3{--pop:clamp(0,calc((var(--fp) - var(--i)*.08)/.3),1);translate:0 0 calc((1 - var(--pop))*-14cqw)}
+.s3-c .chg3:nth-child(2){--i:0}.s3-c .chg3:nth-child(3){--i:1}.s3-c .chg3:nth-child(4){--i:2}.s3-c .chg3:nth-child(5){--i:3}.s3-c .chg3:nth-child(6){--i:4}.s3-c .chg3:nth-child(7){--i:5}
+.s3-c .s3-mesh{--z:10.6cqw;opacity:clamp(0,calc((var(--fp) - .5)*4),1)}
+
+/* ---- slab primitive ---- */
 .s3-slab{inset:0;transform-style:preserve-3d;transform:translateZ(var(--z,0cqw))}
 .s3-slab>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .s3-slab .ey{position:absolute;left:0;top:100%;width:100%;height:var(--T,2.4cqw);transform-origin:50% 0;transform:rotateX(-90deg)}
 .s3-slab .ex{position:absolute;right:100%;top:0;width:var(--T,2.4cqw);height:100%;transform-origin:100% 50%;transform:rotateY(-90deg)}
 
+<<<<<<< HEAD
 /* ===== scene (b) charger on a parking wall, orbiting camera gives parallax between wall, charger and floor (W-3D-4) ===== */
 .s3-b{--wg:clamp(0,calc(var(--fp)/.35),1);--cg:clamp(0,calc((var(--fp) - .25)/.3),1);--kg:clamp(0,calc((var(--fp) - .45)/.35),1);--bg:clamp(0,calc((var(--fp) - .8)/.2),1)}
 .s3-b .s3-rig{--rw:48cqw;top:62%;--rz:calc(-56deg + var(--fp)*11deg)}
@@ -806,6 +873,8 @@ transform:translate3d(calc((1 - var(--xg))*-18cqw),calc(-4cqw + (1 - var(--xg))*
 .s3-c .ch{--w:4.6cqw;--h:7.8cqw;--pop:clamp(0,calc((var(--fp) - var(--i)*.07)/.28),1);--z:calc((1 - var(--pop))*-9cqw);opacity:var(--pop)}
 .s3-c .ch>svg,.s3-c .unit>svg{--a:var(--c-accent)}
 .s3-c .ch.is-limited>svg{--t:var(--c-signal);--a:var(--c-signal)}
+/* W-3D-8: the lower-left front charger (--i:4) moves about 1 cqw along its bay, toward the viewer, so it no longer covers the blue car; it stays inside its 22 % bay */
+.s3-c .ch[style*="--i:4"]{left:calc(var(--x) + 2%);top:calc(var(--y) + 2%)}
 .s3-c .unit{--w:8.5cqw;--h:7.8cqw;--z:0cqw;opacity:clamp(0,calc(var(--fp)*4),1)}
 .s3-c .s3-mesh{--z:7.8cqw;opacity:clamp(0,calc((var(--fp) - .5)*4),1)}
 
@@ -817,11 +886,26 @@ transform:translate3d(calc((1 - var(--xg))*-18cqw),calc(-4cqw + (1 - var(--xg))*
 .s3-slab>.s3-up{position:absolute}
 .s3-d .ch{--w:4.3cqw;--h:7.4cqw;--z:0cqw}
 .s3-d .ch>svg,.s3-d .unit>svg{--a:var(--c-accent)}
+/* W-3D-8: the lowest-floor front charger (first of the floor at k=1) steps 2.5 cqw toward the viewer so its top clears the slab edge above it */
+.s3-d .s3-fl[style*="--k:1"] .ch:nth-of-type(3){top:calc(var(--y) + 8%)}
 .s3-d .unit{--w:7cqw;--h:8cqw;--z:0cqw}
 .s3-d .shaft{--w:1.6cqw;--h:calc(3*var(--gap) + 12cqw);--z:0cqw;opacity:var(--lk)}
+=======
+/* ---- scene (d) stacked cutaway ---- */
+.s3-d{--ex:clamp(0,calc(var(--fp)/.6),1);--gap:calc(4cqw + var(--ex)*11cqw);--lk:clamp(0,calc((var(--fp) - .55)*3),1);--shh:calc(3*var(--gap) + 6cqw)}
+.s3-d .s3-stage{--ar:1/1}
+.s3-d .s3-rig{--rw:32cqw;left:60%;top:68%}
+.s3-d .s3-slab{--T:1.8cqw;--z:calc(var(--k)*var(--gap))}
+.s3-d .chg3{--bw:3.2cqw;--bd:2.8cqw;--bh:7.4cqw}
+.s3-d .unit3{--bw:4.6cqw;--bd:3.2cqw;--bh:5.6cqw}
+.s3-d .car3{--k:1.3}
+.s3-d .shaft3{--bw:1.8cqw;--bd:1.8cqw;--bh:calc(3*var(--gap) + 12cqw);opacity:var(--lk)}
+.s3-d .shaft3::before{background:repeating-linear-gradient(to top,var(--c-accent) 0 .6cqw,transparent .6cqw 1.3cqw) 50%/.4cqw 100% no-repeat,var(--bl)}
+>>>>>>> 6b8b8c8 (W-3D-8/9: solid 3D chargers and cars, more animation, our-charger assembly, pause a11y; competitor content review — accepted)
 .s3-d .s3-fl>svg .k-flow{opacity:var(--lk)}
+.s3-d .bead{position:absolute;left:92.8%;top:92.4%;width:1.4cqw;height:1.4cqw;margin:-.7cqw 0 0 -.7cqw;border-radius:50%;background:var(--c-accent);box-shadow:0 0 0 1.5px var(--c-bg);opacity:0;transform:rotateZ(calc(45deg - var(--orb))) rotateX(-60deg)}
 
-/* round 2: chips are anchored by their leader dot. --x/--y is the target point on the drawing; the chip sits --len away in the lead-* direction, so the dot lands on the target at every width. */
+/* chips: anchored by their leader dot. --x/--y is the target point on the drawing; the chip sits --len away in the lead-* direction. */
 .s3-chip.lead-r{transform:translate(calc(-100% - var(--len)),-50%)}
 .s3-chip.lead-l{transform:translate(var(--len),-50%)}
 .s3-chip.lead-d{transform:translate(-50%,calc(-100% - var(--len)))}
@@ -830,6 +914,33 @@ transform:translate3d(calc((1 - var(--xg))*-18cqw),calc(-4cqw + (1 - var(--xg))*
 .s3-chip.lead-l::before{right:calc(100% + var(--len))}
 .s3-chip.lead-d::before{top:calc(100% + var(--len))}
 .s3-chip.lead-u::before{bottom:calc(100% + var(--len))}
-.s3-chip.lead-d.dx::after,.s3-chip.lead-d.dx::before{left:var(--lx,50%)}
-.s3-nb{white-space:nowrap}
 .s3-chip.wrap{white-space:normal;width:5.75rem;text-align:center}
+.s3-nb{white-space:nowrap}
+
+/* ---- looping animation: only with JS (so the pause button exists) and motion allowed. Reduced motion and no-JS keep the assembled static state. ---- */
+@keyframes s3-orbit{0%,100%{--orb:-3deg}50%{--orb:3deg}}
+@keyframes s3-breathe{0%,100%{--lo:.4}50%{--lo:1}}
+@keyframes s3-paused{0%{--led:var(--c-signal);--lo:1}4%{--lo:.1}8%{--lo:1}12%{--lo:.1}16%{--lo:1}20%{--lo:.1}24%{--lo:1}28%{--lo:.1}32%{--lo:1}36%{--lo:.1}40%{--lo:1}50%,100%{--led:var(--c-accent);--lo:1}}
+@keyframes s3-drive{0%{translate:0 var(--dd,0cqw)}24%,84%{translate:0 0}100%{translate:0 var(--dd,0cqw)}}
+@keyframes s3-plug{0%,30%{stroke-dashoffset:1}38%,74%{stroke-dashoffset:0}82%,100%{stroke-dashoffset:1}}
+@keyframes s3-on{0%,37%{opacity:0}40%,72%{opacity:1}75%,100%{opacity:0}}
+@keyframes s3-pulse{to{stroke-dashoffset:-.2}}
+@keyframes s3-hop{0%{offset-distance:0%;opacity:0}8%{opacity:1}92%{opacity:1}100%{offset-distance:100%;opacity:0}}
+@keyframes s3-ride{0%{translate:0 0 0;opacity:0}10%{opacity:1}90%{opacity:1}100%{translate:0 0 var(--shh);opacity:0}}
+@keyframes s3-wave{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+@keyframes s3-flowy{to{background-position-y:-1.3cqw}}
+@media (prefers-reduced-motion:no-preference){
+html.js .scene3d .s3-rig{animation:s3-orbit 24s ease-in-out infinite}
+html.js .chg3{animation:s3-breathe 3.4s ease-in-out infinite}
+html.js .s3-a .cover{animation:s3-breathe 3.4s ease-in-out infinite}
+html.js .chg3.is-limited{animation:s3-paused 12s steps(1,end) infinite}
+html.js .car3{animation:s3-drive 16s var(--dl,0s) ease-in-out infinite}
+html.js .s3-rig svg .k-cable.plug{animation:s3-plug 16s var(--dl,0s) linear infinite}
+html.js .s3-rig svg .k-pulse{animation:s3-pulse 1.3s linear infinite,s3-on 16s var(--dl,0s) linear infinite}
+html.js .s3-rig svg .pkt{animation:s3-hop var(--pd,6s) linear var(--pl,0s) infinite}
+html.js .s3-d .bead.up{animation:s3-ride 4.6s linear infinite}
+html.js .s3-d .bead.dn{animation:s3-ride 4.6s linear -2.3s infinite reverse}
+html.js .s3-d .shaft3::before{animation:s3-flowy 1.2s linear infinite}
+html.js .s3-a .radio .wave{transform-box:fill-box;transform-origin:center;animation:s3-wave 2.4s ease-out infinite}
+html.js .s3-a .radio .wave.w2{animation-delay:-1.2s}
+}

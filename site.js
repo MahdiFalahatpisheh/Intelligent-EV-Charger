@@ -54,16 +54,22 @@
   }
 
   // Motion pause (WCAG 2.2.2): one button pauses every looping scene on the page via html.is-paused.
-  // Off-screen hero pause stays separate. The label swaps (Pause/Play), so aria-pressed is dropped to avoid a contradictory state.
+  // Off-screen hero pause stays separate. 
   var scene = document.querySelector('[data-hero-scene]');
   var mts = [].slice.call(document.querySelectorAll('[data-motion-toggle]'));
   var heroOff = false;
   var heroSync = function () { if (scene) scene.classList.toggle('is-paused', heroOff); };
   mts.forEach(function (mt) {
     if (reduce) { mt.parentNode.removeChild(mt); return; }  // nothing loops under reduced motion
-    mt.removeAttribute('aria-pressed');
     mt.addEventListener('click', function () { root.classList.toggle('is-paused'); });
   });
+  // aria-pressed mirrors html.is-paused on every toggle (true = paused); the visible Pause/Play labels are swapped by CSS from the same class.
+  var mtSync = function () {
+    var p = root.classList.contains('is-paused') ? 'true' : 'false';
+    mts.forEach(function (mt) { mt.setAttribute('aria-pressed', p); });
+  };
+  mtSync();
+  if ('MutationObserver' in window) new MutationObserver(mtSync).observe(root, { attributes: true, attributeFilter: ['class'] });
   if ('IntersectionObserver' in window) {
     var vio = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
