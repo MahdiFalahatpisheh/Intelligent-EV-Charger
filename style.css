@@ -30,7 +30,7 @@
 --bd:1px solid var(--c-border);
 --shadow-1:0 1px 2px rgb(11 31 58/.06);
 --shadow-2:0 4px 12px rgb(11 31 58/.1);
---measure:70rem;--gutter:clamp(1rem,4vw,1.5rem);
+--section-pad:clamp(3rem,7vw,5rem);--fs-eyebrow:.8125rem;--measure:70rem;--gutter:clamp(1rem,4vw,1.5rem);
 color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
@@ -81,8 +81,8 @@ a:focus-visible,.btn:focus-visible{outline:3px solid var(--c-focus);outline-offs
 .skip:focus{left:var(--s-3);top:var(--s-3);background:var(--c-bg);color:var(--c-text);padding:var(--s-2);z-index:10}
 .visually-hidden{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 /* section label above a heading: small caps, tracked */
-.eyebrow{margin:0 0 var(--s-2);font:600 var(--fs-xs)/1.4 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--c-accent);max-width:none}
-.hero3 .eyebrow{margin-bottom:var(--s-3)}
+.eyebrow{margin:0 0 var(--s-2);font:500 var(--fs-eyebrow)/1.4 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--c-accent);max-width:none}
+.hero3 .eyebrow{margin-bottom:var(--s-2)}
 
 /* header and nav */
 .site-header{background:var(--c-bg);border-bottom:var(--bd);position:sticky;top:0;z-index:5}
@@ -142,8 +142,7 @@ nav a{display:block;padding:.5rem 0;min-height:2.75rem}
 .section.alt .card,.section.alt .install-panel,.section.alt .chart-card{background:var(--c-bg)}
 
 /* ---- sections ---- */
-.section{padding-block:clamp(3rem,7vw,5rem)}
-.section:not(.alt)+.section:not(.alt){padding-top:0}
+.section{padding-block:var(--section-pad)}
 .section.alt{background:var(--c-surface);border-block:var(--bd)}
 .section>.wrap>:first-child{margin-top:0}
 .section h2{margin-top:0;max-width:32ch}
@@ -181,25 +180,25 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 .actions li{margin:0}
 
 /* ---- hero ---- */
-.hero3{padding-block:clamp(3rem,7vw,5rem) var(--s-6);background:radial-gradient(60% 90% at 88% 0%,var(--c-glow),transparent 70%),var(--c-bg)}
+.hero3{padding-block:calc(var(--section-pad)*.7) var(--s-6);background:radial-gradient(60% 90% at 88% 0%,var(--c-glow),transparent 70%),var(--c-bg)}
 .hero3 h1{font-size:var(--fs-4);max-width:20ch;margin-bottom:var(--s-3);line-height:1.1}
+.hero3-cta{min-height:0}
+@media (min-width:64rem){.hero3-cta{min-height:2.75rem;margin-top:var(--s-4)}}
 .hero3-sub{font-size:var(--fs-1);max-width:52ch;color:var(--c-muted);margin:0}
-.hero3-art{display:none}
-@media (min-width:48rem){
-.hero3>.wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,28rem);column-gap:var(--s-6);align-items:center}
-.hero3>.wrap>.eyebrow,.hero3>.wrap>h1,.hero3>.wrap>.hero3-sub{grid-column:1}
-.hero3-art{display:block;grid-column:2;grid-row:1/span 3;padding:var(--s-3);box-shadow:var(--shadow-2)}
+.hero3-art{display:block;position:relative;isolation:isolate;margin:var(--s-3) auto 0;width:100%;max-width:35rem;padding:0;background:none;border:0;box-shadow:none}
+@media (min-width:64rem){
+.hero3>.wrap{display:grid;grid-template-columns:minmax(0,9fr) minmax(0,11fr);grid-template-rows:1fr auto auto auto auto 1fr;column-gap:var(--s-5)}
+.hero3>.wrap>.eyebrow,.hero3>.wrap>h1,.hero3>.wrap>.hero3-sub,.hero3-cta{grid-column:1}
+.hero3>.wrap>.eyebrow{grid-row:2}.hero3>.wrap>h1{grid-row:3}.hero3>.wrap>.hero3-sub{grid-row:4}.hero3-cta{grid-row:5}
+.hero3-art{grid-column:2;grid-row:1/span 6;margin:0;max-width:none;min-width:26rem;align-self:center}
 .hero3-art .art{display:block;width:100%;height:auto}
-.hero3-art *{animation:none!important}
 }
-@media (min-width:48rem) and (max-width:59.99rem){.hero3>.wrap{grid-template-columns:minmax(0,11fr) minmax(0,9fr);column-gap:var(--s-5)}}
+
 
 /* ---- at-a-glance: the three parts ---- */
-.glance{padding-block:clamp(2.5rem,5vw,4rem)}
-.glance-h{font:600 var(--fs-xs)/1.4 var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--c-accent);margin:0 0 var(--s-3);max-width:none}
+.glance-h{font:500 var(--fs-eyebrow)/1.4 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--c-accent);margin:0 0 var(--s-3);max-width:none}
 .glance-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:var(--s-3);counter-reset:part}
 .glance-item{position:relative;padding:var(--s-4);min-width:0;counter-increment:part}
-.glance-item::after{content:counter(part,decimal-leading-zero);position:absolute;top:var(--s-4);right:var(--s-4);font:500 var(--fs-xs)/1 var(--f-mono);letter-spacing:.06em;color:var(--c-muted)}
 .glance-item>.pic{margin-bottom:var(--s-3)}
 .glance-title{margin:0 0 var(--s-2);font-size:var(--fs-1)}
 .glance-title a{display:inline-block;padding-block:.75rem;margin-block:-.75rem;color:var(--c-text);text-decoration:none}
@@ -215,7 +214,7 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 .frame{--fp:1;padding:var(--s-6) var(--gutter);counter-increment:fr}
 .frame+.frame{border-top:var(--bd)}
 .frame-fig{margin:0}
-.frame-fig .sc{--f:var(--c-surface);max-width:34rem;margin-inline:auto;border:var(--bd);border-radius:var(--r);background-color:var(--c-bg)}
+.frame-fig .s3x{max-width:34rem;margin-inline:auto}
 .frame-fig figcaption{font:400 var(--fs-0)/1.5 var(--f-body);color:var(--c-text);text-align:center;max-width:34rem;margin:var(--s-3) auto 0}
 .frame-fig figcaption::before{content:counter(fr,decimal-leading-zero) " / 05";display:block;margin-bottom:var(--s-1);font:500 var(--fs-xs)/1.4 var(--f-mono);letter-spacing:.08em;color:var(--c-accent)}
 .story3-progress{display:none}
@@ -243,7 +242,8 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 .is-live .story3-stage{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));height:calc(100svh - var(--hdr));display:grid;place-items:center}
 .is-live .story3-frames{display:grid;width:100%}
 .is-live .frame{grid-area:1/1;padding:0 var(--gutter);border:0}
-.is-live .frame-fig svg{width:100%;max-width:min(36rem,calc((100svh - var(--hdr) - 9rem)*1.3333))}
+.is-live .frame-fig .s3x{width:100%;max-width:min(36rem,calc((100svh - var(--hdr) - 9rem)*1.3333))}
+.is-live [data-frame="5"] .s3x{max-width:min(36rem,calc(100svh - var(--hdr) - 9rem))}
 .is-live .frame-fig figcaption{min-height:3.2em}
 .is-live [data-frame="1"]{--fp:clamp(0,calc(var(--p)/.18),1)}
 .is-live [data-frame="2"]{--fp:clamp(0,calc((var(--p) - .18)/.2),1)}
@@ -251,12 +251,12 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 .is-live [data-frame="4"]{--fp:clamp(0,calc((var(--p) - .58)/.2),1)}
 .is-live [data-frame="5"]{--fp:clamp(0,calc((var(--p) - .78)/.22),1)}
 /* art crossfades over each 0.05 window; the caption leaves in the first 0.02 and the next one enters only in the last 0.02, so two captions are never visible together */
-.is-live .frame-fig svg{opacity:1}
-.is-live [data-frame="1"] svg{opacity:calc(1 - var(--in2))}
-.is-live [data-frame="2"] svg{opacity:calc(var(--in2)*(1 - var(--in3)))}
-.is-live [data-frame="3"] svg{opacity:calc(var(--in3)*(1 - var(--in4)))}
-.is-live [data-frame="4"] svg{opacity:calc(var(--in4)*(1 - var(--in5)))}
-.is-live [data-frame="5"] svg{opacity:var(--in5)}
+.is-live .frame-fig .s3x{opacity:1}
+.is-live [data-frame="1"] .s3x{opacity:calc(1 - var(--in2))}
+.is-live [data-frame="2"] .s3x{opacity:calc(var(--in2)*(1 - var(--in3)))}
+.is-live [data-frame="3"] .s3x{opacity:calc(var(--in3)*(1 - var(--in4)))}
+.is-live [data-frame="4"] .s3x{opacity:calc(var(--in4)*(1 - var(--in5)))}
+.is-live [data-frame="5"] .s3x{opacity:var(--in5)}
 .is-live{--co2:clamp(0,calc((var(--p) - .15)/.02),1);--ci2:clamp(0,calc((var(--p) - .18)/.02),1);--co3:clamp(0,calc((var(--p) - .35)/.02),1);--ci3:clamp(0,calc((var(--p) - .38)/.02),1);--co4:clamp(0,calc((var(--p) - .55)/.02),1);--ci4:clamp(0,calc((var(--p) - .58)/.02),1);--co5:clamp(0,calc((var(--p) - .75)/.02),1);--ci5:clamp(0,calc((var(--p) - .78)/.02),1)}
 .is-live [data-frame="1"] figcaption{opacity:calc(1 - var(--co2))}
 .is-live [data-frame="2"] figcaption{opacity:calc(var(--ci2)*(1 - var(--co3)))}
@@ -274,8 +274,8 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 .story3-track:not(.is-live) .frame:nth-child(n+3){border-top:var(--bd)}
 .story3-track:not(.is-live) .frame:nth-child(even){border-left:var(--bd)}
 .story3-track:not(.is-live) .frame:last-child{grid-column:1/-1;border-left:0}
-.story3-track:not(.is-live) .frame-fig .sc{max-width:28rem}
-.story3-track:not(.is-live) .frame:last-child .sc{max-width:30rem}
+.story3-track:not(.is-live) .frame-fig .s3x{max-width:28rem}
+.story3-track:not(.is-live) .frame:last-child .s3x{max-width:30rem}
 }
 
 /* motion pause control */
@@ -373,7 +373,7 @@ html:not(.js) .demo-ui{display:none}
 .demo-meter-track{position:relative;height:.75rem;border-radius:2px;background:var(--c-tint);border:1px solid var(--c-border);overflow:visible}
 .demo-meter-fill{height:100%;width:0;border-radius:1px;background:var(--c-accent);transition:width .3s ease-out}
 .demo-limit{position:absolute;top:-.375rem;bottom:-.375rem;left:var(--limit,80%);width:0;border-left:3px solid var(--c-signal)}
-.demo-reset{font:600 .95rem/1.5 var(--f-body);min-height:2.75rem;padding:.4rem 1.1rem;border:1.5px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);cursor:pointer}
+.demo-reset{font:600 var(--fs-0)/1.5 var(--f-body);min-height:2.75rem;padding:.4rem 1.1rem;border:1.5px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);cursor:pointer}
 .demo-reset:hover{border-color:var(--c-accent)}
 .demo-reset:focus-visible,.cutnet-btn:focus-visible,.hotspot:focus-visible,.tl-btn:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
 .demo-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-3)}
@@ -427,8 +427,8 @@ html.js .install-panel.is-visible .t1{animation-delay:1.2s}html.js .install-pane
 .tease p{margin:0;color:var(--c-muted)}
 
 /* ---- call to action band ---- */
-.cta{background:linear-gradient(120deg,var(--c-cta-bg),var(--c-cta-bg2));color:var(--c-cta-text,#fff);padding-block:clamp(3rem,7vw,5rem);text-align:center}
-.cta h2{margin:0 auto var(--s-3);font-size:var(--fs-3);color:#fff;max-width:24ch}
+.cta{background:linear-gradient(120deg,var(--c-cta-bg),var(--c-cta-bg2));color:var(--c-cta-text,#fff);padding-block:var(--section-pad);text-align:center}
+.cta h2{margin:0 auto var(--s-3);font-size:var(--fs-2);color:#fff;max-width:24ch}
 .cta p{margin-inline:auto;color:#fff;font-size:var(--fs-1);line-height:1.55}
 .cta .btn{margin:0;line-height:1.4;font-size:var(--fs-0)}
 .cta .btn::first-letter{text-transform:uppercase}
@@ -703,13 +703,14 @@ nav a:focus-visible::after{outline:3px solid var(--c-focus);outline-offset:2px}
    Sizes use container units (cqw) so the whole rig scales from 360 px up without media queries.
    --fp (0..1) is the scene's local progress. Default 1 = assembled, which is the static state for no-JS and reduced motion. ===== */
 @property --sp{syntax:"<number>";inherits:true;initial-value:1}
-.scene3d{
+:is(.scene3d,.s3x,.pic3){
 --s3-top:#eaf1fb;--s3-left:#d8e1ec;--s3-right:#c6cfdc;--s3-m1:8%;--s3-m2:16%;--s3-line:var(--c-text);--s3-w:2px;
---fp:var(--sp);margin:0;container-type:inline-size;min-width:0}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .scene3d{--s3-top:#13233e;--s3-left:#111f37;--s3-right:#0e1b30;--s3-m1:16%;--s3-m2:30%}}
-:root[data-theme="dark"] .scene3d{--s3-top:#13233e;--s3-left:#111f37;--s3-right:#0e1b30;--s3-m1:16%;--s3-m2:30%}
+margin:0;container-type:inline-size;min-width:0}
+.scene3d{--fp:var(--sp)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) :is(.scene3d,.s3x,.pic3){--s3-top:#13233e;--s3-left:#111f37;--s3-right:#0e1b30;--s3-m1:16%;--s3-m2:30%}}
+:root[data-theme="dark"] :is(.scene3d,.s3x,.pic3){--s3-top:#13233e;--s3-left:#111f37;--s3-right:#0e1b30;--s3-m1:16%;--s3-m2:30%}
 @supports (background:color-mix(in srgb,red,blue)){
-.scene3d{--s3-top:var(--c-surface);--s3-left:color-mix(in srgb,var(--c-surface) calc(100% - var(--s3-m1)),var(--c-navy));--s3-right:color-mix(in srgb,var(--c-surface) calc(100% - var(--s3-m2)),var(--c-navy))}
+:is(.scene3d,.s3x,.pic3){--s3-top:var(--c-surface);--s3-left:color-mix(in srgb,var(--c-surface) calc(100% - var(--s3-m1)),var(--c-navy));--s3-right:color-mix(in srgb,var(--c-surface) calc(100% - var(--s3-m2)),var(--c-navy))}
 }
 .s3-stage{position:relative;aspect-ratio:var(--ar,4/3);overflow:hidden;perspective:var(--persp,170cqw);perspective-origin:50% 38%;background-color:var(--c-bg);border:var(--bd);border-radius:var(--r);box-shadow:var(--shadow-1);
 background-image:linear-gradient(var(--c-grid) 1px,transparent 1px),linear-gradient(90deg,var(--c-grid) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px}
@@ -769,7 +770,7 @@ html.js .scene3d{animation:s3-fp linear both;animation-timeline:view();animation
 @property --lo{syntax:"<number>";inherits:true;initial-value:1}
 @property --led{syntax:"<color>";inherits:true;initial-value:#1650b8}
 @property --orb{syntax:"<angle>";inherits:true;initial-value:0deg}
-.scene3d{--led:var(--c-accent)}
+:is(.scene3d,.s3x,.pic3){--led:var(--c-accent)}
 .s3d{padding-block:clamp(2.5rem,5vw,4rem);counter-reset:s3}
 .s3d-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-6) var(--s-5)}
 @media (min-width:64rem){.s3d-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -784,7 +785,7 @@ html.js .scene3d{animation:s3-fp linear both;animation-timeline:view();animation
 /* our charger: front face carries display, socket and a status light (--lo breathes, --led colour) */
 .chg3{--bw:4.6cqw;--bd:3.8cqw;--bh:10cqw}
 .chg3::before{background:
-radial-gradient(circle at 50% 11%,color-mix(in srgb,var(--led) calc(var(--lo)*100%),transparent) 0 .55cqw,transparent .7cqw),
+radial-gradient(circle at 50% 11%,color-mix(in srgb,var(--led) calc(var(--lo)*100%),transparent) 0 var(--ledr,.55cqw),transparent calc(var(--ledr,.55cqw)*1.3)),
 linear-gradient(var(--c-bg),var(--c-bg)) 50% 38%/66% 22% no-repeat,
 linear-gradient(var(--c-accent),var(--c-accent)) 50% 38%/30% 5% no-repeat,
 linear-gradient(var(--s3-line),var(--s3-line)) 50% 85%/36% 8% no-repeat,var(--bl)}
@@ -833,7 +834,7 @@ transform:translate3d(0,-4cqw,calc(var(--D)/-2 + 1cqw + (1 - var(--bg))*34cqw))}
 .s3-a .cover::before,.s3-a .cover::after{content:"";position:absolute;background:var(--s3-right);border:var(--s3-w) solid var(--c-accent)}
 .s3-a .cover::before{right:0;top:0;width:var(--t);height:100%;transform-origin:100% 50%;transform:rotateY(-90deg)}
 .s3-a .cover::after{left:0;top:0;width:100%;height:var(--t);border-radius:0;transform-origin:50% 0;transform:rotateX(-90deg);background:var(--s3-left)}
-.s3-a .radio .wave{opacity:0}
+.radio .wave{opacity:0}
 
 /* ---- scene (b) our charger on a parking wall ---- */
 .s3-b{--wg:clamp(0,calc(var(--fp)/.35),1);--cg:clamp(0,calc((var(--fp) - .25)/.3),1)}
@@ -895,7 +896,7 @@ transform:translate3d(0,-4cqw,calc(var(--D)/-2 + 1cqw + (1 - var(--bg))*34cqw))}
 @keyframes s3-wave{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.4);opacity:0}}
 @keyframes s3-flowy{to{background-position-y:-1.3cqw}}
 @media (prefers-reduced-motion:no-preference){
-html.js .scene3d .s3-rig{animation:s3-orbit 24s ease-in-out infinite}
+html.js :is(.scene3d,.s3x,.pic3) .s3-rig{animation:s3-orbit 24s ease-in-out infinite}
 html.js .chg3{animation:s3-breathe 3.4s ease-in-out infinite}
 html.js .s3-a .cover{animation:s3-breathe 3.4s ease-in-out infinite}
 html.js .chg3.is-limited{animation:s3-paused 12s steps(1,end) infinite}
@@ -906,6 +907,46 @@ html.js .s3-rig svg .pkt{animation:s3-hop var(--pd,6s) linear var(--pl,0s) infin
 html.js .s3-d .bead.up{animation:s3-ride 4.6s linear infinite}
 html.js .s3-d .bead.dn{animation:s3-ride 4.6s linear -2.3s infinite reverse}
 html.js .s3-d .shaft3::before{animation:s3-flowy 1.2s linear infinite}
-html.js .s3-a .radio .wave{transform-box:fill-box;transform-origin:center;animation:s3-wave 2.4s ease-out infinite}
-html.js .s3-a .radio .wave.w2{animation-delay:-1.2s}
+html.js .radio .wave{transform-box:fill-box;transform-origin:center;animation:s3-wave 2.4s ease-out infinite}
+html.js .radio .wave.w2{animation-delay:-1.2s}
 }
+
+/* ===== v5 polish (W-P-3): hero 3D scene, solid glance icons, pcb, status band, story head ===== */
+.hero3-art .s3-stage{border:0;background:none;box-shadow:none;overflow:visible;--ar:7/5}
+.hero3-art::before{content:"";position:absolute;inset:-6% -4%;z-index:-1;background:radial-gradient(closest-side,var(--c-glow),transparent 75%)}
+.s3-h .s3-rig{--rw:66cqw;top:52%}
+.s3-h .s3-slab{--T:2.6cqw}
+.s3-h .car3{--k:1.3;--cw:7.5cqw;--cl:14.8cqw}
+.s3-h .s3-mesh{--z:10.6cqw}
+.s3-h .unit3{--bw:6cqw;--bd:4cqw;--bh:7.5cqw}
+.status-band{background:var(--c-surface);border-block:var(--bd)}
+.status-chip{display:flex;align-items:center;gap:var(--s-2);margin:0;padding:var(--s-2) 0;max-width:none;font:500 var(--fs-s)/1.5 var(--f-mono);color:var(--c-text)}
+.status-chip::before{content:"";flex:none;width:.5rem;height:.5rem;border-radius:50%;background:var(--c-signal)}
+.story3-head{padding-top:var(--section-pad)}
+.story3-head .eyebrow{margin:0}
+.pic3{--ledr:3.6cqw;display:block;position:relative;width:3.5rem;height:3.5rem;margin-bottom:var(--s-2)}
+.pic3 .s3-stage{display:block;position:absolute;inset:0;aspect-ratio:auto;border:0;background:none;box-shadow:none;overflow:visible;--persp:260cqw}
+.pic3 .s3-rig{--rw:80cqw;--rx:58deg;--rz:-40deg;top:60%}
+.pic3 .chg3{--bw:26cqw;--bd:21cqw;--bh:74cqw}
+.pic3 .unit3{--bw:42cqw;--bd:28cqw;--bh:46cqw}
+.pic3 .mtr3{--bw:46cqw;--bd:22cqw;--bh:48cqw}
+.pic3 .bld3{--bw:32cqw;--bd:30cqw;--bh:84cqw}
+.mtr3{--bw:5.6cqw;--bd:4cqw;--bh:7cqw}
+.mtr3::before{background:
+radial-gradient(circle at 50% 50%,var(--c-bg) 0 26%,var(--c-accent) 28% 36%,color-mix(in srgb,var(--c-accent) 14%,var(--c-bg)) 38%) 50% 45%/80% 80% no-repeat,var(--bl)}
+.s3-p .s3-rig{--rw:50cqw;--rx:55deg;--rz:-35deg}
+.s3-p .pcb{--bw:30cqw;--bd:20cqw;--bh:1.2cqw;--bz:calc(2cqw + var(--fp)*4cqw);--bt:var(--c-bg);overflow:visible}
+.s3-p .pcb>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.s3-p .pcb::before,.s3-p .pcb::after{background:var(--s3-right)}
+.s3-p .gnd{position:absolute;left:50%;top:50%;width:46cqw;height:34cqw;margin:-17cqw 0 0 -23cqw;transform:translateZ(0);background:color-mix(in srgb,var(--c-tint) 70%,transparent);border:1.5px dashed var(--c-border-strong)}
+
+.bld3::before{background:
+linear-gradient(var(--c-signal),var(--c-signal)) 0 30%/100% 7% no-repeat,
+linear-gradient(color-mix(in srgb,var(--c-accent) 45%,var(--bl)),color-mix(in srgb,var(--c-accent) 45%,var(--bl))) 50% 80%/22% 9% space,var(--bl)}
+.mtr3::before{background:
+radial-gradient(circle at 50% 50%,var(--c-bg) 0 30%,var(--c-accent) 32% 40%,color-mix(in srgb,var(--c-accent) 14%,var(--bl)) 42%) 50% 45%/90% 90% no-repeat,var(--bl)}
+/* one section treatment: Mesh, Metering, Load, Demo = plain bands split by a hairline; cards only for figures and controls */
+#meters,#load,#demo{border-top:var(--bd)}
+.meters,.demo{background:none;border:0;box-shadow:none;padding:0}
+@media (min-width:48rem){.meters{padding:0}}
+.hero3 + .status-band{margin:0}
