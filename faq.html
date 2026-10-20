@@ -41,59 +41,59 @@
 <details class="faq-item reveal">
 <summary><h2>What problem does this solve?</h2></summary>
 <div class="faq-body">
-<p>Apartment buildings often lack the electrical capacity for every resident to charge at full power at once. The system shares the capacity the building already has, as an alternative to an upgrade.</p>
+<p>Apartment buildings often lack the capacity for every resident to charge at full power at once. The system shares the building's existing capacity instead of needing an upgrade.</p>
 </div>
 </details>
 <details class="faq-item reveal">
-<summary><h2>Will every car always charge at full speed?</h2></summary>
+<summary><h2>Full speed for every car?</h2></summary>
 <div class="faq-body">
-<p>No. When capacity is short, some vehicles may be slowed, paused or queued. The policy is still to be defined. The system aims to keep total demand within the building's permitted limit.</p>
+<p>No. When capacity is short, some vehicles may be slowed, paused or queued. The policy is still to be defined. The system aims to keep total demand within the building's limit.</p>
 </div>
 </details>
 <details class="faq-item reveal">
 <summary><h2>What does the system measure?</h2></summary>
 <div class="faq-body">
-<p>Each charger measures the energy, voltage, current and power it delivers. The building's own base load is measured too, so the system knows how much capacity is left for charging. Still to be decided: which meter supplies the building figure, how accurate readings must be, how often they are reported, and whether they will be good enough for billing. See <a href="technology.html#metering">the metering section</a>.</p>
+<p>Each charger measures its own energy, voltage, current and power. The building's base load is measured too, so the system knows what is left. Still to be decided: the building meter, required accuracy, reporting rate, and whether readings suit billing. See <a href="technology.html#metering">the metering section</a>.</p>
 </div>
 </details>
 <details class="faq-item reveal">
-<summary><h2>What happens if the internet goes down?</h2></summary>
+<summary><h2>If the internet goes down?</h2></summary>
 <div class="faq-body">
-<p>Allocation runs on the local load-management unit, and local control is designed to continue without an internet connection. Data is stored locally and sent when the connection returns. A charger that loses contact with the load-management unit falls back to a safe current. The value and the timeout are not yet decided.</p>
+<p>Allocation runs on the local load-management unit, designed to continue without the internet. Data is stored locally and sent when the connection returns. A charger that loses contact with the unit falls back to a safe current; the value and timeout are not yet decided.</p>
 </div>
 </details>
 <details class="faq-item reveal">
-<summary><h2>Do the chargers need new data cables?</h2></summary>
+<summary><h2>Do chargers need data cables?</h2></summary>
 <div class="faq-body">
 <p>The proposed design links chargers and the load-management unit over a wireless mesh, which is intended to avoid new data cables.</p>
 </div>
 </details>
 <details class="faq-item reveal">
-<summary><h2>How do the chargers talk to each other?</h2></summary>
+<summary><h2>How do chargers talk?</h2></summary>
 <div class="faq-body">
-<p>The chargers and the load-management unit form their own wireless network. Each charger passes messages along for its neighbours, so a charger far from the unit can still be reached. The unit sends each charger its share of the capacity over this network, and the chargers send their readings back. How they are arranged is not yet decided. See <a href="how-it-works.html">how it works</a>.</p>
+<p>Our chargers and the load-management unit form their own wireless network. Chargers pass messages along for their neighbours, so a distant one can still be reached. The unit sends each its share, and chargers send readings back. The arrangement is not yet decided. See <a href="how-it-works.html">how it works</a>.</p>
 </div>
 </details>
 <details class="faq-item reveal">
 <summary><h2>Which standards does it follow?</h2></summary>
 <div class="faq-body">
-<p>Our charger is designed to follow the SAE J1772 and IEC 61851 control-pilot standards for AC charging, and the backend link uses OCPP 1.6. The full list of standards and certifications is still being confirmed.</p>
+<p>Our charger is designed to follow the SAE J1772 and IEC 61851 control-pilot standards for AC charging, and uses OCPP 1.6 for the backend link. The full list of standards and certifications is still being confirmed.</p>
 </div>
 </details>
 <details class="faq-item reveal">
 <summary><h2>Is it ready to install?</h2></summary>
 <div class="faq-body">
-<p>Not yet. It is a prototype in development, with a first-revision prototype and working-draft requirements. It has not been validated on a real installation.</p>
+<p>Not yet. It is a prototype in development with working-draft requirements, and has not been validated on a real installation.</p>
 </div>
 </details>
 <details class="faq-item reveal">
 <summary><h2>Does it need a cloud service?</h2></summary>
 <div class="faq-body">
-<p>No. Local control is designed not to depend on the cloud. The OCPP link to a charging network operator is optional for local operation. It is used for reporting and remote start and stop.</p>
+<p>No. Local control is designed not to depend on the cloud. The OCPP link to a charging network operator is optional for local operation, used for reporting and remote start and stop.</p>
 </div>
 </details>
 <details class="faq-item reveal">
-<summary><h2>What about solar, batteries or vehicle-to-grid?</h2></summary>
+<summary><h2>Solar, batteries, vehicle-to-grid?</h2></summary>
 <div class="faq-body">
 <p>These are possible later work. They are not in the first version.</p>
 </div>
