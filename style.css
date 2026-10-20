@@ -198,7 +198,7 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 /* ---- at-a-glance: the three parts ---- */
 .glance-h{font:500 var(--fs-eyebrow)/1.4 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--c-accent);margin:0 0 var(--s-3);max-width:none}
 .glance-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:var(--s-3);counter-reset:part}
-.glance-item{position:relative;padding:var(--s-4);min-width:0;counter-increment:part}
+.glance-item{position:relative;padding:calc(var(--s-4) - .5rem) var(--s-4) var(--s-4);min-width:0;counter-increment:part}
 .glance-item>.pic{margin-bottom:var(--s-3)}
 .glance-title{margin:0 0 var(--s-2);font-size:var(--fs-1)}
 .glance-title a{display:inline-block;padding-block:.75rem;margin-block:-.75rem;color:var(--c-text);text-decoration:none}
@@ -239,11 +239,11 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 @media (prefers-reduced-motion:no-preference){
 .story3-track.is-live{--p:0;height:500vh;position:relative;
 --in2:clamp(0,calc((var(--p) - .15)/.05),1);--in3:clamp(0,calc((var(--p) - .35)/.05),1);--in4:clamp(0,calc((var(--p) - .55)/.05),1);--in5:clamp(0,calc((var(--p) - .75)/.05),1)}
-.is-live .story3-stage{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));height:calc(100svh - var(--hdr));display:grid;place-items:center}
+.is-live .story3-stage{position:sticky;top:var(--hdr);height:calc(100vh - var(--hdr));height:calc(100svh - var(--hdr));box-sizing:border-box;padding-top:1.25rem;display:grid;place-items:center}
 .is-live .story3-frames{display:grid;width:100%}
 .is-live .frame{grid-area:1/1;padding:0 var(--gutter);border:0}
-.is-live .frame-fig .s3x{width:100%;max-width:min(36rem,calc((100svh - var(--hdr) - 9rem)*1.3333))}
-.is-live [data-frame="5"] .s3x{max-width:min(36rem,calc(100svh - var(--hdr) - 9rem))}
+.is-live .frame-fig .s3x{width:100%;max-width:min(36rem,calc((100svh - var(--hdr) - 10.25rem)*1.3333))}
+.is-live [data-frame="5"] .s3x{max-width:min(36rem,calc(100svh - var(--hdr) - 10.25rem))}
 .is-live .frame-fig figcaption{min-height:3.2em}
 .is-live [data-frame="1"]{--fp:clamp(0,calc(var(--p)/.18),1)}
 .is-live [data-frame="2"]{--fp:clamp(0,calc((var(--p) - .18)/.2),1)}
@@ -950,3 +950,73 @@ radial-gradient(circle at 50% 50%,var(--c-bg) 0 30%,var(--c-accent) 32% 40%,colo
 .meters,.demo{background:none;border:0;box-shadow:none;padding:0}
 @media (min-width:48rem){.meters{padding:0}}
 .hero3 + .status-band{margin:0}
+
+/* ===== W-P-7: remaining diagrams as solid 3D scenes ===== */
+/* shared: figure wrappers become plain, the stage carries the frame */
+.feature-fig.mesh-fig,.install-panel{background:none;background-image:none;border:0;box-shadow:none;padding:0}
+.mesh-fig .s3x{max-width:34rem;margin-inline:auto}
+.install-panel .s3x{max-width:34rem;margin-inline:auto}
+.demo-scene.s3x{display:block;padding:0;background:none;background-image:none;border:0;box-shadow:none;margin:0;width:100%}
+.meters-fig .s3x{max-width:20rem;margin-inline:auto}
+@media (min-width:48rem){.meters{grid-template-columns:minmax(0,1fr) 20rem}}
+.s3-m{--fp:1}
+.s3-m .s3-stage{--ar:1/1}
+/* legend swatches (CSS only) */
+.legend .lg{flex:none;position:relative;width:1.75rem;height:1.25rem;display:block}
+.lg-unit{border:1.5px solid var(--s3-line,var(--c-text));border-radius:2px;background:linear-gradient(var(--c-accent),var(--c-accent)) 50% 35%/60% 2px no-repeat,linear-gradient(var(--c-accent),var(--c-accent)) 50% 65%/60% 2px no-repeat,color-mix(in srgb,var(--c-accent) 14%,var(--c-bg))}
+.lg-chg{width:.8rem;margin-inline:.45rem;border:1.5px solid var(--s3-line,var(--c-text));border-radius:2px;background:radial-gradient(circle at 50% 28%,var(--c-accent) 0 2px,transparent 2.5px),color-mix(in srgb,var(--c-accent) 14%,var(--c-bg))}
+.lg-link{height:0;border-top:2px dashed var(--c-accent);top:.6rem}
+.lg-sig{background:linear-gradient(var(--c-text),var(--c-text)) 15% 100%/3px 35% no-repeat,linear-gradient(var(--c-text),var(--c-text)) 45% 100%/3px 60% no-repeat,linear-gradient(var(--c-text),var(--c-text)) 75% 100%/3px 90% no-repeat}
+.lg-sig::after{content:"";position:absolute;left:-2px;right:-2px;top:50%;height:2px;background:var(--c-signal);transform:rotate(-35deg)}
+/* the shared mesh figure never needs the 3D explosion to be animated by scroll: --fp stays 1 */
+/* ---- metering: solid meter, swinging needle, bar readout (illustrative) ---- */
+@property --lv{syntax:"<percentage>";inherits:true;initial-value:62%}
+.s3-g .s3-stage{--ar:5/4}
+.s3-g .s3-rig{--rw:52cqw;top:60%;--rz:-38deg}
+.s3-g .s3-slab{--T:2.2cqw}
+.s3-g .chg3{--bw:5cqw;--bd:4.2cqw;--bh:12cqw}
+.mtr3-big{--bw:20cqw;--bd:11cqw;--bh:25cqw}
+.mtr3-big::before{background:var(--bl)}
+.mdial{position:absolute;left:0;top:100%;width:100%;height:var(--bh);transform-origin:50% 0;transform:rotateX(-90deg) translateZ(.12cqw)}
+.mdial>i{position:absolute;display:block}
+.mtick{inset:6% 8% 36%;border-radius:50%;background:radial-gradient(circle,var(--c-bg) 0 58%,transparent 59%),repeating-conic-gradient(var(--c-text) 0 2deg,transparent 2deg 20deg);box-shadow:0 0 0 1.5px var(--c-accent)}
+.mneedle{left:50%;top:32%;width:.8cqw;height:5.4cqw;margin-left:-.4cqw;border-radius:1px;background:var(--c-accent);transform-origin:50% 0;transform:rotate(198deg)}
+.mneedle::after{content:"";position:absolute;left:50%;top:-.7cqw;width:1.6cqw;height:1.6cqw;margin-left:-.8cqw;border-radius:50%;background:var(--c-bg);border:1.5px solid var(--c-accent)}
+.mbar{left:14%;right:14%;bottom:11%;height:9%;border:1.5px solid var(--s3-line);background:linear-gradient(90deg,var(--c-accent) var(--lv),var(--c-tint) var(--lv));-webkit-mask:none}
+.mbar::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 9%,var(--c-bg) 9% 11%)}
+@keyframes mtr-sway{0%,100%{transform:rotate(150deg)}50%{transform:rotate(228deg)}}
+@keyframes mtr-bar{0%,100%{--lv:30%}50%{--lv:88%}}
+@media (prefers-reduced-motion:no-preference){
+html.js .mneedle{animation:mtr-sway 7s ease-in-out infinite}
+html.js .mbar{animation:mtr-bar 7s ease-in-out infinite}}
+/* ---- demo building ---- */
+.s3-dm .s3-stage{--ar:5/4}
+.s3-dm .s3-rig{--rw:60cqw;top:57%}
+.s3-dm .s3-slab{--T:2.4cqw}
+.s3-dm .chg3{--bw:3.8cqw;--bd:3.2cqw;--bh:8.5cqw}
+.s3-dm .unit3{--bw:6cqw;--bd:4.4cqw;--bh:8cqw}
+.s3-dm .car3{--k:1;--cw:5.8cqw;--cl:11.4cqw}
+.lim3::before{background:linear-gradient(var(--c-signal),var(--c-signal)) 0 42%/100% 16% no-repeat,var(--bl)}
+.bld3-big{--bw:24cqw;--bd:10cqw;--bh:17cqw}
+.bld3-big::before{background:
+linear-gradient(color-mix(in srgb,var(--c-accent) 40%,var(--bl)),color-mix(in srgb,var(--c-accent) 40%,var(--bl))) 50% 30%/10% 16% space,var(--bl)}
+.s3-dm .car3.mini-car{animation:none;translate:0 0;transition:translate .35s ease}
+.s3-dm .mini-car.is-off{translate:0 15cqw;--ct:var(--c-bg);--cp:80%}
+.s3-dm .mini-car.is-paused{--ct:var(--c-signal);--cp:60%}
+.s3-dm .dp{transition:opacity .3s}
+.s3-dm:has(.mini-car[data-car-index="0"].is-off) .dp0,.s3-dm:has(.mini-car[data-car-index="1"].is-off) .dp1,.s3-dm:has(.mini-car[data-car-index="2"].is-off) .dp2,.s3-dm:has(.mini-car[data-car-index="3"].is-off) .dp3{opacity:0}
+.s3-dm:has(.mini-car[data-car-index="0"].is-paused) .dp0,.s3-dm:has(.mini-car[data-car-index="1"].is-paused) .dp1,.s3-dm:has(.mini-car[data-car-index="2"].is-paused) .dp2,.s3-dm:has(.mini-car[data-car-index="3"].is-paused) .dp3{stroke:var(--c-signal);animation:none}
+@media (prefers-reduced-motion:reduce){.s3-dm .car3.mini-car,.s3-dm .dp{transition:none}}
+/* ---- install: wired vs wireless ---- */
+.s3-i .s3-stage{--ar:3/2}
+.s3-i .s3-rig{--rw:54cqw;top:50%}
+.s3-i .s3-slab{--T:2.4cqw}
+.s3-i .chg3{--bw:3.8cqw;--bd:3.2cqw;--bh:8.5cqw}
+.s3-i .unit3{--bw:6cqw;--bd:4.4cqw;--bh:9cqw}
+.s3-i .s3-mesh{--z:9.6cqw}
+.s3-rig svg .k-trench{fill:none;stroke:color-mix(in srgb,var(--s3-line) 55%,var(--s3-top));stroke-width:3.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1}
+.s3-rig svg .k-cab{fill:none;stroke:var(--c-accent);stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1}
+@media (prefers-reduced-motion:no-preference){
+html.js .install-panel.is-visible .k-trench,html.js .install-panel.is-visible .k-cab{animation:draw 6s ease-out both}
+html.js .install-panel.is-visible .t1{animation-delay:1.2s}html.js .install-panel.is-visible .t2{animation-delay:2.2s}html.js .install-panel.is-visible .t3{animation-delay:3.2s}html.js .install-panel.is-visible .t4{animation-delay:4.2s}
+html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinite,pairin .5s ease-out both;animation-delay:0s,calc(var(--i)*.4s)}}
