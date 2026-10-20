@@ -108,6 +108,71 @@
     sSync();
   }
 
+  // 3D scenes (W-3D-6): per-scene --fp 0..1 from scroll position (all browsers), pause off-screen, optional pointer tilt.
+  // Without JS, or with reduced motion, nothing is set here: --fp stays 1 (assembled). Inline --fp overrides the CSS scroll timeline.
+  var sc3 = [].slice.call(document.querySelectorAll('.scene3d'));
+  if (sc3.length && !reduce) {
+    var vis = [], fpTick = false;
+    var fpOf = function (el) {
+      var r = el.getBoundingClientRect(), vh = window.innerHeight || 1;
+      // 0 as the top edge enters the lower part of the screen, 1 once the scene is about 55% up (mirrors the CSS range)
+      var a = vh * 0.9, b = vh * 0.45;
+      return Math.max(0, Math.min(1, (a - r.top) / (a - b)));
+    };
+    var fpUpdate = function () {
+      fpTick = false;
+      vis.forEach(function (el) {
+        var v = fpOf(el).toFixed(3);
+        if (el._fp !== v) { el._fp = v; el.style.setProperty('--fp', v); }
+      });
+    };
+    var fpReq = function () { if (!fpTick) { fpTick = true; requestAnimationFrame(fpUpdate); } };
+    if ('IntersectionObserver' in window) {
+      var sio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          var el = e.target, i = vis.indexOf(el);
+          el.classList.toggle('is-paused', !e.isIntersecting);
+          if (e.isIntersecting && i < 0) vis.push(el);
+          if (!e.isIntersecting && i > -1) vis.splice(i, 1);
+        });
+        fpReq();
+      }, { rootMargin: '10% 0px 10% 0px' });
+      sc3.forEach(function (el) { el.style.setProperty('--fp', fpOf(el).toFixed(3)); sio.observe(el); });
+      window.addEventListener('scroll', fpReq, { passive: true });
+      window.addEventListener('resize', fpReq, { passive: true });
+    }
+
+    // Single pointer tilt, fine pointers with hover only, max 4deg, applied with the individual `rotate` property so the CSS transform is untouched.
+    if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      var MAX = 4 / Math.SQRT2, tRig = null, tx = 0, ty = 0, tCur = [0, 0], tRaf = 0;
+      var tApply = function () {
+        tRaf = 0;
+        if (!tRig) return;
+        tCur[0] += (tx - tCur[0]) * 0.18; tCur[1] += (ty - tCur[1]) * 0.18;
+        var m = Math.sqrt(tCur[0] * tCur[0] + tCur[1] * tCur[1]);
+        tRig.style.rotate = m < 0.01 ? '' : tCur[1].toFixed(3) + ' ' + (-tCur[0]).toFixed(3) + ' 0 ' + m.toFixed(3) + 'deg';
+        // axis vector (dy, -dx) scaled by degrees; magnitude doubles as the angle
+        if (Math.abs(tx - tCur[0]) + Math.abs(ty - tCur[1]) > 0.01) tRaf = requestAnimationFrame(tApply);
+        else if (!tx && !ty) { tRig.style.rotate = ''; tRig = null; }
+      };
+      document.addEventListener('pointermove', function (e) {
+        if (e.pointerType !== 'mouse' || root.classList.contains('is-paused')) return;
+        var st = e.target.closest && e.target.closest('.s3-stage');
+        if (st && !st.parentNode.classList.contains('is-paused')) {
+          var rig = st.querySelector('.s3-rig');
+          if (!rig) return;
+          if (tRig && tRig !== rig) { tRig.style.rotate = ''; tCur = [0, 0]; }
+          tRig = rig;
+          var r = st.getBoundingClientRect();
+          tx = ((e.clientX - r.left) / r.width - 0.5) * 2 * MAX;
+          ty = ((e.clientY - r.top) / r.height - 0.5) * 2 * MAX;
+        } else { tx = 0; ty = 0; }
+        if (tRig && !tRaf) tRaf = requestAnimationFrame(tApply);
+      }, { passive: true });
+      document.addEventListener('pointerleave', function () { tx = 0; ty = 0; if (tRig && !tRaf) tRaf = requestAnimationFrame(tApply); });
+    }
+  }
+
   // Live chart: sweep across the evening, loop gently; paused off-screen or by html.is-paused; static under reduced motion.
   var ch = document.querySelector('[data-chart="demand"]');
   var chSvg = ch && ch.querySelector('svg.chart-svg');
