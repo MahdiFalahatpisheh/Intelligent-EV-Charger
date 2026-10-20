@@ -1158,3 +1158,77 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .wrap>.cutaway:first-child{margin-top:0}
 
 @media (max-width:37.49rem){.s3-o .s3-chip{font-size:.75rem;padding:.15rem .35rem}}
+
+/* ===== W-P-10: Project, FAQ, Contact, 404 ===== */
+.page-head.has-art .wrap>h1:first-child{grid-column:1;grid-row:3}
+/* new primitives */
+.cube3{--bw:5cqw;--bd:5cqw;--bh:6cqw}
+.pic3 .cube3{--bw:34cqw;--bd:34cqw;--bh:40cqw}
+.mark3{--bw:1cqw;--bd:1cqw;--bh:12cqw;--bt:var(--c-signal)}
+.pic3 .mark3{--bw:5cqw;--bd:5cqw;--bh:56cqw}
+.flag3{--bw:4cqw;--bd:.9cqw;--bh:2.6cqw;--bz:9.4cqw;--bt:var(--c-signal);--bl:var(--c-signal);--br:var(--c-signal)}
+.ghost3{--bt:color-mix(in srgb,var(--c-bg) 35%,transparent);--bl:color-mix(in srgb,var(--c-bg) 25%,transparent);--br:color-mix(in srgb,var(--c-bg) 25%,transparent);--s3-line:var(--c-border-strong)}
+.bat3{--bw:10cqw;--bd:6cqw;--bh:5cqw}
+.bat3::before{background:repeating-linear-gradient(90deg,var(--c-accent) 0 16%,transparent 16% 22%) 50% 50%/76% 46% no-repeat,var(--bl)}
+.pic3 .bat3{--bw:46cqw;--bd:30cqw;--bh:30cqw}
+.pic3 .pcb3{--bw:52cqw;--bd:36cqw;--bh:5cqw}
+.env3{--bw:12cqw;--bd:8cqw;--bh:1.2cqw;--bz:3cqw;background:linear-gradient(to bottom right,transparent 47%,var(--s3-line) 48% 52%,transparent 53%) 0 0/50% 62% no-repeat,linear-gradient(to bottom left,transparent 47%,var(--s3-line) 48% 52%,transparent 53%) 100% 0/50% 62% no-repeat,var(--bt)}
+.post3{--bw:6cqw;--bd:4cqw;--bh:7cqw}
+.post3::before{background:linear-gradient(var(--s3-line),var(--s3-line)) 50% 36%/62% 2px no-repeat,linear-gradient(var(--c-signal),var(--c-signal)) 50% 78%/62% 10% no-repeat,var(--bl)}
+.plug3{--bw:1.8cqw;--bd:3cqw;--bh:1cqw;--bt:var(--c-text);--bl:var(--c-text);--br:var(--c-text)}
+@keyframes bob3{0%,100%{translate:0 0 0}50%{translate:0 0 1.4cqw}}
+@media (prefers-reduced-motion:no-preference){html.js .float3{animation:bob3 4s ease-in-out infinite}}
+/* project hero road */
+.s3-pr .s3-rig{--rw:58cqw;top:56%}
+.s3-pr .s3-slab{--T:2.4cqw}
+.s3-pr .chg3{--bw:5cqw;--bd:4.2cqw;--bh:11cqw}
+.s3-pr .pcb3{--bw:14cqw;--bd:10cqw;--bh:1.6cqw}
+.s3-pr .chip3{--bw:4cqw;--bd:4cqw;--bh:1.6cqw;--bz:1.6cqw}
+.s3-pr .bld3{--bw:14cqw;--bd:11cqw;--bh:20cqw}
+/* project timeline: 3D stage icons instead of round nodes, builds on scroll */
+.timeline .tl-node.has3{width:3.5rem;height:3.5rem;border:0;border-radius:0;background:none;box-shadow:none;display:block;overflow:visible;color:inherit}
+.timeline>li{padding-left:4.5rem}
+.timeline>li::before{left:1.75rem;top:3.6rem}
+.tl3 .s3-rig{top:62%}
+.tl3 .rise{--bz:calc((clamp(0,(var(--fp) - var(--a,0))*5,1) - 1)*(var(--bh) + 1.5cqw))}
+@media (min-width:40rem){
+.timeline>li{padding:4.5rem 0 0}
+.timeline>li::before{left:3.75rem;right:calc(var(--s-4)*-1);top:1.9rem;bottom:auto;width:auto;height:2px}
+}
+.step3{width:2.75rem;height:2.75rem;margin:0 0 0 auto;order:3;flex:none}
+.pic3 .step-b{--bw:30cqw;--bd:30cqw}
+.pic3.step3 .s3-rig{top:66%}
+.next li{align-items:center}
+.audience li>.pic3{margin-bottom:var(--s-2)}
+/* FAQ */
+.s3-q .s3-rig{--rw:56cqw;top:56%}
+.s3-q .s3-slab{--T:2.4cqw}
+.s3-q .qmark3{--bw:20cqw;--bd:14cqw;--bh:24cqw}
+.qmark3::before{content:"?";display:grid;place-items:center;font:700 15cqw/1 var(--f-head);color:var(--c-accent)}
+.s3-q .chg3{--bw:5cqw;--bd:4.2cqw;--bh:11cqw}
+.s3-q .mtr3{--bw:7cqw;--bd:5cqw;--bh:8cqw}
+.faq-item summary .pic3{width:2.75rem;height:2.75rem;margin:0;flex:none}
+.faq-item summary h2{flex:1}
+.faq-item summary{gap:var(--s-3)}
+/* Contact */
+.s3-ct .s3-rig{--rw:56cqw;top:56%}
+.s3-ct .s3-slab{--T:2.4cqw}
+.s3-ct .chg3{--bw:5cqw;--bd:4.2cqw;--bh:11cqw}
+.contact-grid.no-art{grid-template-columns:1fr}
+.contact-grid.no-art .card{max-width:44rem}
+/* 404 */
+.s3-nf .s3-rig{--rw:58cqw;top:56%}
+.s3-nf .s3-slab{--T:2.4cqw}
+.s3-nf .chg3{--bw:5cqw;--bd:4.2cqw;--bh:11cqw}
+.s3-nf .car3{--k:1;--cw:5.8cqw;--cl:11.4cqw;animation:none}
+/* Technology hotspots at small widths: leaders from edge anchors to the objects */
+.hs-leaders{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none;overflow:visible}
+.hs-leaders line{stroke:var(--c-accent);stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.hs-leaders circle{fill:var(--c-accent)}
+@media (max-width:37.49rem){html.js .hs-leaders{display:block}}
+/* W-P-10 polish: icon sizing and centring */
+.faq-item summary .pic3{width:3rem;height:3rem}
+.faq-item summary .pic3 .s3-rig{top:74%}
+.step3{width:3.25rem;height:3.25rem}
+.pic3.step3 .s3-rig{top:74%}
+.timeline .tl-node.has3 .s3-rig{top:70%}
