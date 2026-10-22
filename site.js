@@ -179,73 +179,86 @@
     }
   }
 
-  // Live garage hero (W-P-LG): cars arrive, charge (badge counts up to 100), hold full, leave. Illustration only, numbers are not data.
+  // Live garage hero (W-P-LG2): a scripted sequence of present-car counts (1, 3, 5, 3, 2, loop). Each car drives in (5.2 s), parks,
+  // plugs in (cable, then badge, then count), charges 10-16 s, holds full, unplugs, drives out (5.2 s). Illustration only, numbers are not data.
   // Virtual clock advances only while running, so html.is-paused, off-screen (.is-paused from the scene observer) and hidden tabs freeze it.
   // Reduced motion / no JS: the static markup is left untouched.
   (function () {
-  var lg = document.querySelector('[data-live-garage]');
-  if (lg && !reduce) {
-    var bays = [].slice.call(lg.querySelectorAll('.car3[data-bay]')).map(function (car, i) {
+    var lg = document.querySelector('[data-live-garage]');
+    if (!lg || reduce) return;
+    var bays = [].slice.call(lg.querySelectorAll('.car3[data-bay]')).map(function (car) {
       var n = car.querySelector('.soc-n');
-      if (n) n.setAttribute('aria-hidden', 'true');
-      var b = { car: car, n: n, ended: false, row: i < 3 ? 0 : 1, ph: 'empty', t0: 0, until: 0, s0: 0, dur: 1, shown: -1 };
-      // switch state when the slide really ends; the timeout below (CSS duration + 200 ms) is only a fallback
+      if (n) { n.setAttribute('aria-hidden', 'true'); n.textContent = ''; }
+      var b = { car: car, n: n, ph: 'empty', t0: 0, ended: false, s0: 0, dur: 1, shown: -1 };
+      // switch state when the slide really ends; the timeout in step() (CSS duration + 200 ms) is only a fallback
       car.addEventListener('animationend', function (e) { if (e.target === car && /^s3-(arrive|leave)$/.test(e.animationName)) b.ended = true; });
       return b;
     });
-    var CLS = ['is-arriving', 'is-charging', 'is-full', 'is-leaving'];
-    var T_ARRIVE = 2400, T_LEAVE = 2200, T_HOLD = 1500;  // match the CSS animation lengths
+    var CLS = { arriving: 'is-arriving', parked: 'is-parked', charging: 'is-charging', full: 'is-full', unplug: 'is-parked', leaving: 'is-leaving' };
+    var ALL = ['is-arriving', 'is-parked', 'is-charging', 'is-full', 'is-leaving'];
+    var T_ARRIVE = 5200, T_PARK = 600, T_PLUG = 1100, T_UNPLUG = 700, T_LEAVE = 5200;
+    // One cycle = five cars on a fixed plan (seconds from the first arrival): arrivals PA, unplug times PU.
+    // Present-car count runs 1, 3, 5 (held until the fifth is parked), 3, 2, 1; the next cycle starts as the last car leaves.
+    var PA = [0, 6.5, 8.5, 15, 17], PU = [23.5, 26, 32.5, 38.5, 44.5], pk = 0, t0 = 600;
+    var HOLD_MIN = 3000, HOLD_MAX = 4000;
     var rnd = function (a, b) { return a + Math.random() * (b - a); };
     var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
-    var clock = 0, prev = 0, running = false;
+    var clock = 0, prev = 0;
     var setPh = function (b, ph) {
       b.ph = ph; b.t0 = clock; b.ended = false;
-      CLS.forEach(function (c) { b.car.classList.remove(c); });
-      if (ph !== 'empty') b.car.classList.add('is-' + { arriving: 'arriving', charging: 'charging', full: 'full', leaving: 'leaving' }[ph]);
+      ALL.forEach(function (c) { b.car.classList.remove(c); });
+      if (CLS[ph]) b.car.classList.add(CLS[ph]);
     };
     var show = function (b, s) {
       b.car.style.setProperty('--soc', s.toFixed(3));
       var v = s >= 1 ? 100 : Math.min(99, Math.floor(s * 100));  // 100 only together with is-full
       if (b.n && v !== b.shown) { b.shown = v; b.n.textContent = v; }
     };
-    var present = function () { return bays.filter(function (b) { return b.ph !== 'empty' && b.ph !== 'leaving'; }).length; };
-    bays.forEach(function (b) {
-      // adopt the static markup: charging bays get a start value, the full bay holds
-      if (b.car.classList.contains('is-charging')) {
-        var cur = parseFloat(b.car.style.getPropertyValue('--soc')) || .4;
-        b.ph = 'charging'; b.s0 = cur; b.dur = rnd(6000, 12000) * (1 - cur) + 1500; show(b, cur);
-      } else if (b.car.classList.contains('is-full')) { b.ph = 'full'; b.until = rnd(800, 2500); show(b, 1); }
-      else { b.until = rnd(1000, 3000); }
-    });
+    // start empty; the first car drives in
+    bays.forEach(function (b) { setPh(b, 'empty'); b.car.style.setProperty('--soc', 0); });
     var step = function (b) {
       var el = clock - b.t0;
-      if (b.ph === 'empty') {
-        if (el < b.until) return;
-        var rowBusy = bays.some(function (o) { return o !== b && o.row === b.row && o.ph === 'arriving'; });
-        if (present() >= 5 || rowBusy) { b.t0 = clock - b.until + 400; return; }
-        b.s0 = rnd(.1, .6); show(b, b.s0); setPh(b, 'arriving');
-      } else if (b.ph === 'arriving') {
-        if (b.ended || el >= T_ARRIVE + 200) { b.dur = rnd(6000, 12000) * (1 - b.s0) / .9 + 800; setPh(b, 'charging'); }
+      if (b.ph === 'arriving') {
+        if (b.ended || el >= T_ARRIVE + 200) setPh(b, 'parked');
+      } else if (b.ph === 'parked') {
+        if (el >= T_PARK) {
+          // charge until the planned unplug time minus the full hold, so nobody waits at 100 percent
+          b.hold = rnd(HOLD_MIN, HOLD_MAX);
+          b.dur = Math.max(9000, Math.min(19000, b.unplugAt - clock - T_PLUG - b.hold));
+          setPh(b, 'charging');
+        }
       } else if (b.ph === 'charging') {
-        var x = Math.min(1, el / b.dur);
+        var x = Math.max(0, Math.min(1, (el - T_PLUG) / b.dur));
         show(b, b.s0 + (1 - b.s0) * ease(x));
-        if (x >= 1) { show(b, 1); b.until = T_HOLD; setPh(b, 'full'); }
+        if (x >= 1) { show(b, 1); setPh(b, 'full'); }
       } else if (b.ph === 'full') {
-        if (el >= Math.max(b.until, T_HOLD) && present() > 3) setPh(b, 'leaving');
+        if (el >= b.hold) setPh(b, 'unplug');
+      } else if (b.ph === 'unplug') {
+        if (el >= T_UNPLUG) setPh(b, 'leaving');
       } else if (b.ph === 'leaving') {
-        if (b.ended || el >= T_LEAVE + 200) { setPh(b, 'empty'); b.until = rnd(1000, 4000); b.shown = -1; if (b.n) b.n.textContent = ''; b.car.style.setProperty('--soc', 0); }
+        if (b.ended || el >= T_LEAVE + 200) { setPh(b, 'empty'); b.shown = -1; if (b.n) b.n.textContent = ''; b.car.style.setProperty('--soc', 0); }
       }
+    };
+    var control = function () {
+      var ct = (clock - t0) / 1000;
+      if (pk < PA.length && ct >= PA[pk]) {
+        var free = bays.filter(function (b) { return b.ph === 'empty'; });
+        if (free.length) {
+          var b = free[Math.floor(Math.random() * free.length)];
+          b.s0 = rnd(.1, .6); b.shown = -1; show(b, b.s0); if (b.n) b.n.textContent = ''; b.shown = -1;
+          b.unplugAt = t0 + PU[pk] * 1000;
+          setPh(b, 'arriving'); pk++;
+        }
+      }
+      if (ct >= PU[PU.length - 1] + T_UNPLUG / 1000) { t0 += PU[PU.length - 1] * 1000 + T_UNPLUG; pk = 0; }  // next cycle starts once the last car has unplugged and begun to leave
     };
     var frame = function (now) {
       var go = !root.classList.contains('is-paused') && !lg.classList.contains('is-paused') && !document.hidden;
-      if (go) { clock += Math.min(100, prev ? now - prev : 0); bays.forEach(step); }
+      if (go) { clock += Math.min(100, prev ? now - prev : 0); bays.forEach(step); control(); }
       prev = go ? now : 0;
       requestAnimationFrame(frame);
     };
-    // adopt initial numbers once, then run
-    bays.forEach(function (b) { if (b.ph === 'full') show(b, 1); });
     requestAnimationFrame(frame);
-  }
   })();
 
   // Live chart: sweep across the evening, loop gently; paused off-screen or by html.is-paused; static under reduced motion.

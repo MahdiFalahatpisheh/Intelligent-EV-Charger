@@ -1418,13 +1418,13 @@ nav ul{gap:var(--s-1) var(--s-3)}
 .s3-h .row-b{--dd:28cqw}
 .s3-h .chg3{--lo:.35}
 .s3-h .car3{display:none}
-.s3-h .car3:is(.is-arriving,.is-charging,.is-full,.is-leaving){display:block}
+.s3-h .car3:is(.is-arriving,.is-parked,.is-charging,.is-full,.is-leaving){display:block}
 .s3-h .car3.is-full{--ct:var(--c-ok);--cp:30%}
 .s3-h .car3.is-charging+.chg3{--led:var(--c-accent);--lo:.95}
 .s3-h .car3.is-full+.chg3{--led:var(--c-ok);--lo:1}
-.s3-h .car3.is-arriving+.chg3{--led:var(--c-signal);--lo:.9}
+/* no charger light while a car is still driving in (W-P-LG2) */
 /* cable and pulse follow the car state (bay-n) */
-.s3-h .k-cable{transition:stroke-dashoffset .5s ease-out}
+.s3-h .k-cable{transition:stroke-dashoffset .6s ease-out}
 .s3-h .k-cable{stroke-dashoffset:1}
 .s3-h .k-pulse{opacity:0}
 .s3-h .k-pulse{stroke:var(--c-accent)}
@@ -1459,13 +1459,14 @@ nav ul{gap:var(--s-1) var(--s-3)}
 .car3.is-full .soc-n::after{color:inherit}
 .s3-ill{position:absolute;right:.5rem;bottom:.5rem;margin:0;font:500 .6875rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c-muted)}
 .hero3-art{position:relative;overflow-x:clip}
+/* no opacity here: opacity < 1 on a preserve-3d car flattens its boxes into flat tiles. The stage edge mask does the fade. */
 @keyframes s3-arrive{from{translate:0 var(--dd) 0}to{translate:0 0 0}}
 @keyframes s3-leave{from{translate:0 0 0}to{translate:0 var(--dd) 0}}
 @keyframes s3-ledb{0%,100%{--lo:.4}50%{--lo:1}}
 @keyframes s3-sheen{0%{box-shadow:0 .15em .5em rgb(11 31 58/.18),0 0 0 0 color-mix(in srgb,var(--c-ok) 55%,transparent)}100%{box-shadow:0 .15em .5em rgb(11 31 58/.18),0 0 0 .8em transparent}}
 @media (prefers-reduced-motion:no-preference){
-html.js .s3-h .car3.is-arriving{animation:s3-arrive 2.4s cubic-bezier(.2,.7,.2,1) both}
-html.js .s3-h .car3.is-leaving{animation:s3-leave 2.2s cubic-bezier(.5,0,.8,.4) both}
+html.js .s3-h .car3.is-arriving{animation:s3-arrive 5.2s cubic-bezier(.3,.35,.3,1) both}
+html.js .s3-h .car3.is-leaving{animation:s3-leave 5.2s cubic-bezier(.4,0,.75,.85) both}
 html.js .s3-h .car3.is-charging+.chg3{animation:s3-ledb 1.8s ease-in-out infinite}
 html.js .s3-h .k-pulse{animation:s3-pulse 1.1s linear infinite}
 html.js .s3-h .car3.is-full .soc{animation:s3-sheen 1.2s ease-out 1}
@@ -1477,7 +1478,8 @@ html.js .car3.is-full .soc-i{animation:none}
 
 /* ===== W-P-LG round 2 (visual): badge hide while moving, soft edge, 100 percent always green, legibility ===== */
 .s3-h .soc{transition:opacity .2s ease}
-.s3-h :is(.is-arriving,.is-leaving) .soc{opacity:0}
+.s3-h .car3:not(.is-charging):not(.is-full) .soc{opacity:0}
+.s3-h .car3.is-charging .soc{transition-delay:.55s}
 .hero3-art{padding-bottom:1.75rem}
 .hero3-art .s3-stage{--edge:9%;-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--edge),#000 calc(100% - var(--edge)),transparent),linear-gradient(to bottom,transparent,#000 var(--edge),#000 calc(100% - var(--edge)),transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 var(--edge),#000 calc(100% - var(--edge)),transparent),linear-gradient(to bottom,transparent,#000 var(--edge),#000 calc(100% - var(--edge)),transparent);mask-composite:intersect}
 /* the full state also applies when the value has reached 1, so 100 is never blue */
@@ -1493,3 +1495,13 @@ html.js .car3.is-full .soc-i{animation:none}
 .s3-h .soc{transform:translateZ(11.5cqw) rotateZ(calc(-1*var(--rz,-40deg) - var(--orb,0deg))) rotateX(calc(-1*var(--rx,58deg))) translateX(calc(var(--col,0)*var(--cs,4.2cqw)));font-size:max(.625rem,2.5cqw)}
 @media (max-width:37.49rem){.s3-h .soc{--cs:4.8cqw;font-size:max(.625rem,2.9cqw)}}
 @media (max-width:37.49rem){.s3-h .soc{width:3.9em;margin-left:-1.95em}.s3-h .car3:not(.is-full) .soc-i{display:none}}
+
+/* ===== W-P-LG2: slower drive, plug-in sequence, exit past the masked edge ===== */
+html.js .s3-h .chg3,html.js .s3-h .car3{animation:none}  /* html.js .car3 (generic 16 s drive loop) would out-rank .s3-h .car3 and slide parked cars about */
+/* the generic .s3-rig cable rule (specificity 0,2,1) kept every cable drawn; hide it unless the car is plugged in */
+.s3-h .s3-rig svg .k-cable{stroke-dashoffset:1}
+html.js .s3-h .s3-rig svg .k-pulse{animation:s3-pulse 1.1s linear infinite}
+.s3-h .row-a{--dd:-128cqw}
+.s3-h .row-b{--dd:74cqw}
+.s3-h .bay-3{--dd:-142cqw}
+.hero3-art .s3-stage{overflow:clip}  /* lanes and cars run past the stage; the edge mask fades them, the clip keeps them out of the page's scroll area */
