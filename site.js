@@ -179,6 +179,75 @@
     }
   }
 
+  // Live garage hero (W-P-LG): cars arrive, charge (badge counts up to 100), hold full, leave. Illustration only, numbers are not data.
+  // Virtual clock advances only while running, so html.is-paused, off-screen (.is-paused from the scene observer) and hidden tabs freeze it.
+  // Reduced motion / no JS: the static markup is left untouched.
+  (function () {
+  var lg = document.querySelector('[data-live-garage]');
+  if (lg && !reduce) {
+    var bays = [].slice.call(lg.querySelectorAll('.car3[data-bay]')).map(function (car, i) {
+      var n = car.querySelector('.soc-n');
+      if (n) n.setAttribute('aria-hidden', 'true');
+      var b = { car: car, n: n, ended: false, row: i < 3 ? 0 : 1, ph: 'empty', t0: 0, until: 0, s0: 0, dur: 1, shown: -1 };
+      // switch state when the slide really ends; the timeout below (CSS duration + 200 ms) is only a fallback
+      car.addEventListener('animationend', function (e) { if (e.target === car && /^s3-(arrive|leave)$/.test(e.animationName)) b.ended = true; });
+      return b;
+    });
+    var CLS = ['is-arriving', 'is-charging', 'is-full', 'is-leaving'];
+    var T_ARRIVE = 2400, T_LEAVE = 2200, T_HOLD = 1500;  // match the CSS animation lengths
+    var rnd = function (a, b) { return a + Math.random() * (b - a); };
+    var ease = function (x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+    var clock = 0, prev = 0, running = false;
+    var setPh = function (b, ph) {
+      b.ph = ph; b.t0 = clock; b.ended = false;
+      CLS.forEach(function (c) { b.car.classList.remove(c); });
+      if (ph !== 'empty') b.car.classList.add('is-' + { arriving: 'arriving', charging: 'charging', full: 'full', leaving: 'leaving' }[ph]);
+    };
+    var show = function (b, s) {
+      b.car.style.setProperty('--soc', s.toFixed(3));
+      var v = s >= 1 ? 100 : Math.min(99, Math.floor(s * 100));  // 100 only together with is-full
+      if (b.n && v !== b.shown) { b.shown = v; b.n.textContent = v; }
+    };
+    var present = function () { return bays.filter(function (b) { return b.ph !== 'empty' && b.ph !== 'leaving'; }).length; };
+    bays.forEach(function (b) {
+      // adopt the static markup: charging bays get a start value, the full bay holds
+      if (b.car.classList.contains('is-charging')) {
+        var cur = parseFloat(b.car.style.getPropertyValue('--soc')) || .4;
+        b.ph = 'charging'; b.s0 = cur; b.dur = rnd(6000, 12000) * (1 - cur) + 1500; show(b, cur);
+      } else if (b.car.classList.contains('is-full')) { b.ph = 'full'; b.until = rnd(800, 2500); show(b, 1); }
+      else { b.until = rnd(1000, 3000); }
+    });
+    var step = function (b) {
+      var el = clock - b.t0;
+      if (b.ph === 'empty') {
+        if (el < b.until) return;
+        var rowBusy = bays.some(function (o) { return o !== b && o.row === b.row && o.ph === 'arriving'; });
+        if (present() >= 5 || rowBusy) { b.t0 = clock - b.until + 400; return; }
+        b.s0 = rnd(.1, .6); show(b, b.s0); setPh(b, 'arriving');
+      } else if (b.ph === 'arriving') {
+        if (b.ended || el >= T_ARRIVE + 200) { b.dur = rnd(6000, 12000) * (1 - b.s0) / .9 + 800; setPh(b, 'charging'); }
+      } else if (b.ph === 'charging') {
+        var x = Math.min(1, el / b.dur);
+        show(b, b.s0 + (1 - b.s0) * ease(x));
+        if (x >= 1) { show(b, 1); b.until = T_HOLD; setPh(b, 'full'); }
+      } else if (b.ph === 'full') {
+        if (el >= Math.max(b.until, T_HOLD) && present() > 3) setPh(b, 'leaving');
+      } else if (b.ph === 'leaving') {
+        if (b.ended || el >= T_LEAVE + 200) { setPh(b, 'empty'); b.until = rnd(1000, 4000); b.shown = -1; if (b.n) b.n.textContent = ''; b.car.style.setProperty('--soc', 0); }
+      }
+    };
+    var frame = function (now) {
+      var go = !root.classList.contains('is-paused') && !lg.classList.contains('is-paused') && !document.hidden;
+      if (go) { clock += Math.min(100, prev ? now - prev : 0); bays.forEach(step); }
+      prev = go ? now : 0;
+      requestAnimationFrame(frame);
+    };
+    // adopt initial numbers once, then run
+    bays.forEach(function (b) { if (b.ph === 'full') show(b, 1); });
+    requestAnimationFrame(frame);
+  }
+  })();
+
   // Live chart: sweep across the evening, loop gently; paused off-screen or by html.is-paused; static under reduced motion.
   var ch = document.querySelector('[data-chart="demand"]');
   var chSvg = ch && ch.querySelector('svg.chart-svg');
@@ -354,4 +423,193 @@
       });
     });
   }
+})();
+
+/* W-P-4 */
+/* Story tabs (Charger = frame 2, Floor = frame 4, Building = frame 5), charger hotspots, floor reveal. Controls ship with `hidden` and are shown here; without JS the frames and the fallback list stay. */
+(function () {
+  var root = document.documentElement;
+  var track = document.querySelector('[data-story]');
+  if (!track) return;
+  var reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var tabsBox = document.querySelector('[data-s4-tabs]');
+  var tabs = [].slice.call(document.querySelectorAll('[data-s4-tab]'));
+  var hs = document.querySelector('[data-s4-hs]');
+  var info = document.querySelector('[data-s4-info]');
+  var fallback = document.querySelector('[data-s4-fallback]');
+  var flWrap = document.querySelector('[data-s4-fl]');
+  var frames = [].slice.call(track.querySelectorAll('[data-frame]'));
+  var live = function () { return track.classList.contains('is-live'); };
+  var setInert = function (el, off) { if (el) { if (off) el.setAttribute('inert', ''); else el.removeAttribute('inert'); } };
+
+  if (tabsBox) tabsBox.hidden = false;
+  if (hs) hs.hidden = false;
+  if (info) info.hidden = false;
+  if (fallback) fallback.hidden = true;
+  if (flWrap) flWrap.hidden = false;
+
+  // Scroll progress at which each frame is fully shown in the scroll-linked layout (matches the --in/--co windows in style.css).
+  var P = { 2: 0.345, 4: 0.745, 5: 0.985 };
+  var hdr = function () { var h = document.querySelector('.site-header'); return h ? h.offsetHeight : 0; };
+  var goTo = function (n) {
+    var behavior = reduce ? 'auto' : 'smooth', y;
+    if (live()) {
+      var stage = track.querySelector('.story3-stage');
+      var span = track.offsetHeight - (stage ? stage.offsetHeight : 0);
+      y = track.getBoundingClientRect().top + window.pageYOffset - hdr() + P[n] * span;
+    } else {
+      var f = track.querySelector('[data-frame="' + n + '"]');
+      if (!f) return;
+      y = f.getBoundingClientRect().top + window.pageYOffset - hdr() - 8;
+    }
+    window.scrollTo({ top: Math.max(0, y), behavior: behavior });
+  };
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      var n = +t.getAttribute('data-s4-tab');
+      tabs.forEach(function (o) { if (o === t) o.setAttribute('aria-current', 'true'); else o.removeAttribute('aria-current'); });
+      goTo(n);
+    });
+  });
+  if (tabsBox) tabsBox.addEventListener('keydown', function (e) {
+    var i = tabs.indexOf(document.activeElement), k = e.key, j = -1;
+    if (i < 0) return;
+    if (k === 'ArrowRight' || k === 'ArrowDown') j = (i + 1) % tabs.length;
+    else if (k === 'ArrowLeft' || k === 'ArrowUp') j = (i + tabs.length - 1) % tabs.length;
+    else if (k === 'Home') j = 0;
+    else if (k === 'End') j = tabs.length - 1;
+    if (j > -1) { e.preventDefault(); tabs[j].focus(); }
+  });
+
+  // Which frame is on screen decides the current tab and which hotspot/floor controls can be reached (stacked frames are transparent, not removed).
+  var cur = function () {
+    if (live()) {
+      var p = parseFloat(track.style.getPropertyValue('--p')) || 0;
+      return p >= 0.77 ? 5 : p >= 0.57 ? 4 : p >= 0.37 ? 3 : p >= 0.19 ? 2 : 1;
+    }
+    var mid = (window.innerHeight || 1) / 2, n = 0;
+    frames.forEach(function (f) { var r = f.getBoundingClientRect(); if (r.top <= mid && r.bottom > mid) n = +f.getAttribute('data-frame'); });
+    return n;
+  };
+  var tick = false;
+  var sync = function () {
+    tick = false;
+    var n = cur(), lv = live();
+    tabs.forEach(function (t) {
+      if (+t.getAttribute('data-s4-tab') === n) t.setAttribute('aria-current', 'true'); else t.removeAttribute('aria-current');
+    });
+    setInert(hs, lv && n !== 2);
+    setInert(info, lv && n !== 2);
+    setInert(flWrap, lv && n !== 5);
+  };
+  var req = function () { if (!tick) { tick = true; requestAnimationFrame(sync); } };
+  window.addEventListener('scroll', req, { passive: true });
+  window.addEventListener('resize', req, { passive: true });
+  if ('MutationObserver' in window) {
+    new MutationObserver(req).observe(track, { attributes: true, attributeFilter: ['style', 'class'] });
+    new MutationObserver(req).observe(root, { attributes: true, attributeFilter: ['class'] });
+  }
+  sync();
+
+  // Hotspots on the exploded charger: each toggles its own description.
+  var parts = [].slice.call(document.querySelectorAll('[data-s4-part]'));
+  var hint = info && info.querySelector('.s4-hint');
+  var setPart = function (btn) {
+    var any = false;
+    parts.forEach(function (b) {
+      var on = b === btn;
+      b.setAttribute('aria-expanded', on ? 'true' : 'false');
+      var d = document.getElementById(b.getAttribute('aria-controls'));
+      if (d) d.hidden = !on;
+      if (on) any = true;
+    });
+    if (hint) hint.hidden = any;
+  };
+  parts.forEach(function (b) {
+    // .s4-hs is pointer-events:none and only .is-live re-enables the pins; the static story (reduced motion) needs it too.
+    b.style.pointerEvents = 'auto';
+    b.addEventListener('click', function () { setPart(b.getAttribute('aria-expanded') === 'true' ? null : b); });
+  });
+  if (hs) hs.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = parts.filter(function (b) { return b.getAttribute('aria-expanded') === 'true'; })[0];
+      if (open) { setPart(null); open.focus(); }
+    }
+  });
+
+  // Floor reveal on the building frame: tap a floor (or the load unit), a polite live panel shows one short line.
+  var FL = {
+    upper: 'Chargers on this floor are designed to link to each other and to the load-management unit.',
+    middle: 'Same design on every floor: chargers linked by the wireless mesh.',
+    lower: 'Chargers here join the same wireless mesh as the floors above.',
+    unit: 'One load-management unit is designed to share the building\'s power between all chargers.'
+  };
+  var flBtns = [].slice.call(document.querySelectorAll('[data-s4-floor]'));
+  var out = document.querySelector('[data-s4-floor-out]');
+  var scene = track.querySelector('[data-frame="5"] .s3x');
+  var dflt = out ? out.textContent : '';
+  flBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var k = b.getAttribute('data-s4-floor'), off = b.getAttribute('aria-pressed') === 'true';
+      flBtns.forEach(function (o) { o.setAttribute('aria-pressed', o === b && !off ? 'true' : 'false'); });
+      if (out) out.textContent = off ? dflt : FL[k];
+      if (scene) { if (off) scene.removeAttribute('data-s4-floor'); else scene.setAttribute('data-s4-floor', k); }
+    });
+  });
+})();
+
+/* W-P-5 */
+/* Load chart states: Normal / Peak / Internet down. One SVG; the toggle only swaps which series are visible, plus caption, desc and live text. Illustrative shapes, no numbers. */
+(function () {
+  var card = document.querySelector('[data-chart="demand"]');
+  var box = card && card.querySelector('[data-s5-toggle]');
+  if (!box) return;
+  var btns = [].slice.call(box.querySelectorAll('[data-s5-state]'));
+  var cap = card.querySelector('[data-s5-caption]');
+  var live = card.querySelector('[data-s5-live]');
+  var desc = card.querySelector('#chart-d');
+  var peak = card.querySelector('[data-s5-series="peak"]');
+  var down = card.querySelector('[data-s5-series="down"]');
+  var base = [].slice.call(card.querySelectorAll('[data-series],[data-region="over"],.over-lab'));
+  var T = {
+    normal: {
+      cap: 'Cars charge in turn. Total use is designed to stay under the building limit.',
+      desc: 'Illustrative curves over an evening, not measured data. Without control, use rises above the building limit. With local control, use is meant to stay below it.',
+      live: 'Showing normal evening. Illustrative.'
+    },
+    peak: {
+      cap: 'Many cars plug in together. The load-management unit is designed to share power so total use stays under the limit.',
+      desc: 'Illustrative curves over a busy evening, not measured data. Without control, use climbs well above the building limit. With local control, use is meant to stay below it.',
+      live: 'Showing peak evening. Illustrative.'
+    },
+    down: {
+      cap: 'The local load-management unit is designed to keep sharing power without the internet.',
+      desc: 'Illustrative curves over an evening, not measured data. The internet link is lost. The local load-management unit is meant to keep use below the building limit.',
+      live: 'Showing internet down. Illustrative. The local unit is designed to keep sharing power.'
+    }
+  };
+  var show = function (s, announce) {
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-s5-state') === s ? 'true' : 'false'); });
+    // SVG elements have no .hidden property, so toggle the attribute.
+    var hide = function (el, off) { if (el) { if (off) el.setAttribute('hidden', ''); else el.removeAttribute('hidden'); } };
+    base.forEach(function (el) { hide(el, s === 'peak'); });
+    hide(peak, s !== 'peak');
+    hide(down, s !== 'down');
+    card.setAttribute('data-s5-state', s);
+    if (cap) cap.textContent = T[s].cap;
+    if (desc) desc.textContent = T[s].desc;
+    if (live && announce) live.textContent = T[s].live;
+  };
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () { show(b.getAttribute('data-s5-state'), true); });
+  });
+  box.addEventListener('keydown', function (e) {
+    var i = btns.indexOf(document.activeElement), k = e.key, j = -1;
+    if (i < 0) return;
+    if (k === 'ArrowRight' || k === 'ArrowDown') j = (i + 1) % btns.length;
+    else if (k === 'ArrowLeft' || k === 'ArrowUp') j = (i + btns.length - 1) % btns.length;
+    if (j > -1) { e.preventDefault(); btns[j].focus(); }
+  });
+  box.hidden = false;
+  show('normal', false);
 })();

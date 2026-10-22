@@ -268,7 +268,7 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 .is-live .motion-btn{right:1rem;bottom:.5rem}
 }
 @media (max-width:60rem){.story3{--hdr:7.4rem}}
-@media (min-width:64rem){
+@media (min-width:48rem){
 .story3-track:not(.is-live) .story3-frames{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
 .story3-track:not(.is-live) .frame{border-top:0;padding:var(--s-5) var(--gutter)}
 .story3-track:not(.is-live) .frame:nth-child(n+3){border-top:var(--bd)}
@@ -276,6 +276,15 @@ html.js .reveal{transition:opacity .5s ease,transform .5s ease}
 .story3-track:not(.is-live) .frame:last-child{grid-column:1/-1;border-left:0}
 .story3-track:not(.is-live) .frame-fig .s3x{max-width:28rem}
 .story3-track:not(.is-live) .frame:last-child .s3x{max-width:30rem}
+}
+/* W-P-18: 48rem-64rem static story; frames 2 and 4 (hotspots, busy floor) sit in the wider column */
+@media (min-width:48rem) and (max-width:63.99rem){
+.story3-track:not(.is-live) .story3-frames{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+.story3-track:not(.is-live) .frame{padding-inline:var(--gutter) var(--s-3);display:flex;flex-direction:column;justify-content:center}
+.story3-track:not(.is-live) .frame>.frame-fig{width:100%}
+.story3-track:not(.is-live) .frame:nth-child(even){padding-inline:var(--s-3) var(--gutter)}
+.story3-track:not(.is-live) .frame:last-child{padding-inline:var(--gutter)}
+.story3-track:not(.is-live) .frame-fig figcaption{text-wrap:balance}
 }
 
 /* motion pause control */
@@ -651,7 +660,7 @@ html.js .timeline li:not(.is-active) .tl-detail{display:none}
 .cutnet-fig .art .lab{font-size:22px}
 .cutnet-fig .art>text.lab[x="322"]:not(.on-only){transform:translateY(-4px)}
 .cutnet-fig .art>text.lab.on-only{transform:translateY(8px)}
-.chart-svg .limit-lab{font-size:21px;transform:translate(6px,-6px);paint-order:stroke;stroke:var(--c-bg);stroke-width:4px;stroke-linejoin:round}
+.chart-svg .limit-lab{display:none} /* W-P-12: replaced by the two-line .limit-lab2 below */
 .art .lab-lg{font-size:20px}
 }
 /* 44 px hit areas for brand and nav */
@@ -740,19 +749,19 @@ background-image:linear-gradient(var(--c-grid) 1px,transparent 1px),linear-gradi
 .s3-rig svg .k-dot{fill:var(--c-accent);stroke:none}
 .s3-rig svg .k-dot.w{fill:var(--c-signal)}
 /* label chips: 2D HTML over the scene, mono, 14 px minimum, thin leader line */
-.s3-chip{--len:1.75rem;position:absolute;left:var(--x);top:var(--y);z-index:2;transform:translate(-50%,-50%);padding:.25rem .5rem;border:1px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);font:500 .875rem/1.2 var(--f-mono);white-space:nowrap;pointer-events:none;opacity:clamp(0,calc((var(--fp) - var(--at,.7))*5),1)}
+.s3-chip{--len:1.75rem;--len-eff:var(--len);position:absolute;left:var(--x);top:var(--y);z-index:2;transform:translate(-50%,-50%);padding:.25rem .5rem;border:1px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);font:500 .875rem/1.2 var(--f-mono);white-space:nowrap;pointer-events:none;opacity:clamp(0,calc((var(--fp) - var(--at,.7))*5),1)}
 .s3-chip.is-amber{border-color:var(--c-signal);color:var(--c-signal)}
 .s3-chip::before,.s3-chip::after{content:"";position:absolute;pointer-events:none}
 .s3-chip::after{background:var(--c-border-strong)}
 .s3-chip::before{width:.4rem;height:.4rem;border-radius:50%;background:var(--c-accent);z-index:1}
-.s3-chip.lead-d::after{left:50%;top:100%;width:1px;height:var(--len)}
-.s3-chip.lead-d::before{left:50%;top:calc(100% + var(--len));transform:translate(-50%,-50%)}
-.s3-chip.lead-u::after{left:50%;bottom:100%;width:1px;height:var(--len)}
-.s3-chip.lead-u::before{left:50%;bottom:calc(100% + var(--len));transform:translate(-50%,50%)}
-.s3-chip.lead-r::after{left:100%;top:50%;height:1px;width:var(--len)}
-.s3-chip.lead-r::before{left:calc(100% + var(--len));top:50%;transform:translate(-50%,-50%)}
-.s3-chip.lead-l::after{right:100%;top:50%;height:1px;width:var(--len)}
-.s3-chip.lead-l::before{right:calc(100% + var(--len));top:50%;transform:translate(50%,-50%)}
+.s3-chip.lead-d::after{left:50%;top:100%;width:1px;height:var(--len-eff)}
+.s3-chip.lead-d::before{left:50%;top:calc(100% + var(--len-eff));transform:translate(-50%,-50%)}
+.s3-chip.lead-u::after{left:50%;bottom:100%;width:1px;height:var(--len-eff)}
+.s3-chip.lead-u::before{left:50%;bottom:calc(100% + var(--len-eff));transform:translate(-50%,50%)}
+.s3-chip.lead-r::after{left:100%;top:50%;height:1px;width:var(--len-eff)}
+.s3-chip.lead-r::before{left:calc(100% + var(--len-eff));top:50%;transform:translate(-50%,-50%)}
+.s3-chip.lead-l::after{right:100%;top:50%;height:1px;width:var(--len-eff)}
+.s3-chip.lead-l::before{right:calc(100% + var(--len-eff));top:50%;transform:translate(50%,-50%)}
 .scene3d figcaption{font:400 var(--fs-0)/1.5 var(--f-body);color:var(--c-text);text-align:center;max-width:34rem;margin:var(--s-3) auto 0}
 .scene3d figcaption::before{content:"01 / 04";display:block;margin-bottom:var(--s-1);font:500 var(--fs-xs)/1.4 var(--f-mono);letter-spacing:.08em;color:var(--c-accent)}
 .s3-b figcaption::before{content:"02 / 04"}
@@ -872,14 +881,14 @@ transform:translate3d(0,-4cqw,calc(var(--D)/-2 + 1cqw + (1 - var(--bg))*34cqw))}
 .s3-d .bead{position:absolute;left:92.8%;top:92.4%;width:1.4cqw;height:1.4cqw;margin:-.7cqw 0 0 -.7cqw;border-radius:50%;background:var(--c-accent);box-shadow:0 0 0 1.5px var(--c-bg);opacity:0;transform:rotateZ(calc(45deg - var(--orb))) rotateX(-60deg)}
 
 /* chips: anchored by their leader dot. --x/--y is the target point on the drawing; the chip sits --len away in the lead-* direction. */
-.s3-chip.lead-r{transform:translate(calc(-100% - var(--len)),-50%)}
-.s3-chip.lead-l{transform:translate(var(--len),-50%)}
-.s3-chip.lead-d{transform:translate(-50%,calc(-100% - var(--len)))}
-.s3-chip.lead-u{transform:translate(-50%,var(--len))}
-.s3-chip.lead-r::before{left:calc(100% + var(--len))}
-.s3-chip.lead-l::before{right:calc(100% + var(--len))}
-.s3-chip.lead-d::before{top:calc(100% + var(--len))}
-.s3-chip.lead-u::before{bottom:calc(100% + var(--len))}
+.s3-chip.lead-r{transform:translate(calc(-100% - var(--len-eff)),-50%)}
+.s3-chip.lead-l{transform:translate(var(--len-eff),-50%)}
+.s3-chip.lead-d{transform:translate(-50%,calc(-100% - var(--len-eff)))}
+.s3-chip.lead-u{transform:translate(-50%,var(--len-eff))}
+.s3-chip.lead-r::before{left:calc(100% + var(--len-eff))}
+.s3-chip.lead-l::before{right:calc(100% + var(--len-eff))}
+.s3-chip.lead-d::before{top:calc(100% + var(--len-eff))}
+.s3-chip.lead-u::before{bottom:calc(100% + var(--len-eff))}
 .s3-chip.wrap{white-space:normal;width:5.75rem;text-align:center}
 .s3-nb{white-space:nowrap}
 
@@ -1158,6 +1167,14 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .wrap>.cutaway:first-child{margin-top:0}
 
 @media (max-width:37.49rem){.s3-o .s3-chip{font-size:.75rem;padding:.15rem .35rem}}
+/* W-3D-10.1: narrow viewports. Chips keep 14 px text and their target points (--x/--y); only the leader length and padding shrink so no chip leaves its stage or touches another. */
+@media (max-width:30rem){
+:is(.s3-a,.s3-c,.s3-d) .s3-chip{padding:.15rem .35rem;letter-spacing:-.02em}
+:is(.s3-a,.s3-c) .s3-chip{--len-eff:var(--len-s,var(--len))}
+.s3-c .s3-chip.wrap{white-space:nowrap;width:auto;--len-eff:4cqw}
+.s3-d .s3-chip{padding-inline:.3rem}
+.s3-d .s3-chip.lead-r{--len-eff:1.5cqw}
+}
 
 /* ===== W-P-10: Project, FAQ, Contact, 404 ===== */
 .page-head.has-art .wrap>h1:first-child{grid-column:1;grid-row:3}
@@ -1232,3 +1249,247 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .step3{width:3.25rem;height:3.25rem}
 .pic3.step3 .s3-rig{top:74%}
 .timeline .tl-node.has3 .s3-rig{top:70%}
+
+/* W-P-4/5 behaviour */
+.s4-tabs[hidden],.s4-hs[hidden],.s4-info[hidden],.s4-fallback[hidden],.s4-fl-wrap[hidden],.s4-desc[hidden],.s4-hint[hidden],.s5-toggle[hidden],svg [hidden]{display:none}
+.is-live .frame{pointer-events:none}
+.is-live .frame :is(.s4-hs-btn,.s4-fl-btn,.s4-fl-out,.s4-info){pointer-events:auto}
+.chart-card:is([data-s5-state="peak"],[data-s5-state="down"]) [data-playhead]{display:none}
+/* W-P-4 */
+/* story tabs: segmented control, tokens only */
+.s4-tabs:not([hidden]){display:flex;width:max-content;max-width:calc(100% - 2*var(--gutter));margin:0 auto var(--s-3);padding:2px;gap:2px;background:var(--c-bg);border:1.5px solid var(--c-border-strong);border-radius:var(--r);box-shadow:var(--shadow-1)}
+.s4-tab{flex:1 1 auto;min-width:2.75rem;min-height:2.75rem;padding:.25rem var(--s-3);border:0;border-radius:2px;background:transparent;color:var(--c-text);font:600 var(--fs-s)/1.2 var(--f-body);cursor:pointer}
+.s4-tab:hover{background:var(--c-surface)}
+.s4-tab[aria-current="true"]{background:var(--c-accent);color:var(--c-on-accent)}
+.s4-tab:focus-visible,.s4-fl-btn:focus-visible,.s5-btn:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.s4-tab{transition:background .15s,color .15s}}
+@media (max-width:23.75rem){.s4-tab{padding-inline:var(--s-2)}}
+/* hotspot pins on scene a: solid dot, ring, 44 px hit area centred on the chip's anchor */
+.s3-a,.s3-d{position:relative}
+/* chips of scene a reach full opacity before the live crossfade starts, so the tab landing point shows labels */
+.s3-a .s3-chip{--at:.55!important}
+.s4-hs{position:absolute;inset:0;z-index:3;pointer-events:none}
+.s4-hs-btn{position:absolute;left:var(--x);top:var(--y);width:2.75rem;height:2.75rem;margin:0;padding:0;transform:translate(-50%,-50%);display:grid;place-items:center;border:0;border-radius:50%;background:transparent;cursor:pointer}
+.s4-hs-btn{opacity:clamp(0,calc((var(--fp,1) - .6)*5),1)}
+.s4-hs-dot{display:block;width:1rem;height:1rem;border-radius:50%;background:var(--c-accent);border:2px solid var(--c-bg);box-shadow:0 0 0 1.5px var(--c-accent),var(--shadow-1)}
+.s4-hs-btn:hover .s4-hs-dot{background:var(--c-accent-hover);box-shadow:0 0 0 1.5px var(--c-accent-hover),var(--shadow-1)}
+.s4-hs-btn[aria-expanded="true"] .s4-hs-dot{width:1.25rem;height:1.25rem;background:var(--c-bg);border:5px solid var(--c-accent);box-shadow:0 0 0 1.5px var(--c-bg),0 0 0 3px var(--c-accent)}
+@media (prefers-reduced-motion:no-preference){
+.s4-hs-dot{transition:width .15s,height .15s,background .15s,border-width .15s}
+.s4-hs-btn:not([aria-expanded="true"]) .s4-hs-dot{animation:s4pin 2.4s ease-out 3}
+@keyframes s4pin{0%{box-shadow:0 0 0 1.5px var(--c-accent),0 0 0 1.5px var(--c-glow)}70%,100%{box-shadow:0 0 0 1.5px var(--c-accent),0 0 0 .75rem transparent}}
+}
+/* description panel under scene a: reserved height, no layout shift */
+.s4-info{max-width:34rem;min-height:4.75rem;margin:var(--s-3) auto 0;padding:var(--s-2) var(--s-3);background:var(--c-bg);border:var(--bd);border-left:3px solid var(--c-accent);border-radius:var(--r);box-shadow:var(--shadow-1);display:flex;align-items:center}
+.s4-info p{margin:0;font:400 var(--fs-s)/1.5 var(--f-body);max-width:none}
+.s4-hint{color:var(--c-muted)}
+.s4-desc{color:var(--c-text)}
+.s4-fallback{max-width:34rem;margin:var(--s-3) auto 0;padding:var(--s-2) var(--s-3);background:var(--c-bg);border:var(--bd);border-radius:var(--r)}
+.s4-fallback p{margin:0 0 var(--s-1);font:600 var(--fs-s)/1.4 var(--f-body)}
+.s4-fallback-list{margin:0;padding-left:1.25rem;font-size:var(--fs-s);line-height:1.5}
+.s4-fallback[hidden]{display:none}
+/* scene d floor buttons and reveal panel */
+.s4-fl-wrap:not([hidden]){max-width:34rem;margin:var(--s-3) auto 0}
+.s4-fl:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-2)}
+@media (min-width:36rem){.s4-fl:not([hidden]){grid-template-columns:repeat(4,minmax(0,1fr))}}
+.s4-fl-btn{min-height:2.75rem;padding:.25rem var(--s-2);border:1.5px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);font:600 var(--fs-s)/1.2 var(--f-body);cursor:pointer}
+.s4-fl-btn:hover{background:var(--c-surface);border-color:var(--c-accent)}
+.s4-fl-btn[aria-pressed="true"]{background:var(--c-accent);border-color:var(--c-accent);color:var(--c-on-accent);text-decoration:underline 2px;text-underline-offset:.3em}
+@media (prefers-reduced-motion:no-preference){.s4-fl-btn{transition:background .15s,color .15s,border-color .15s}}
+.s4-fl-out{min-height:4.75rem;margin:var(--s-2) 0 0;padding:var(--s-2) var(--s-3);background:var(--c-bg);border:var(--bd);border-left:3px solid var(--c-accent);border-radius:var(--r);box-shadow:var(--shadow-1);font:400 var(--fs-s)/1.5 var(--f-body);color:var(--c-text);max-width:none;display:flex;align-items:center}
+/* floor highlight: dim the other floor planes (data-s4-floor on .s3-d); k 0 = lowest */
+.s3-d[data-s4-floor] .s3-fl>svg{opacity:.4}
+:is(.s3-d[data-s4-floor="upper"] .s3-fl[style*="--k:3"],.s3-d[data-s4-floor="middle"] .s3-fl[style*="--k:2"],.s3-d[data-s4-floor="lower"] .s3-fl[style*="--k:1"],.s3-d[data-s4-floor="unit"] .s3-fl[style*="--k:0"])>svg{opacity:1}
+:is(.s3-d[data-s4-floor="upper"] .s3-fl[style*="--k:3"],.s3-d[data-s4-floor="middle"] .s3-fl[style*="--k:2"],.s3-d[data-s4-floor="lower"] .s3-fl[style*="--k:1"],.s3-d[data-s4-floor="unit"] .s3-fl[style*="--k:0"])>svg :is(.k-f,.k-h){fill:var(--c-tint);stroke:var(--c-accent);stroke-width:2.5}
+.s3-d[data-s4-floor] .s3-fl>svg .k-h{fill:none}
+.s3-d[data-s4-floor] .s3-fl>svg .k-a{stroke-width:3}
+@media (prefers-reduced-motion:no-preference){.s3-fl>svg{transition:opacity .25s}}
+/* live story: tabs float above the stage, panels follow their frame's caption fade, extra height reserved */
+@media (prefers-reduced-motion:no-preference){
+.is-live .story3-stage{padding-top:4rem}
+.is-live .s4-tabs:not([hidden]){position:absolute;top:.5rem;left:50%;translate:-50% 0;margin:0;z-index:4}
+.is-live .frame-fig .s3x{max-width:min(36rem,calc((100svh - var(--hdr) - 15rem)*1.3333))}
+.is-live [data-frame="5"] .s3x{max-width:min(36rem,calc(100svh - var(--hdr) - 15rem))}
+.is-live [data-frame="2"] :is(.s4-info,.s4-fallback){opacity:calc(var(--ci2)*(1 - var(--co3)))}
+.is-live [data-frame="5"] .s4-fl-wrap{opacity:var(--ci5)}
+.is-live .s4-info,.is-live .s4-fl-out{min-height:3.5rem}
+.is-live .s4-info,.is-live .s4-fl-out{padding-block:var(--s-1)}
+}
+/* W-P-5 */
+.s5-label{display:inline-block;margin:0 0 var(--s-3);padding:.125rem var(--s-2);border:1px dashed var(--c-border-strong);border-radius:var(--r);font:500 var(--fs-xs)/1.5 var(--f-mono);letter-spacing:.04em;color:var(--c-muted);max-width:none}
+.s5-toggle:not([hidden]){display:flex;width:100%;max-width:40rem;margin:0 auto var(--s-3);padding:2px;gap:2px;background:var(--c-bg);border:1.5px solid var(--c-border-strong);border-radius:var(--r)}
+.s5-btn{flex:1 1 auto;min-width:0;min-height:2.75rem;padding:.25rem var(--s-2);border:0;border-radius:2px;background:transparent;color:var(--c-text);font:600 var(--fs-s)/1.2 var(--f-body);white-space:nowrap;cursor:pointer}
+.s5-btn:hover{background:var(--c-surface)}
+.s5-btn[aria-pressed="true"]{background:var(--c-accent);color:var(--c-on-accent);text-decoration:underline 2px;text-underline-offset:.3em}
+@media (prefers-reduced-motion:no-preference){.s5-btn{transition:background .15s,color .15s}}
+@media (max-width:23.75rem){.s5-btn{padding-inline:var(--s-1);font-size:.8125rem}}
+.s5-caption{margin:var(--s-3) 0 0;min-height:4.5em;font:400 var(--fs-s)/1.5 var(--f-body);color:var(--c-text);max-width:none}
+@media (min-width:40rem){.s5-caption{min-height:3em}}
+/* Peak: swap the curves; Internet down: keep curves, mark the outage window (dash + label, not colour alone) */
+.chart-card[data-s5-state="peak"] .chart-svg>[data-series],.chart-card[data-s5-state="peak"] .chart-svg>[data-region],.chart-card[data-s5-state="peak"] .chart-svg>.over-lab{display:none}
+.s5-band{fill:var(--c-tint);fill-opacity:.35;stroke:var(--c-border-strong);stroke-width:1.5;stroke-dasharray:2 5;stroke-linecap:round}
+.chart-svg .s5-down-lab{fill:var(--c-text);font-weight:600}
+.chart-card[data-s5-state="down"] .s-ctl{stroke-width:3.5}
+@media (prefers-reduced-motion:no-preference){
+.s5-peak:not([hidden]),.s5-down:not([hidden]){animation:s5in .3s ease-out}
+@keyframes s5in{from{opacity:0}to{opacity:1}}
+}
+/* the uncontrolled curve carries pathLength=1, which rescales dashes; restate the 8 5 dash in path units (length about 646) so it stays dashed, not solid */
+.chart-svg path.s-unc[pathLength]{stroke-dasharray:.0124 .0077}
+/* W-P-20: board and radio pins are 11.5% of the stage apart, so a centred 44 px box cannot fit at phone width. Keep every hit box 2.75rem square and grow the board box away from the radio (to the left) and the radio box away from the board (to the right); the dot stays exactly on the part (anchor = dot centre, 0.5rem in from the facing box edge). */
+.s4-hs-btn[data-s4-part="board"]{transform:translate(calc(-100% + .5rem),-50%)}
+.s4-hs-btn[data-s4-part="board"] .s4-hs-dot{justify-self:end;transform:translateX(calc(50% - .5rem))}
+.s4-hs-btn[data-s4-part="radio"]{transform:translate(-.5rem,-50%)}
+.s4-hs-btn[data-s4-part="radio"] .s4-hs-dot{justify-self:start;transform:translateX(calc(.5rem - 50%))}
+/* focus ring is drawn on the dot (the part), not the 44 px hit box, so it never covers a chip */
+.s4-hs-btn:focus-visible{outline:0}
+.s4-hs-btn:focus-visible .s4-hs-dot{outline:3px solid var(--c-focus);outline-offset:2px}
+/* W-P-5 round 2: the band label carries the Internet down state */
+.chart-card[data-s5-state="down"] .over-lab{display:none}
+
+/* ===== W-P-6.3: header CTA and link-set ===== */
+/* header is already sticky (no layout change). CTA: compact primary button.
+   Phones: last item of the open menu, full width (the closed header row is full at 320 px with name + theme + Menu). */
+nav a.nav-cta{display:flex;align-items:center;justify-content:center;min-height:2.75rem;padding:.5rem var(--s-3);border-radius:var(--r);background:var(--c-accent);color:var(--c-on-accent);border:1.5px solid var(--c-accent);font-weight:600;line-height:1.3;text-align:center;text-decoration:none;white-space:nowrap;transition:background .15s}
+nav a.nav-cta:hover,nav a.nav-cta[aria-current]{background:var(--c-accent-hover);border-color:var(--c-accent-hover);color:var(--c-on-accent);text-decoration:none}
+nav a.nav-cta:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
+nav a.nav-cta::after{content:none}
+@media (max-width:59.99rem){
+.nav-cta-item{grid-column:1/-1;margin-top:var(--s-2)}
+}
+@media (min-width:60rem){
+nav a.nav-cta{min-width:0;padding-inline:var(--s-3)}
+nav ul{align-items:center}
+.nav-cta-item{margin-left:calc(var(--s-4) * -.5)}
+}
+@media (min-width:60rem) and (max-width:72rem){
+nav ul{gap:var(--s-1) var(--s-3)}
+.theme-btn{padding:.4rem;min-width:2.75rem;justify-content:center}
+.theme-btn .t-dark,.theme-btn .t-light{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+}
+@media (prefers-reduced-motion:reduce){nav a.nav-cta{transition:none}}
+/* link-set: short row of pill links on Contact and 404 */
+.link-set{margin-top:var(--s-4)}
+.link-set ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-3)}
+.link-set a{display:inline-flex;align-items:center;min-height:2.75rem;padding:.4rem var(--s-3);border:1.5px solid var(--c-border-strong);border-radius:999px;background:var(--c-surface);color:var(--c-text);font-weight:600;text-decoration:none;transition:border-color .15s,color .15s}
+.link-set a:hover{border-color:var(--c-accent);color:var(--c-accent)}
+.link-set a:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
+@media (max-width:32rem){.link-set ul{display:grid;grid-template-columns:1fr}.link-set a{width:100%}}
+@media (prefers-reduced-motion:reduce){.link-set a{transition:none}}
+
+/* W-P-12: phone-width "Building limit" label. Two lines, right-aligned just above the dashed limit line, in the clear
+   corner right of the Internet-down band edge, so no curve or band edge lies between or beside it. Hidden above 40rem. */
+.chart-svg .limit-lab2{display:none}
+@media (max-width:40rem){
+.chart-svg .limit-lab2{display:block;font-size:21px;fill:var(--c-signal);font-weight:500;paint-order:stroke;stroke:var(--c-bg);stroke-width:4px;stroke-linejoin:round}
+}
+
+/* W-P-14: labels >= 11 px rendered at 320-384 px viewports (scale ~0.45-0.55). Phone-only; >40rem untouched. */
+@media (max-width:24rem){
+.chart-svg .lab,.chart-svg .limit-lab2{font-size:24.5px}
+.chart-svg .limit-lab2{transform:translateX(12px)}
+.chart-svg .over-lab{transform:translateY(-4px)}
+.chart-svg .s5-band{x:218px;width:204px}
+}
+/* W-P-16 */
+/* story heading and tab group share one centred axis; token gap below the heading */
+.story3-head{text-align:center;padding-bottom:var(--s-3)}
+/* W-P-22 */
+/* Mesh figure: close-up of the cutaway (top two floors, shaft, "Wireless mesh" chip), cropped by a shorter stage. Frame 5 is untouched. */
+.mesh-fig .s3x{--ms:1;--ml:60cqw;--mt:55.5cqw;--mar:100/48}
+@media (max-width:47.99rem){
+.mesh-fig .s3x{--ms:.8;--ml:51cqw;--mt:47.5cqw;--mar:100/42}
+#mesh.section{padding-block:var(--s-5)}
+.mesh-fig .legend{margin-bottom:0}
+}
+.mesh-fig .s3-stage{--ar:var(--mar)}
+.mesh-fig .s3-rig{left:var(--ml);top:var(--mt);scale:var(--ms)}
+.mesh-fig .s3-chip{left:calc(var(--ml) + var(--ms)*24.3cqw);top:calc(var(--mt) - var(--ms)*53cqw)}
+/* ===== W-P-11: live garage hero (6 bays, car states, state-of-charge badge) =====
+   Hook contract: docs/website/hero-live-garage.md */
+:root{--c-ok:#0b7a3b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-ok:#4cd08a}}
+:root[data-theme="dark"]{--c-ok:#4cd08a}
+:root[data-theme="light"]{--c-ok:#0b7a3b}
+.s3-h .s3-rig{--rw:60cqw;top:52%}
+.s3-h .car3,.s3-h .chg3{animation:none}
+.s3-h .car3{--k:1.5;--cw:9cqw;--cl:17.2cqw}
+.s3-h .row-a{--dd:-30cqw}
+.s3-h .row-b{--dd:28cqw}
+.s3-h .chg3{--lo:.35}
+.s3-h .car3{display:none}
+.s3-h .car3:is(.is-arriving,.is-charging,.is-full,.is-leaving){display:block}
+.s3-h .car3.is-full{--ct:var(--c-ok);--cp:30%}
+.s3-h .car3.is-charging+.chg3{--led:var(--c-accent);--lo:.95}
+.s3-h .car3.is-full+.chg3{--led:var(--c-ok);--lo:1}
+.s3-h .car3.is-arriving+.chg3{--led:var(--c-signal);--lo:.9}
+/* cable and pulse follow the car state (bay-n) */
+.s3-h .k-cable{transition:stroke-dashoffset .5s ease-out}
+.s3-h .k-cable{stroke-dashoffset:1}
+.s3-h .k-pulse{opacity:0}
+.s3-h .k-pulse{stroke:var(--c-accent)}
+.s3-h:has(.bay-1:is(.is-charging,.is-full)) .k-cable.cb1{stroke-dashoffset:0}
+.s3-h:has(.bay-1.is-charging) .k-pulse.cp1{opacity:1}
+.s3-h:has(.bay-1.is-full) .k-cable.cb1{stroke:var(--c-ok)}
+.s3-h:has(.bay-2:is(.is-charging,.is-full)) .k-cable.cb2{stroke-dashoffset:0}
+.s3-h:has(.bay-2.is-charging) .k-pulse.cp2{opacity:1}
+.s3-h:has(.bay-2.is-full) .k-cable.cb2{stroke:var(--c-ok)}
+.s3-h:has(.bay-3:is(.is-charging,.is-full)) .k-cable.cb3{stroke-dashoffset:0}
+.s3-h:has(.bay-3.is-charging) .k-pulse.cp3{opacity:1}
+.s3-h:has(.bay-3.is-full) .k-cable.cb3{stroke:var(--c-ok)}
+.s3-h:has(.bay-4:is(.is-charging,.is-full)) .k-cable.cb4{stroke-dashoffset:0}
+.s3-h:has(.bay-4.is-charging) .k-pulse.cp4{opacity:1}
+.s3-h:has(.bay-4.is-full) .k-cable.cb4{stroke:var(--c-ok)}
+.s3-h:has(.bay-5:is(.is-charging,.is-full)) .k-cable.cb5{stroke-dashoffset:0}
+.s3-h:has(.bay-5.is-charging) .k-pulse.cp5{opacity:1}
+.s3-h:has(.bay-5.is-full) .k-cable.cb5{stroke:var(--c-ok)}
+.s3-h:has(.bay-6:is(.is-charging,.is-full)) .k-cable.cb6{stroke-dashoffset:0}
+.s3-h:has(.bay-6.is-charging) .k-pulse.cp6{opacity:1}
+.s3-h:has(.bay-6.is-full) .k-cable.cb6{stroke:var(--c-ok)}
+/* state-of-charge badge: billboard pill, upright above the car */
+.soc{--sc:var(--c-accent);position:absolute;left:50%;top:50%;z-index:3;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:.3em;width:4.7em;height:2em;margin:-1em 0 0 -2.35em;padding:0 .45em .22em;border:1px solid color-mix(in srgb,var(--sc) 60%,var(--c-border));border-radius:99px;background:var(--c-bg);color:var(--c-text);font:600 max(.625rem,2.9cqw)/1 var(--f-mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;box-shadow:0 .15em .5em rgb(11 31 58/.18);transform:translateZ(calc(11.5cqw + var(--lift,0cqw))) rotateZ(calc(-1*var(--rz,-40deg) - var(--orb,0deg) - var(--cr,0deg))) rotateX(calc(-1*var(--rx,58deg)))}
+.soc-i{flex:none;width:.62em;height:.62em;border-radius:50%;background:var(--sc)}
+.soc-n{min-width:1.5em;text-align:right}
+.soc-n::after{content:"%";margin-left:.05em;color:var(--c-muted);font-weight:500}
+.soc-n:empty{display:none}
+.soc-bar{position:absolute;left:.6em;right:.6em;bottom:.3em;height:.2em;border-radius:99px;background:color-mix(in srgb,var(--c-border-strong) 30%,transparent);overflow:hidden}
+.soc-bar::before{content:"";display:block;width:calc(var(--soc,0)*100%);height:100%;border-radius:inherit;background:var(--sc)}
+.car3.is-full .soc{--sc:var(--c-ok);color:var(--c-ok)}
+.car3.is-full .soc-i{width:.8em;height:.8em;border-radius:0;background:var(--c-ok);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.car3.is-full .soc-n::after{color:inherit}
+.s3-ill{position:absolute;right:.5rem;bottom:.5rem;margin:0;font:500 .6875rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c-muted)}
+.hero3-art{position:relative;overflow-x:clip}
+@keyframes s3-arrive{from{translate:0 var(--dd) 0}to{translate:0 0 0}}
+@keyframes s3-leave{from{translate:0 0 0}to{translate:0 var(--dd) 0}}
+@keyframes s3-ledb{0%,100%{--lo:.4}50%{--lo:1}}
+@keyframes s3-sheen{0%{box-shadow:0 .15em .5em rgb(11 31 58/.18),0 0 0 0 color-mix(in srgb,var(--c-ok) 55%,transparent)}100%{box-shadow:0 .15em .5em rgb(11 31 58/.18),0 0 0 .8em transparent}}
+@media (prefers-reduced-motion:no-preference){
+html.js .s3-h .car3.is-arriving{animation:s3-arrive 2.4s cubic-bezier(.2,.7,.2,1) both}
+html.js .s3-h .car3.is-leaving{animation:s3-leave 2.2s cubic-bezier(.5,0,.8,.4) both}
+html.js .s3-h .car3.is-charging+.chg3{animation:s3-ledb 1.8s ease-in-out infinite}
+html.js .s3-h .k-pulse{animation:s3-pulse 1.1s linear infinite}
+html.js .s3-h .car3.is-full .soc{animation:s3-sheen 1.2s ease-out 1}
+html.js .soc-i{animation:s3-ledb 1.8s ease-in-out infinite;animation-name:s3-dotb}
+html.js .car3.is-full .soc-i{animation:none}
+}
+@keyframes s3-dotb{0%,100%{transform:scale(.7)}50%{transform:scale(1)}}
+@media (max-width:37.49rem){.s3-h .s3-rig{--rw:64cqw}.soc{font-size:max(.5625rem,2.9cqw)}}
+
+/* ===== W-P-LG round 2 (visual): badge hide while moving, soft edge, 100 percent always green, legibility ===== */
+.s3-h .soc{transition:opacity .2s ease}
+.s3-h :is(.is-arriving,.is-leaving) .soc{opacity:0}
+.hero3-art{padding-bottom:1.75rem}
+.hero3-art .s3-stage{--edge:9%;-webkit-mask-image:linear-gradient(to right,transparent,#000 var(--edge),#000 calc(100% - var(--edge)),transparent),linear-gradient(to bottom,transparent,#000 var(--edge),#000 calc(100% - var(--edge)),transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 var(--edge),#000 calc(100% - var(--edge)),transparent),linear-gradient(to bottom,transparent,#000 var(--edge),#000 calc(100% - var(--edge)),transparent);mask-composite:intersect}
+/* the full state also applies when the value has reached 1, so 100 is never blue */
+.car3[style*="--soc: 1;"] .soc,.car3[style*="--soc:1;"] .soc,.car3[style*="--soc: 1.0"] .soc{--sc:var(--c-ok);color:var(--c-ok)}
+.soc{font-weight:700}
+.soc-bar{height:max(3px,.22em)}
+@media (max-width:37.49rem){.soc{font-size:max(.625rem,2.9cqw);height:2.2em;margin-top:-1.1em}.soc-n::after{font-weight:600}}
+.hero3-art .s3-stage{--ar:7/5.9}
+.s3-h .s3-rig{--rw:56cqw;top:50%}
+@media (max-width:37.49rem){.s3-h .s3-rig{--rw:60cqw;top:50%}}
+/* badge spacing: left and right columns lean outward in the screen plane, middle stays; smaller type on wide scenes */
+.s3-h .bay-1,.s3-h .bay-4{--col:-1}.s3-h .bay-3,.s3-h .bay-6{--col:1}
+.s3-h .soc{transform:translateZ(11.5cqw) rotateZ(calc(-1*var(--rz,-40deg) - var(--orb,0deg))) rotateX(calc(-1*var(--rx,58deg))) translateX(calc(var(--col,0)*var(--cs,4.2cqw)));font-size:max(.625rem,2.5cqw)}
+@media (max-width:37.49rem){.s3-h .soc{--cs:4.8cqw;font-size:max(.625rem,2.9cqw)}}
+@media (max-width:37.49rem){.s3-h .soc{width:3.9em;margin-left:-1.95em}.s3-h .car3:not(.is-full) .soc-i{display:none}}
