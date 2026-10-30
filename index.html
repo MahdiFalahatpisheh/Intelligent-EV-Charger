@@ -4,8 +4,13 @@
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Home - Shared EV Charging</title>
-<meta name="description" content="A charging system that links chargers by wireless mesh, meters each charger's energy and shares a building's power through local load management.">
+<meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1424" media="(prefers-color-scheme: dark)">
+<title>Shared EV Charging</title>
+<meta name="description" content="A charging system designed to link chargers by wireless mesh, meter each charger's energy and share a building's power through local load management.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Shared EV Charging">
+<meta property="og:description" content="A charging system designed to link chargers by wireless mesh, meter each charger's energy and share a building's power through local load management.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -53,9 +58,9 @@
 <section class="glance section" aria-labelledby="glance-h"><div class="wrap">
 <h2 id="glance-h" class="glance-h" data-copy="glance-h">Three parts, one system</h2>
 <ul class="glance-list">
-<li class="glance-item glance-charger"><span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 chg3" style="--x:36%;--y:36%"></div></span></span></span><h3 class="glance-title"><a href="technology.html" data-copy="glance-1-h">Charger on a mesh</a></h3><p class="glance-text" data-copy="glance-1">Our charger, with control board and wireless-mesh radio built in, joins the mesh.</p></li>
-<li class="glance-item glance-meters"><span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 mtr3" style="--x:26%;--y:34%"></div></span></span></span><h3 class="glance-title"><a href="technology.html#metering" data-copy="glance-2-h">Meters</a></h3><p class="glance-text" data-copy="glance-2">Each charger and the whole building are metered.</p></li>
-<li class="glance-item glance-load"><span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 unit3 bld3" style="--x:30%;--y:36%"></div></span></span></span><h3 class="glance-title"><a href="how-it-works.html" data-copy="glance-3-h">Load management</a></h3><p class="glance-text" data-copy="glance-3">The building's available power is shared between chargers. The decision is made locally.</p></li>
+<li class="glance-item glance-charger"><span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 chg3" style="--x:36%;--y:36%"></div></span></span></span><h3 class="glance-title"><a href="technology.html" data-copy="glance-1-h">Charger on a mesh</a></h3><p class="glance-text" data-copy="glance-1">Our charger, with control board and wireless-mesh radio built in, is designed to join the mesh.</p></li>
+<li class="glance-item glance-meters"><span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 mtr3" style="--x:26%;--y:34%"></div></span></span></span><h3 class="glance-title"><a href="technology.html#metering" data-copy="glance-2-h">Meters</a></h3><p class="glance-text" data-copy="glance-2">Each charger and the whole building are designed to be metered.</p></li>
+<li class="glance-item glance-load"><span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 unit3 bld3" style="--x:30%;--y:36%"></div></span></span></span><h3 class="glance-title"><a href="how-it-works.html" data-copy="glance-3-h">Load management</a></h3><p class="glance-text" data-copy="glance-3">The building's available power is designed to be shared between chargers, with the decision made locally.</p></li>
 </ul>
 </div></section>
 <section class="story3" aria-labelledby="story-h">
@@ -157,6 +162,8 @@
 </div>
 <figcaption data-copy="story-5">Floors linked by a wireless mesh, aimed at areas with no mobile or Wi‑Fi signal.</figcaption></figure></li>
 </ol>
+<p class="note" data-copy="story-cap">Illustration only. Shows the design, not a measured layout.</p>
+<p class="s3-ill s3-ill-live" aria-hidden="true">Illustration</p>
 <div class="story3-progress" aria-hidden="true"><span></span></div>
 <button type="button" class="motion-btn" data-motion-toggle aria-pressed="false"><span class="m-pause">Pause animation</span><span class="m-play">Play animation</span></button>
 </div>
@@ -165,7 +172,7 @@
 <div class="section" id="mesh"><div class="wrap">
 <section class="feature reveal" aria-labelledby="mesh-h">
 <div class="feature-text"><p class="eyebrow">Mesh network</p><h2 id="mesh-h" data-copy="mesh-h">A mesh between floors.</h2>
-<p data-copy="mesh-body">Chargers talk over a wireless mesh. It needs no mobile plan and no building Wi-Fi.</p>
+<p data-copy="mesh-body">Chargers are designed to talk over a wireless mesh. The mesh is designed to need no mobile plan and no building Wi-Fi.</p>
 <p class="note" data-copy="mesh-note">Range is not yet proven in a building.</p>
 <p><a href="technology.html">View the technology</a>.</p></div>
 <figure class="feature-fig mesh-fig"><div class="s3x s3-d s3-m">
@@ -178,14 +185,14 @@
 <li><span class="lg lg-chg" aria-hidden="true"></span><span>Charger</span></li>
 <li><span class="lg lg-link" aria-hidden="true"></span><span>Wireless link</span></li>
 <li><span class="lg lg-sig" aria-hidden="true"></span><span>No mobile or Wi-Fi signal</span></li>
-</ul></figure>
+</ul><figcaption class="note" data-copy="mesh-ill">Illustration only. Not a measured layout.</figcaption></figure>
 </section>
 </div></div>
 <div class="section" id="meters"><div class="wrap">
 <section class="meters reveal" aria-labelledby="meters-h">
 <p class="eyebrow">Metering</p><h2 id="meters-h" class="meters-h" data-copy="meters-h">Know what each uses.</h2>
-<p class="meters-text" data-copy="meters-body">Each charger measures its own power use. The building's total is measured too.</p>
-<p class="meters-text" data-copy="meters-report">Meter values are reported to the charging back office.</p>
+<p class="meters-text" data-copy="meters-body">Each charger is designed to measure its own power use. The building's total is designed to be measured too.</p>
+<p class="meters-text" data-copy="meters-report">Meter values are designed to be reported to the charging back office.</p>
 <p class="note meters-note" data-copy="meters-note">Measurement accuracy is not yet specified.</p>
 <p class="meters-link"><a href="technology.html#metering">See the metering section</a></p>
 <figure class="meters-fig"><div class="s3x s3-g"><div class="s3-stage" role="img" aria-labelledby="mdt mdd"><p id="mdt" class="visually-hidden">Illustrative meter</p><p id="mdd" class="visually-hidden">A solid meter with a round dial, a swinging needle and a bar readout, linked to a charger. It is an illustration and does not show real readings.</p>
@@ -199,7 +206,7 @@
 <div class="section" id="load"><div class="wrap">
 <section class="load reveal" aria-labelledby="load-h">
 <div class="load-text"><p class="eyebrow">Load management</p><h2 id="load-h" data-copy="load-h">Many cars, one limit.</h2>
-<p data-copy="load-body">A local load-management unit shares the building's power between cars, and should keep working without the internet.</p>
+<p data-copy="load-body">A local load-management unit is designed to share the building's power between cars and keep working without the internet.</p>
 <p><a href="how-it-works.html">Follow one charging session</a></p></div>
 <figure class="chart-card" data-chart="demand">
 <p class="chart-title" id="chart-t" data-copy="chart-title">One evening of charging</p>
@@ -288,8 +295,9 @@
 <div class="s3-slab"><svg viewBox="0 0 100 100" focusable="false"><rect class="k-f" x="0" y="0" width="100" height="100"/><rect class="k-h" x="3" y="46" width="22" height="48" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="27" y="46" width="22" height="48" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="51" y="46" width="22" height="48" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="75" y="46" width="22" height="48" rx="1" stroke-dasharray="4 4"/></svg><div class="s3-face l ey"></div><div class="s3-face r ex"></div></div>
 <div class="b3 unit3" style="--x:4%;--y:8%"></div><div class="b3 chg3" style="--x:calc(14% - 1.9cqw);--y:40%"></div><div class="b3 chg3" style="--x:calc(38% - 1.9cqw);--y:40%"></div><div class="b3 chg3" style="--x:calc(62% - 1.9cqw);--y:40%"></div><div class="b3 chg3" style="--x:calc(86% - 1.9cqw);--y:40%"></div>
 <div class="s3-layer s3-mesh"><svg viewBox="0 0 100 100" focusable="false"><path class="k-a k-flow pair-arc" style="--i:0" d="M10 14Q14 8 14 38"/><path class="k-a k-flow pair-arc" style="--i:1" d="M10 14Q38 8 38 38"/><path class="k-a k-flow pair-arc" style="--i:2" d="M10 14Q62 8 62 38"/><path class="k-a k-flow pair-arc" style="--i:3" d="M10 14Q86 8 86 38"/><path class="k-a k-flow" d="M14 40H86"/><g class="radio"><circle class="k-a wave" cx="14" cy="40" r="6"/><circle class="k-a wave w2" cx="14" cy="40" r="6"/><circle class="k-a wave" cx="38" cy="40" r="6"/><circle class="k-a wave w2" cx="38" cy="40" r="6"/><circle class="k-a wave" cx="62" cy="40" r="6"/><circle class="k-a wave w2" cx="62" cy="40" r="6"/><circle class="k-a wave" cx="86" cy="40" r="6"/><circle class="k-a wave w2" cx="86" cy="40" r="6"/></g></svg></div>
-</div></div></div><figcaption><h3 data-copy="inst-b-h">Wireless setup</h3><p data-copy="inst-b">Our charger is fixed to the wall and paired to the mesh. No new data cable.</p></figcaption></figure>
+</div></div></div><figcaption><h3 data-copy="inst-b-h">Wireless setup</h3><p data-copy="inst-b">Our charger is designed to be fixed to the wall and paired to the mesh, with no new data cable.</p></figcaption></figure>
 </div>
+<p class="note" data-copy="inst-ill">Illustration only. Neither panel is a measured layout.</p>
 <p class="note" data-copy="inst-note">Quicker install is an aim, not yet measured.</p>
 </section>
 </div></div>

@@ -31,7 +31,13 @@
   // Theme
   var saved = null;
   try { saved = localStorage.getItem('theme'); } catch (e) {}
-  if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  // Keep the browser-chrome colour in step with a chosen theme (no theme chosen: the two media-scoped tags decide).
+  var syncChrome = function () {
+    var c = getComputedStyle(root).getPropertyValue('--c-bg').trim();
+    if (!c) return;
+    document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', c); });
+  };
+  if (saved === 'light' || saved === 'dark') { root.setAttribute('data-theme', saved); syncChrome(); }
   var b = document.getElementById('theme-toggle');
   if (b) {
     var isDark = function () {
@@ -48,6 +54,7 @@
     b.addEventListener('click', function () {
       var n = isDark() ? 'light' : 'dark';
       root.setAttribute('data-theme', n);
+      syncChrome();
       try { localStorage.setItem('theme', n); } catch (e) {}
       tip();
     });
@@ -208,10 +215,12 @@
       b.ph = ph; b.t0 = clock; b.ended = false;
       ALL.forEach(function (c) { b.car.classList.remove(c); });
       if (CLS[ph]) b.car.classList.add(CLS[ph]);
+      // is-full ends here: drop the "100" but keep a no-break space so the pill keeps its width while the badge fades out
+      if ((ph === 'unplug' || ph === 'leaving') && b.n) { b.n.textContent = '\u00a0'; b.shown = -1; }
     };
     var show = function (b, s) {
-      b.car.style.setProperty('--soc', s.toFixed(3));
       var v = s >= 1 ? 100 : Math.min(99, Math.floor(s * 100));  // 100 only together with is-full
+      b.car.style.setProperty('--soc', (v < 100 ? Math.min(s, .999) : s).toFixed(3));  // stays below 1.0 so the green full style needs is-full
       if (b.n && v !== b.shown) { b.shown = v; b.n.textContent = v; }
     };
     // start empty; the first car drives in
@@ -625,4 +634,40 @@
   });
   box.hidden = false;
   show('normal', false);
+})();
+
+/* Technology Part cards: details.more is open by default on wider screens and opens when a link targets inside it. No-ops elsewhere. */
+(function () {
+  var all = document.querySelectorAll('.cards.spec details.more');
+  if (!all.length) return;
+  if (window.matchMedia && matchMedia('(min-width: 30.0625rem)').matches) {
+    [].forEach.call(all, function (d) { d.open = true; });
+  }
+  function reveal() {
+    var id = location.hash.slice(1), t = null;
+    if (!id) return;
+    try { id = decodeURIComponent(id); } catch (e) {}
+    t = document.getElementById(id);
+    if (!t) return;
+    var d = t.closest('details.more');
+    if (!d && t.querySelector) d = t.querySelector('details.more');
+    if (!d) return;
+    d.open = true;
+    if (t.scrollIntoView) t.scrollIntoView();
+  }
+  reveal();
+  window.addEventListener('hashchange', reveal);
+})();
+
+/* Print: open every closed details so answers and part details print, then close exactly those again. */
+(function () {
+  var reopened = [];
+  window.addEventListener('beforeprint', function () {
+    reopened = [].filter.call(document.querySelectorAll('details'), function (d) { return !d.open; });
+    reopened.forEach(function (d) { d.open = true; });
+  });
+  window.addEventListener('afterprint', function () {
+    reopened.forEach(function (d) { d.open = false; });
+    reopened = [];
+  });
 })();

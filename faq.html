@@ -4,8 +4,14 @@
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1424" media="(prefers-color-scheme: dark)">
 <title>FAQ - Shared EV Charging</title>
-<meta name="description" content="Answers to common questions about shared EV charging in apartment buildings: capacity sharing, internet outages, standards and project status.">
+<meta name="description" content="Answers about shared EV charging: a charger on a wireless mesh, meters and local load management, plus internet outages, standards and project status.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FAQ - Shared EV Charging">
+<meta property="og:description" content="Answers about shared EV charging: a charger on a wireless mesh, meters and local load management, plus internet outages, standards and project status.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What problem does this solve?","acceptedAnswer":{"@type":"Answer","text":"Apartment buildings often lack the capacity for every resident to charge at full power at once. The system shares the building's existing capacity instead of needing an upgrade. It is designed as three parts: a charger on a mesh, meters, and load management."}},{"@type":"Question","name":"Does every car get full speed?","acceptedAnswer":{"@type":"Answer","text":"No. When capacity is short, some vehicles may be slowed, paused or queued. The policy is still to be defined. The system aims to keep total demand within the building's limit."}},{"@type":"Question","name":"What does the system measure?","acceptedAnswer":{"@type":"Answer","text":"Each charger measures its own energy, voltage, current and power. The building's base load is measured too, so the system knows what is left. Still to be decided: the building meter, required accuracy, reporting rate, and whether readings suit billing. See the metering section."}},{"@type":"Question","name":"What if the internet goes down?","acceptedAnswer":{"@type":"Answer","text":"Capacity sharing runs on the local load-management unit, which is designed to keep working without the internet. Data is designed to be stored locally and sent when the connection returns. A charger that loses contact with the unit falls back to a safe current; the value and timeout are not yet decided."}},{"@type":"Question","name":"Do chargers need data cables?","acceptedAnswer":{"@type":"Answer","text":"The proposed design links chargers and the load-management unit over a wireless mesh, which is intended to avoid new data cables."}},{"@type":"Question","name":"How do chargers talk?","acceptedAnswer":{"@type":"Answer","text":"In the proposed design, our chargers and the load-management unit form their own wireless network. Each charger is designed to pass messages along for its neighbours, so a distant one can still be reached. The unit sends each its share, and chargers send readings back. The network layout is not yet decided. See how it works."}},{"@type":"Question","name":"Which standards does it follow?","acceptedAnswer":{"@type":"Answer","text":"Our charger is designed to follow the SAE J1772 and IEC 61851 control-pilot standards for AC charging, and uses OCPP 1.6 for the backend link. The full list of standards and certifications is still being confirmed."}},{"@type":"Question","name":"Is it ready to install?","acceptedAnswer":{"@type":"Answer","text":"Not yet. It is a prototype in development with working-draft requirements, and has not been validated on a real installation."}},{"@type":"Question","name":"Does it need a cloud service?","acceptedAnswer":{"@type":"Answer","text":"No. Local control is designed not to depend on the cloud. The OCPP link to a charging network operator is optional for local operation, used for reporting and remote start and stop."}},{"@type":"Question","name":"What about solar, batteries and vehicle-to-grid?","acceptedAnswer":{"@type":"Answer","text":"These are possible later work. They are not in the first version."}}]}</script>
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -35,6 +41,7 @@
 <div class="wrap">
 <p class="eyebrow">Reference</p>
 <h1>Frequently asked questions</h1>
+<button type="button" class="motion-btn" data-motion-toggle aria-pressed="false"><span class="m-pause">Pause animation</span><span class="m-play">Play animation</span></button>
 <div class="phero-art" aria-hidden="true"><div class="s3x s3-q"><div class="s3-stage"><div class="s3-rig">
 <div class="s3-slab"><svg viewBox="0 0 100 100" focusable="false"><rect class="k-f" x="0" y="0" width="100" height="100"/><rect class="k-h" x="30" y="30" width="40" height="40" rx="2" stroke-dasharray="4 4"/></svg><div class="s3-face l ey"></div><div class="s3-face r ex"></div></div>
 <div class="b3 qmark3" style="--x:38%;--y:38%"></div>
@@ -47,7 +54,7 @@
 <details class="faq-item reveal">
 <summary><span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 bld3" style="--x:24%;--y:30%"></div></span></span></span><h2>What problem does this solve?</h2></summary>
 <div class="faq-body">
-<p>Apartment buildings often lack the capacity for every resident to charge at full power at once. The system shares the building's existing capacity instead of needing an upgrade.</p>
+<p>Apartment buildings often lack the capacity for every resident to charge at full power at once. The system shares the building's existing capacity instead of needing an upgrade. It is designed as three parts: a charger on a mesh, meters, and load management.</p>
 </div>
 </details>
 <details class="faq-item reveal">

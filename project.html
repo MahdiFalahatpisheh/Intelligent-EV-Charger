@@ -4,8 +4,13 @@
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1424" media="(prefers-color-scheme: dark)">
 <title>Project - Shared EV Charging</title>
-<meta name="description" content="Project status, roadmap and who the shared EV charging system is for: building owners, residents and utilities.">
+<meta name="description" content="Project status and roadmap for a prototype with three parts: a charger on a wireless mesh, meters and local load management, for owners and residents.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Project - Shared EV Charging">
+<meta property="og:description" content="Project status and roadmap for a prototype with three parts: a charger on a wireless mesh, meters and local load management, for owners and residents.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -35,6 +40,7 @@
 <div class="wrap">
 <p class="eyebrow">Status</p>
 <h1>Project</h1>
+<button type="button" class="motion-btn" data-motion-toggle aria-pressed="false"><span class="m-pause">Pause animation</span><span class="m-play">Play animation</span></button>
 <div class="phero-art" aria-hidden="true"><div class="scene3d s3-pr"><div class="s3-stage"><div class="s3-rig">
 <div class="s3-slab"><svg viewBox="0 0 100 100" focusable="false"><rect class="k-f" x="0" y="0" width="100" height="100"/><rect class="k-h" x="6" y="30" width="26" height="46" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="37" y="30" width="26" height="46" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="68" y="30" width="26" height="46" rx="1" stroke-dasharray="4 4"/><path class="k-a k-flow" d="M32 53H37M63 53H68"/></svg><div class="s3-face l ey"></div><div class="s3-face r ex"></div></div>
 <div class="b3 chg3" style="--x:14%;--y:40%"></div><div class="b3 chg3" style="--x:21%;--y:50%"></div>
@@ -49,7 +55,7 @@
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 bld3" style="--x:24%;--y:30%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Project</p><h2>What it is</h2></div>
-<p>An engineering project that aims to add EV charging to apartment buildings by managing the capacity they already have, not by upgrading the service.</p>
+<p>An engineering project that aims to add EV charging to apartment buildings by managing the capacity they already have, not by upgrading the service. It is designed as three parts: a charger on a mesh, meters, and load management.</p>
 </section>
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 chg3 is-limited" style="--x:34%;--y:34%"></div></span></span></span>
@@ -59,7 +65,7 @@
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 pcb3" style="--x:14%;--y:30%"></div><div class="b3 chip3" style="--x:38%;--y:40%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Project</p><h2>Scope</h2></div>
-<p>The proposed first version covers AC charging control, per-charger metering, local capacity sharing, a wireless mesh, an OCPP link, and local logging and diagnostics.</p>
+<p>The proposed first version covers AC charging control, <a href="technology.html#metering">per-charger metering</a>, local capacity sharing, a wireless mesh, an OCPP link, and local logging and diagnostics.</p>
 </section>
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 bat3" style="--x:22%;--y:34%"></div></span></span></span>
@@ -71,10 +77,10 @@
 <div class="section"><div class="wrap"><section class="next reveal">
 <p class="eyebrow">Build log</p><h2>What has been done</h2>
 <ul>
-<li><span class="pic3 scene3d step3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 step-b rise" style="--x:34%;--y:34%;--bh:18cqw;--a:0"></div></span></span></span><time datetime="2026-10">Early October</time>: Requirements, design drafts and a gap analysis written. First-revision schematic reviewed.</li>
-<li><span class="pic3 scene3d step3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 step-b rise" style="--x:34%;--y:34%;--bh:26cqw;--a:0"></div></span></span></span><time datetime="2026-10">Early October</time>: First board-validation scripts written and reviewed, for the bench.</li>
-<li><span class="pic3 scene3d step3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 step-b rise" style="--x:34%;--y:34%;--bh:34cqw;--a:0"></div></span></span></span><time datetime="2026-10">Mid October</time>: First version of this website built.</li>
-<li><span class="pic3 scene3d step3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 step-b rise" style="--x:34%;--y:34%;--bh:42cqw;--a:0"></div></span></span></span><time datetime="2026-10">Mid October</time>: Product settled: control board and wireless-mesh radio built into our own charger.</li>
+<li><span class="pic3 scene3d step3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 step-b rise" style="--x:34%;--y:34%;--bh:18cqw;--a:0"></div></span></span></span><span class="next-txt"><time datetime="2026-10">Early October</time>: Requirements, design drafts and a gap analysis written. First-revision schematic reviewed.</span></li>
+<li><span class="pic3 scene3d step3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 step-b rise" style="--x:34%;--y:34%;--bh:26cqw;--a:0"></div></span></span></span><span class="next-txt"><time datetime="2026-10">Early October</time>: First board-validation scripts written and reviewed, for the bench.</span></li>
+<li><span class="pic3 scene3d step3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 step-b rise" style="--x:34%;--y:34%;--bh:34cqw;--a:0"></div></span></span></span><span class="next-txt"><time datetime="2026-10">Mid October</time>: First version of this website built.</span></li>
+<li><span class="pic3 scene3d step3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 step-b rise" style="--x:34%;--y:34%;--bh:42cqw;--a:0"></div></span></span></span><span class="next-txt"><time datetime="2026-10">Mid October</time>: Product settled: control board and wireless-mesh radio built into our own charger.</span></li>
 </ul>
 </section>
 </div></div>

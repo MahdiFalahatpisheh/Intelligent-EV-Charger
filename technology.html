@@ -4,8 +4,13 @@
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1424" media="(prefers-color-scheme: dark)">
 <title>Technology - Shared EV Charging</title>
-<meta name="description" content="The parts of the proposed system in plain language: load-management unit, charger with built-in metering, wireless mesh and OCPP 1.6 link, and why each was chosen.">
+<meta name="description" content="The proposed parts in plain language: a charger on a wireless mesh, meters and local load management, an OCPP 1.6 link, and why each was chosen.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Technology - Shared EV Charging">
+<meta property="og:description" content="The proposed parts in plain language: a charger on a wireless mesh, meters and local load management, an OCPP 1.6 link, and why each was chosen.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -60,51 +65,63 @@
 <div class="s3-layer s3-mesh" data-part-art="mesh"><svg viewBox="0 0 100 100" focusable="false"><path class="k-a k-flow" d="M27 57H50M54 57H68M72 57H86"/><path class="k-a k-flow" d="M24 54C40 42 70 42 84 54"/><g class="radio"><circle class="k-a wave" cx="50.3" cy="57" r="6"/><circle class="k-a wave w2" cx="50.3" cy="57" r="6"/><circle class="k-a wave" cx="68.3" cy="57" r="6"/><circle class="k-a wave w2" cx="68.3" cy="57" r="6"/><circle class="k-a wave" cx="86.3" cy="57" r="6"/><circle class="k-a wave w2" cx="86.3" cy="57" r="6"/></g><circle class="pkt" r="2.2" cx="0" cy="0" style="offset-path:path('M27 57H50H68H86');--pl:-1s;--pd:5s"/></svg></div>
 <div class="b3 bld3 bld3-big" style="--x:6%;--y:2%"></div><div class="pa" data-part-art="ocpp"><div class="b3 ant3" style="--x:38%;--y:6%"></div><div class="s3-layer s3-up"><svg viewBox="0 0 100 100" focusable="false"><path class="k-a k-flow" d="M39 8L80 8"/></svg></div><div class="cld3 cld-main" style="--x:80%;--y:8%;--z:30cqw"><svg viewBox="0 0 32 32" focusable="false"><path class="cld-body" d="M16 7a7.66 7.66 0 0 1 1.51.15 8 8 0 0 1 6.35 6.34l.26 1.35 1.35.24a5.5 5.5 0 0 1-1 10.92H7.5a5.5 5.5 0 0 1-1-10.92l1.34-.24.26-1.35A8 8 0 0 1 16 7Z"/></svg></div></div>
 </div></div></div><svg class="hs-leaders" aria-hidden="true" focusable="false" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="18" y1="12" x2="45.5" y2="24.5"/><circle cx="45.5" cy="24.5" r="1.1"/><line x1="18" y1="88" x2="41.8" y2="66"/><circle cx="41.8" cy="66" r="1.1"/><line x1="80" y1="22" x2="52" y2="45"/><circle cx="52" cy="45" r="1.1"/><line x1="86" y1="82" x2="66" y2="52"/><circle cx="66" cy="52" r="1.1"/></svg><button type="button" class="hotspot" data-part="controller" style="--dx:42.7%;--dy:64%;--mx:18%;--my:88%" aria-expanded="true" aria-controls="part-controller"><svg aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"/></svg><span class="visually-hidden">Load-management unit</span></button><button type="button" class="hotspot" data-part="board" style="--dx:66.5%;--dy:53%;--mx:86%;--my:82%" aria-expanded="false" aria-controls="part-board"><svg aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"/></svg><span class="visually-hidden">Charger control electronics</span></button><button type="button" class="hotspot" data-part="mesh" style="--dx:56%;--dy:45.5%;--mx:80%;--my:22%" aria-expanded="false" aria-controls="part-mesh"><svg aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"/></svg><span class="visually-hidden">Wireless mesh</span></button><button type="button" class="hotspot" data-part="ocpp" style="--dx:45.8%;--dy:17%;--mx:18%;--my:12%" aria-expanded="false" aria-controls="part-ocpp"><svg aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"/></svg><span class="visually-hidden">OCPP backend link</span></button><button type="button" class="motion-btn" data-motion-toggle><span class="m-pause">Pause animation</span><span class="m-play">Play animation</span></button></div>
-<ul class="cutaway-parts" aria-live="polite"><li id="part-controller" data-part-card="controller" class="is-active"><strong>Load-management unit</strong><span>Decides how much current each car gets.</span></li><li id="part-board" data-part-card="board"><strong>Charger control electronics</strong><span>Built into our charger. Talks to the car, measures power, switches charging.</span></li><li id="part-mesh" data-part-card="mesh"><strong>Wireless mesh</strong><span>Chargers pass messages along for their neighbours.</span></li><li id="part-ocpp" data-part-card="ocpp"><strong>OCPP backend link</strong><span>How chargers report to an operator.</span></li></ul></figure></section>
+<figcaption class="note" data-copy="cutaway-cap">Illustration only. Shows a proposed layout.</figcaption><ul class="cutaway-parts" aria-live="polite"><li id="part-controller" data-part-card="controller" class="is-active"><strong>Load-management unit</strong><span>Designed to decide how much current each car gets.</span></li><li id="part-board" data-part-card="board"><strong>Charger control electronics</strong><span>Built into our charger. Designed to talk to the car, measure power and switch charging.</span></li><li id="part-mesh" data-part-card="mesh"><strong>Wireless mesh</strong><span>Each charger is designed to pass messages along for its neighbours.</span></li><li id="part-ocpp" data-part-card="ocpp"><strong>OCPP backend link</strong><span>How chargers report to an operator.</span></li></ul></figure></section>
 </div></div>
 <div class="section alt"><div class="wrap"><div class="cards spec">
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 unit3 lim3" style="--x:26%;--y:34%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Part</p><h2>Load-management unit</h2></div>
-<p>In the proposed design, each of our chargers combines a Raspberry Pi 5 computer, which runs the supervisory software, with our own control board and wireless-mesh radio in one enclosure. A building-level allocator shares capacity. Where it runs is not yet decided.</p>
-<p class="summary"><strong>In short:</strong> It decides how much current each car gets.</p>
+<p class="summary"><strong>In short:</strong> It is designed to decide how much current each car gets.</p>
+<details class="more"><summary>Show the detail and rationale</summary>
+<p>Proposed, and still to be confirmed: at each charging point, one Raspberry Pi 5 computer runs the supervisory software beside a controller board with a wireless-mesh radio. A building-level allocator is designed to share capacity. Where it runs is not yet decided.</p>
 <p class="why-choice"><strong>Rationale:</strong> A widely available computer keeps decisions local, so they should work without the internet.</p>
+</details>
 </section>
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 pcb3" style="--x:14%;--y:30%"></div><div class="b3 chip3" style="--x:38%;--y:40%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Part</p><h2>Charger control electronics</h2></div>
-<p>The control board in our charger talks to the vehicle through the control pilot signal, measures power and switches the charging relay. It is designed to follow the SAE J1772 and IEC 61851 control-pilot standards for AC charging.</p>
-<p class="summary"><strong>In short:</strong> Talks to the car, measures power, switches charging.</p>
+<p class="summary"><strong>In short:</strong> Designed to talk to the car, measure power and switch charging.</p>
+<details class="more"><summary>Show the detail and rationale</summary>
+<p>The control board in our charger is designed to talk to the vehicle through the control pilot signal, measure power and switch the charging relay. It is designed to follow the SAE J1772 and IEC 61851 control-pilot standards for AC charging.</p>
 <p class="why-choice"><strong>Rationale:</strong> One built-in board carries the control signal and the meter.</p>
+</details>
 </section>
 <section class="card reveal" id="metering">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 mtr3" style="--x:22%;--y:30%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Part</p><h2>Metering</h2></div>
-<p>Each charger measures its own energy, voltage, current and power. The building's total is measured too and passed to the unit, which shares capacity under the building limit. Values are reported to the back office over OCPP 1.6.</p>
+<p class="summary"><strong>In short:</strong> The system is designed to know what each charger and the building use.</p>
+<details class="more"><summary>Show the detail and rationale</summary>
+<p>Each charger is designed to measure its own energy, voltage, current and power. The building's total is designed to be measured too and passed to the unit, which shares capacity under the building limit. Values are designed to be reported to the back office over OCPP 1.6.</p>
 <p>Required accuracy and reporting rate are not yet decided.</p>
-<p class="summary"><strong>In short:</strong> The system knows what each charger and the building use.</p>
 <p class="why-choice"><strong>Rationale:</strong> The unit can only hold the building under its limit if it sees what is drawn.</p>
+</details>
 </section>
 <section class="card reveal" id="mesh">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 chg3" style="--x:8%;--y:34%"></div><div class="b3 chg3" style="--x:58%;--y:34%"></div><div class="s3-layer"><svg viewBox="0 0 100 100" focusable="false" style="transform:translateZ(0)"><path class="k-a k-flow" d="M28 42H66"/></svg></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Part</p><h2>Wireless mesh</h2></div>
-<p>Our chargers talk over a wireless mesh, with the radio built in. It needs no mobile plan and no building Wi-Fi. Its longer-range link should reach between floors, but range is not yet proven in a building.</p>
-<p class="summary"><strong>In short:</strong> Chargers pass messages along for their neighbours.</p>
+<p class="summary"><strong>In short:</strong> Each charger is designed to pass messages along for its neighbours.</p>
+<details class="more"><summary>Show the detail and rationale</summary>
+<p>Our chargers are designed to talk over a wireless mesh, with the radio built in. The mesh is designed to need no mobile plan and no building Wi-Fi. Its longer-range link should reach between floors, but range is not yet proven in a building.</p>
 <p class="why-choice"><strong>Rationale:</strong> A mesh is intended to reach across floors without new data cables and route around a failed node. Coverage in real garages is still to be tested.</p>
+</details>
 </section>
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 srv3" style="--x:26%;--y:34%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Part</p><h2>OCPP backend link</h2></div>
-<p>The system reports sessions and meter values to a charging network operator over OCPP 1.6, and supports remote start and stop. Local control is designed not to depend on this link.</p>
 <p class="summary"><strong>In short:</strong> How chargers report to an operator.</p>
+<details class="more"><summary>Show the detail and rationale</summary>
+<p>The system is designed to report sessions and meter values to a charging network operator over OCPP 1.6, and to support remote start and stop. Local control is designed not to depend on this link.</p>
 <p class="why-choice"><strong>Rationale:</strong> OCPP 1.6 is open, so the system is not tied to one operator.</p>
+</details>
 </section>
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 chg3 is-limited" style="--x:34%;--y:34%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Part</p><h2>Safety</h2></div>
-<p>Software test results alone never clear a real charging session. Simulated, bench and system-level validation are kept separate.</p>
 <p class="summary"><strong>In short:</strong> Passing tests never permits charging a real car.</p>
+<details class="more" open><summary>Show the detail and rationale</summary>
+<p>Software test results alone never clear a real charging session. Simulated, bench and system-level validation are kept separate.</p>
 <p class="why-choice"><strong>Rationale:</strong> Separate levels tie each claim to its evidence until proven on a real installation.</p>
+</details>
 </section>
 </div>
 </div></div>

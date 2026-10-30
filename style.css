@@ -148,7 +148,9 @@ nav a{display:block;padding:.5rem 0;min-height:2.75rem}
 .section h2{margin-top:0;max-width:32ch}
 .section p.eyebrow+h2{margin-top:0}
 .lead{font-size:var(--fs-1);color:var(--c-text);max-width:62ch;margin-bottom:var(--s-5)}
-.note{font:500 var(--fs-s)/1.5 var(--f-body);color:var(--c-muted);max-width:none}
+.note{display:block;text-align:left;font:500 var(--fs-s)/1.5 var(--f-body);color:var(--c-text);background:var(--c-tint);border-left:4px solid var(--c-accent);border-radius:0 var(--r) var(--r) 0;padding:var(--s-2) var(--s-3);max-width:62ch}
+/* status-caveat marker: decorative ring, no text, not announced */
+.note::before{content:"";content:"" / "";display:inline-block;width:.5rem;height:.5rem;margin-right:.5rem;border:2px solid var(--c-accent);border-radius:50%;vertical-align:.05em}
 /* scroll-reveal hook: inert until site.js adds html.js and toggles .is-visible */
 .reveal{--reveal-y:8px}
 html.js .reveal:not(.is-visible){opacity:0;transform:translateY(var(--reveal-y))}
@@ -297,6 +299,9 @@ html:not(.js) .motion-btn{display:none}
 .is-paused .motion-btn .m-play{display:inline}
 .story3-stage{position:relative}
 .story3-stage>.motion-btn{margin-top:var(--s-3)}
+.story3-stage>.note{margin:var(--s-3) auto 0;max-width:min(62ch,calc(100% - 2*var(--gutter)))}
+.story3-stage>.s3-ill-live{display:none}
+@media screen and (prefers-reduced-motion:no-preference){.is-live .story3-stage>.note{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}.is-live .story3-stage>.s3-ill-live{display:block;top:.5rem;right:max(var(--gutter),calc(50% - min(18rem,(100svh - var(--hdr) - 15rem)*.6667)*(1 - var(--in5)) - min(18rem,(100svh - var(--hdr) - 15rem)*.5)*var(--in5)));bottom:auto;z-index:3}}
 .cutnet-fig,.cutaway-stage{position:relative}
 .cutnet-fig{padding-bottom:3.25rem}
 .cutaway-stage{margin-bottom:3.25rem}
@@ -321,9 +326,11 @@ html:not(.js) .motion-btn{display:none}
 @media (min-width:48rem){.meters{padding:var(--s-5);display:grid;grid-template-columns:minmax(0,1fr) 15rem;column-gap:var(--s-6);align-items:start}.meters>*{grid-column:1}.meters>.meters-fig{grid-column:2;grid-row:1/span 6}}
 .meters-h{margin:0 0 var(--s-3)}
 .meters-text{max-width:62ch}
-.meters-note{margin:var(--s-3) 0;padding-top:var(--s-3);border-top:var(--bd)}
+.meters-note{margin:var(--s-3) 0}
 .meters-link{margin:0}
 .meters-link a{display:inline-block;padding-block:.75rem;margin-block:-.75rem;font-weight:600}
+/* W-P-42.1: standalone text links get a 44 px hit area; negative margin cancels the padding so text does not move. Inline links in sentences are not matched; .load-text and #load links are already 44 px (rule near line 675). */
+.feature-text>p:last-child>a:only-child,.card>p:last-child>a:only-child:not([href="index.html#load"]){display:inline-block;padding-block:.75rem;margin-block:-.75rem}
 .meters-fig{margin:var(--s-3) 0 var(--s-4);text-align:center}
 .meters-fig .art{max-width:15rem;width:100%;margin-inline:auto;display:block}
 .meters-fig figcaption{margin-top:var(--s-2);text-align:center}
@@ -367,7 +374,7 @@ html:not(.js) .demo-ui{display:none}
 .demo-car{display:grid;grid-template-columns:2.5rem 1fr auto;gap:var(--s-1) var(--s-3);align-items:center}
 .demo-car .car-ic{--cs:currentColor;--cf:transparent;width:2.5rem;height:auto;aspect-ratio:3/1;color:var(--c-accent)}
 .demo-plug{display:flex;align-items:center;gap:var(--s-2);min-height:2.75rem;cursor:pointer;font-weight:600;white-space:nowrap;grid-column:2;grid-row:1}
-.demo-plug input{width:1.4rem;height:1.4rem;accent-color:var(--c-accent)}
+.demo-plug input{width:1.5rem;height:1.5rem;accent-color:var(--c-accent)}
 .demo-state{font-size:var(--fs-s);color:var(--c-muted);grid-column:3;grid-row:1}
 .demo-track{grid-column:1/-1;height:.75rem;border-radius:2px;background:var(--c-tint);border:1px solid var(--c-border);overflow:hidden}
 .demo-bar{position:relative;overflow:hidden;height:100%;width:0;border-radius:1px;background:var(--c-accent);transition:width .3s ease}
@@ -404,6 +411,8 @@ html:not(.js) .demo-ui{display:none}
 /* ---- install comparison ---- */
 .install-grid{display:grid;gap:var(--s-4);margin-block:var(--s-4)}
 @media (min-width:44rem){.install-grid{grid-template-columns:1fr 1fr}}
+.install-grid+.note{max-width:none;margin:0 0 var(--s-4);padding:0;text-align:center;font-weight:400;color:var(--c-muted);background:none;border:0;border-radius:0}
+.install-grid+.note::before{display:none}
 .install-panel{margin:0;padding:var(--s-3)}
 .install-panel>.art{border:var(--bd);border-radius:var(--r);background-color:var(--c-bg)}
 .install-panel h3{margin:var(--s-3) 0 var(--s-2)}
@@ -456,6 +465,7 @@ footer a,.cta-note a{display:inline-flex;align-items:center;min-height:2.75rem}
 .flow .node text{fill:var(--c-text);font:600 17px var(--f-body)}
 .flow .arrow{fill:none;stroke:var(--c-accent);stroke-width:1.5;stroke-linecap:round}
 .flow .narrow{display:none;max-width:20rem}
+.flow .note{max-width:52rem;margin-inline:auto}
 .flow .loop{stroke-dasharray:6 6;animation:dash 1.6s linear infinite}
 @keyframes dash{to{stroke-dashoffset:-24}}
 @media (max-width:40rem){.flow .wide{display:none}.flow .narrow{display:block}}
@@ -499,6 +509,7 @@ html:not(.js) .cutnet-btn{display:none}
 .cutaway h2{margin-top:0}
 .cutaway-fig{position:relative;margin:var(--s-3) 0 0;padding:var(--s-3)}
 .cutaway-fig .art{max-width:44rem;margin-inline:auto}
+.cutaway-fig>figcaption.note{margin-top:var(--s-2);max-width:44rem;margin-inline:auto}
 .cutaway-stage{max-width:44rem;margin-inline:auto}
 .hotspot{position:absolute;left:var(--x);top:var(--y);width:2.75rem;height:2.75rem;margin:-1.375rem 0 0 -1.375rem;padding:0;border-radius:50%;border:1.5px solid var(--c-accent);background:var(--c-bg);color:var(--c-accent);cursor:pointer;display:grid;place-items:center}
 .hotspot svg{width:1.25rem;height:1.25rem}
@@ -545,7 +556,30 @@ html.js .cutaway-parts li:not(.is-active){display:none}
 .cards.cards--compact>.card>h2{grid-row:1;margin:0;padding-right:var(--s-5)}
 .cards.cards--compact>.card>p{grid-column:1/-1;grid-row:auto;margin-top:var(--s-2)}
 .cards.cards--compact>.card>p~p{margin-top:0}
+.cards.cards--compact>.card>.more{grid-column:1/-1;grid-row:auto;margin-top:var(--s-2)}
 .cards.spec>.card::before{top:var(--s-3);right:var(--s-3)}
+}
+
+/* technology part cards (not the compact how-it-works cards) at <= 30rem (480 px): icon beside the card head, tighter spacing.
+   30rem = 480 px at default size; below the 37.49rem subgrid breakpoint, so no clash with it. */
+@media (max-width:30rem){
+.cards.spec:not(.cards--compact)>.card{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:var(--s-3);align-items:center;align-content:start;padding:var(--s-3)}
+.cards.spec:not(.cards--compact)>.card>.pic3{grid-column:1;grid-row:1;margin:0}
+.cards.spec:not(.cards--compact)>.card>.card-head{grid-column:2;grid-row:1;margin:0;min-width:0}
+.cards.spec:not(.cards--compact){gap:var(--s-3)}
+.cards.spec:not(.cards--compact)>.card>p{grid-column:1/-1;grid-row:auto;margin:var(--s-2) 0 0;line-height:1.5}
+.cards.spec:not(.cards--compact)>.card>.summary+.why-choice{margin-top:var(--s-2)}
+}
+
+/* technology Part cards: details.more spans the full card width; summary compact once JS opens everything (>= 30.0625rem) */
+.cards.spec:not(.cards--compact)>.card>.more{grid-column:1/-1;grid-row:auto;margin:var(--s-2) 0 0}
+@media (min-width:37rem){
+.cards.spec:not(.cards--compact)>.card>.summary{grid-row:3}
+.cards.spec:not(.cards--compact)>.card>.more{grid-row:4/7}
+}
+@media (min-width:30.0625rem){
+.cards.spec:not(.cards--compact)>.card>.more>summary{min-height:1.75rem;padding:var(--s-1) var(--s-3)}
+.cards.spec:not(.cards--compact)>.card>.more[open]>summary{margin-bottom:var(--s-2)}
 }
 
 /* ---- project: timeline, next steps, audience ---- */
@@ -577,11 +611,23 @@ html.js .timeline li:not(.is-active) .tl-detail{display:none}
 .next ul{list-style:none;margin:var(--s-4) 0 0;padding:0;counter-reset:n;display:grid;gap:var(--s-3)}
 .next li{counter-increment:n;display:flex;gap:var(--s-3);align-items:flex-start;background:var(--c-bg);border:var(--bd);border-radius:var(--r);padding:var(--s-3) var(--s-4);box-shadow:var(--shadow-1)}
 .next li::before{content:counter(n,decimal-leading-zero);flex:none;min-width:2rem;font:500 var(--fs-s)/1.6 var(--f-mono);letter-spacing:.04em;color:var(--c-accent)}
+.next-txt{flex:1 1 0;min-width:0}
 .audience ul{list-style:none;margin:var(--s-4) 0 0;padding:0;display:grid;gap:var(--s-4);grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr))}
 .audience li{padding:var(--s-4)}
 .audience .pic{margin-bottom:var(--s-3)}
 .audience strong{display:block;font:600 var(--fs-1)/1.25 var(--f-head);margin-bottom:var(--s-2)}
 .badge{font:600 var(--fs-xs)/1.4 var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--c-muted)}
+
+/* ---- disclosure control (details.more) ---- */
+.more{margin:var(--s-3) 0}
+.more>summary{display:flex;align-items:center;gap:var(--s-2);min-height:2.75rem;padding:var(--s-2) var(--s-3);margin-inline:calc(-1*var(--s-2));cursor:pointer;list-style:none;font-weight:600;color:var(--c-accent);border:1.5px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg)}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary::before{content:"";flex:none;width:1.25rem;height:1.25rem;background:currentColor;-webkit-mask:var(--ic-chev) center/contain no-repeat;mask:var(--ic-chev) center/contain no-repeat;transform:rotate(-90deg)}
+.more[open]>summary::before{transform:rotate(0)}
+.more>summary:hover{background:var(--c-tint);color:var(--c-accent-hover)}
+.more>summary:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
+.more[open]>summary{margin-bottom:var(--s-3);border-color:var(--c-accent)}
+@media (prefers-reduced-motion:no-preference){.more>summary::before{transition:transform .2s}}
 
 /* ---- faq ---- */
 .faq{display:grid;gap:var(--s-2);margin-bottom:var(--s-4)}
@@ -744,6 +790,7 @@ background-image:linear-gradient(var(--c-grid) 1px,transparent 1px),linear-gradi
 .s3-rig svg .k-a{fill:none;stroke:var(--c-accent);stroke-width:var(--s3-w);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .s3-rig svg .k-w{fill:none;stroke:var(--c-signal);stroke-width:var(--s3-w);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .s3-rig svg .k-flow{stroke-dasharray:5 6;animation:dash14 1.6s linear infinite}
+html:not(.js) .s3-h .k-flow{animation:none}  /* no JS = no Pause button: hero line stays a static dashed line (WCAG 2.2.2) */
 .s3-rig svg .k-aps{fill:color-mix(in srgb,var(--c-accent) 16%,var(--c-bg));stroke:var(--c-accent);stroke-width:var(--s3-w);stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .s3-rig svg .k-wps{fill:color-mix(in srgb,var(--c-signal) 16%,var(--c-bg));stroke:var(--c-signal);stroke-width:var(--s3-w);stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .s3-rig svg .k-dot{fill:var(--c-accent);stroke:none}
@@ -1038,6 +1085,7 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 /* page hero template (all sub-pages) */
 .page-head.has-art{padding-block:calc(var(--section-pad)*.7) var(--s-5);background:radial-gradient(60% 90% at 88% 0%,var(--c-glow),transparent 70%),var(--c-surface)}
 .page-head.has-art .wrap{display:grid;gap:var(--s-2)}
+.page-head .wrap>.motion-btn{margin:var(--s-2) 0 0;justify-self:start}
 .phero-art{position:relative;isolation:isolate;width:100%;max-width:35rem;margin:var(--s-3) auto 0}
 .phero-art::before{content:"";position:absolute;inset:-6% -4%;z-index:-1;background:radial-gradient(closest-side,var(--c-glow),transparent 75%)}
 .phero-art .s3-stage{border:0;background:none;box-shadow:none;overflow:visible;--ar:7/5}
@@ -1047,6 +1095,7 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .page-head.has-art .wrap>.eyebrow{grid-column:1;grid-row:2}
 .page-head.has-art .wrap>h1{grid-column:1;grid-row:3}
 .page-head.has-art .wrap>.lead{grid-column:1;grid-row:4}
+.page-head.has-art .wrap>.motion-btn{grid-column:1;grid-row:4}
 .phero-art{grid-column:2;grid-row:1/span 5;margin:0;max-width:none}}
 /* card heads with mono eyebrow, pic3 icons in cards */
 .cards>.card>.card-head{grid-row:2}
@@ -1111,6 +1160,7 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 /* how-it-works: outage story art */
 .story-art:has(.s3x){border:0;background:none;background-image:none;box-shadow:none}
 .story-art .s3x{max-width:20rem;margin-inline:auto}
+.story-art>.note{margin-top:var(--s-2)}
 .s3-s .s3-stage{--ar:1/1}
 .s3-s .s3-rig{--rw:46cqw;top:64%}
 .s3-s .bld3{--bw:24cqw;--bd:14cqw;--bh:22cqw}
@@ -1175,9 +1225,10 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .s3-d .s3-chip{padding-inline:.3rem}
 .s3-d .s3-chip.lead-r{--len-eff:1.5cqw}
 }
+/* W-P-79.1: how-it-works flow scene (.s3-f), Charge chip. !important beats the inline --x/--y on #fc3. Its target sits level with the end of the Share capacity chip at phone width, so the target moves down onto the charger body (still the same charger) and the chip clears the one above. */
+@media (max-width:30rem){#fc3{--x:64%!important;--y:32.5%!important}}
 
 /* ===== W-P-10: Project, FAQ, Contact, 404 ===== */
-.page-head.has-art .wrap>h1:first-child{grid-column:1;grid-row:3}
 /* new primitives */
 .cube3{--bw:5cqw;--bd:5cqw;--bh:6cqw}
 .pic3 .cube3{--bw:34cqw;--bd:34cqw;--bh:40cqw}
@@ -1307,7 +1358,7 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 /* live story: tabs float above the stage, panels follow their frame's caption fade, extra height reserved */
 @media (prefers-reduced-motion:no-preference){
 .is-live .story3-stage{padding-top:4rem}
-.is-live .s4-tabs:not([hidden]){position:absolute;top:.5rem;left:50%;translate:-50% 0;margin:0;z-index:4}
+.is-live .s4-tabs:not([hidden]){position:absolute;top:1.5rem;left:50%;translate:-50% 0;margin:0;z-index:4}
 .is-live .frame-fig .s3x{max-width:min(36rem,calc((100svh - var(--hdr) - 15rem)*1.3333))}
 .is-live [data-frame="5"] .s3x{max-width:min(36rem,calc(100svh - var(--hdr) - 15rem))}
 .is-live [data-frame="2"] :is(.s4-info,.s4-fallback){opacity:calc(var(--ci2)*(1 - var(--co3)))}
@@ -1457,7 +1508,7 @@ nav ul{gap:var(--s-1) var(--s-3)}
 .car3.is-full .soc{--sc:var(--c-ok);color:var(--c-ok)}
 .car3.is-full .soc-i{width:.8em;height:.8em;border-radius:0;background:var(--c-ok);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
 .car3.is-full .soc-n::after{color:inherit}
-.s3-ill{position:absolute;right:.5rem;bottom:.5rem;margin:0;font:500 .6875rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c-muted)}
+.s3-ill{position:absolute;right:.5rem;bottom:.5rem;margin:0;font:500 .75rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c-muted)}
 .hero3-art{position:relative;overflow-x:clip}
 /* no opacity here: opacity < 1 on a preserve-3d car flattens its boxes into flat tiles. The stage edge mask does the fade. */
 @keyframes s3-arrive{from{translate:0 var(--dd) 0}to{translate:0 0 0}}
@@ -1492,7 +1543,7 @@ html.js .car3.is-full .soc-i{animation:none}
 @media (max-width:37.49rem){.s3-h .s3-rig{--rw:60cqw;top:50%}}
 /* badge spacing: left and right columns lean outward in the screen plane, middle stays; smaller type on wide scenes */
 .s3-h .bay-1,.s3-h .bay-4{--col:-1}.s3-h .bay-3,.s3-h .bay-6{--col:1}
-.s3-h .soc{transform:translateZ(11.5cqw) rotateZ(calc(-1*var(--rz,-40deg) - var(--orb,0deg))) rotateX(calc(-1*var(--rx,58deg))) translateX(calc(var(--col,0)*var(--cs,4.2cqw)));font-size:max(.625rem,2.5cqw)}
+.s3-h .soc{transform:translateZ(14cqw) rotateZ(calc(-1*var(--rz,-40deg) - var(--orb,0deg))) rotateX(calc(-1*var(--rx,58deg))) translateX(calc(var(--col,0)*var(--cs,4.2cqw)));font-size:max(.625rem,2.5cqw)}
 @media (max-width:37.49rem){.s3-h .soc{--cs:4.8cqw;font-size:max(.625rem,2.9cqw)}}
 @media (max-width:37.49rem){.s3-h .soc{width:3.9em;margin-left:-1.95em}.s3-h .car3:not(.is-full) .soc-i{display:none}}
 
@@ -1505,3 +1556,72 @@ html.js .s3-h .s3-rig svg .k-pulse{animation:s3-pulse 1.1s linear infinite}
 .s3-h .row-b{--dd:74cqw}
 .s3-h .bay-3{--dd:-142cqw}
 .hero3-art .s3-stage{overflow:clip}  /* lanes and cars run past the stage; the edge mask fades them, the clip keeps them out of the page's scroll area */
+html:not(.js) :is(.k-flow,.led,.bar-fill){animation:none}  /* no JS = no Pause button (WCAG 2.2.2): looping flow lines, LEDs and bars stay static; dasharray is untouched so dashes still show */
+
+/* W-P-59: compact technology cutaway at <= 30rem (480 px). The stage is 10:7 instead of 1:1 (about 100 px shorter at 360); the scene shrinks as one piece
+   (k = .72: rig scale and perspective together, perspective-origin kept at the same point of the picture) and the hotspot anchors and .hs-leaders
+   follow the same map: x' = 50% + k*(x - 50%), y' = k*y + b (b = -1% of the width), so every leader still ends on its drawn part and every hotspot keeps its 44 px target. */
+@media (max-width:30rem){
+.cutaway-stage{--b:-1%}
+.s3-t .s3-stage{--ar:10/7;--persp:calc(170cqw*.72)}
+.s3-t .s3-rig{top:64.4%;scale:.72 .72 .72}
+html.js .hs-leaders{transform-origin:0 0;transform:translate(14%,calc(var(--b)/.7)) scale(.72,calc(.72/.7))}
+.cutaway .hotspot{--x:calc(50% + (var(--mx) - 50%)*.72);--y:calc((var(--my)*.72 + var(--b))/.7)}
+}
+/* W-P-60 / W-P-64 / W-P-66: across the whole compact range (<= 30rem, 480 px) the two bottom hotspots sit a little further out so they stop covering the plate corner and the cars.
+   The scene scales with the stage width, so the offset scales with it too (1.6cqw / 1.1cqw) and never drops below the measured 375 px values (6 px; 4 px) that cleared the plate at <= 375.
+   Controller: left only (it already nearly touches the stage bottom at 320); board: right and down. The plain px `translate` line before each `cqw` one is the fallback for browsers without cq units (they drop the cqw line). Individual `translate` only, so --x/--y, the leader endpoints (still under the 44 px target) and 768/1280 are untouched. */
+@media (max-width:30rem){
+.cutaway .hotspot[data-part="controller"]{translate:-6px 0;translate:calc(max(6px,1.6cqw)*-1) 0}
+.cutaway .hotspot[data-part="board"]{translate:4px 4px;translate:max(4px,1.1cqw) max(4px,1.1cqw)}
+}
+
+/* W-P-75: print. White page, dark text, in system light, system dark and data-theme="dark": the light token values are restated so no dark surface prints.
+   Menu button, nav, theme toggle and skip link are hidden; site name and footer stay; no content section is hidden; animation, transition and reveal states are off. */
+@media print{
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{
+--c-bg:#fff;--c-surface:#eaf1fb;--c-border:#c9d6ea;--c-border-strong:#5f7390;
+--c-text:#0b1f3a;--c-muted:#41536b;--c-signal:#8a5300;
+--c-accent:#1650b8;--c-accent-hover:#0f3f95;--c-on-accent:#fff;
+--c-navy:#0b1f3a;--c-on-navy:#fcfcfa;--c-focus:#1650b8;
+--c-cta-bg:#0b1f3a;--c-cta-bg2:#1650b8;--c-tint:#dde8f8;
+--c-glow:rgb(22 80 184/.14);--c-grid:rgb(22 80 184/.07);--c-ok:#0b7a3b;
+--shadow-1:none;--shadow-2:none;color-scheme:light}
+:root:not([data-theme="light"]) :is(.scene3d,.s3x,.pic3),:root[data-theme] :is(.scene3d,.s3x,.pic3){--s3-top:#eaf1fb;--s3-left:#d8e1ec;--s3-right:#c6cfdc;--s3-m1:8%;--s3-m2:16%}
+html,body{background:#fff;color:#000}
+*,*::before,*::after{animation:none!important;transition:none!important}
+html.js .reveal:not(.is-visible){opacity:1;transform:none}
+.skip,.motion-btn,[data-motion-toggle],.site-header nav,.nav-btn,.nav-toggle,#theme-toggle{display:none!important}
+.site-header{position:static}
+.cta{background:#fff;color:#000;border-top:1px solid #000}
+.cta,.cta :is(h2,h3,p,a,.btn){color:#000}
+.cta .btn{border-color:#000}
+.story3-track.is-live{height:auto!important}
+.is-live .story3-stage{position:static;height:auto;padding-top:0;display:block}
+.is-live .story3-frames{display:block}
+.is-live .frame{grid-area:auto;padding:var(--s-4) var(--gutter)}
+.is-live [data-frame]{--fp:1!important}
+.is-live .frame-fig .s3x{opacity:1!important;width:100%;max-width:28rem}
+.is-live .frame-fig figcaption{min-height:0;opacity:1!important}
+h1,h2,h3,.eyebrow{break-after:avoid}
+.section:has(>.wrap>.eyebrow:first-child){break-inside:avoid}
+footer{padding-block:var(--s-2);break-before:avoid}
+footer a{min-height:0}
+.btn,.hotspot,.tl-done .tl-node,.s4-tab[aria-current="true"],.s4-fl-btn[aria-pressed="true"],.s5-btn[aria-pressed="true"]{background:#fff!important;color:#000!important;border:1.5px solid #000}
+.hero3>.wrap>:not(.hero3-art){position:relative;z-index:2}
+.hero3-art{z-index:0}
+.story3-progress{display:none!important}
+figure,.card,.tease,.glance-item,.frame,.faq-item,.demo-car,.install-panel,.chart-card{break-inside:avoid}
+.cutaway-fig{break-inside:auto}
+.cutaway-stage{break-inside:avoid;break-after:avoid;max-width:30rem;margin-bottom:0}
+.page-head:has(+.status-band) .phero-art{max-width:18rem}
+.demo-bar,.demo-meter-fill{print-color-adjust:exact;-webkit-print-color-adjust:exact;border-right:2px solid #000}
+.demo-range,.demo-reset{display:none!important}
+.scene3d{--fp:1!important}
+.s3-chip{opacity:1!important}
+.more>summary{border:0!important;background:none!important;min-height:0!important;padding:0!important;margin:0 0 var(--s-1)!important;gap:0;font:600 var(--fs-xs)/1.4 var(--f-body);color:var(--c-muted)}
+.more>summary::before{display:none}
+}
+.note:is([data-copy=story-cap],[data-copy=mesh-ill],[data-copy=meters-fig-cap],[data-copy=chart-note],[data-copy=inst-ill],[data-copy=cutaway-cap],[data-copy=story-ill]){text-align:center;margin-inline:auto;padding:0;font-weight:400;color:var(--c-muted);background:none;border:0;border-radius:0}
+.note:is([data-copy=story-cap],[data-copy=mesh-ill],[data-copy=meters-fig-cap],[data-copy=chart-note],[data-copy=inst-ill],[data-copy=cutaway-cap],[data-copy=story-ill])::before{display:none}
+.demo-note{text-align:center;border:0;padding:0}

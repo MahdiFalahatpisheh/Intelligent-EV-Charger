@@ -4,8 +4,13 @@
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1424" media="(prefers-color-scheme: dark)">
 <title>How it works - Shared EV Charging</title>
-<meta name="description" content="How the system senses load, shares capacity between chargers and aims to keep charging safely when the internet or cloud connection is lost.">
+<meta name="description" content="How a charger on a wireless mesh, meters and local load management are designed to sense load, share capacity and aim to keep charging offline.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How it works - Shared EV Charging">
+<meta property="og:description" content="How a charger on a wireless mesh, meters and local load management are designed to sense load, share capacity and aim to keep charging offline.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -58,7 +63,7 @@
 <span class="s3-chip lead-r" id="fc1" style="--x:27.3%;--y:41.2%;--len:2cqw;--at:.05">Sense</span>
 <span class="s3-chip lead-d" id="fc2" style="--x:50.4%;--y:26.6%;--len:2.5cqw;--at:.3">Share capacity</span>
 <span class="s3-chip lead-l" id="fc3" style="--x:67.9%;--y:15.1%;--len:5cqw;--at:.55">Charge</span>
-</div></div></figure>
+</div></div><figcaption class="note">The load-management unit is designed to keep measuring and sharing capacity, aiming to hold demand within the building's limit.</figcaption></figure>
 </div></div>
 <div class="section"><div class="wrap">
 <section class="cutnet reveal" id="cutnet" data-cutnet data-offline="false" aria-labelledby="cutnet-h">
@@ -88,26 +93,29 @@
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 mtr3" style="--x:22%;--y:28%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Step</p><h2>Sense</h2></div>
-<p>Each charger measures the power its car draws. The load-management unit adds the building's other load, such as lighting and lifts, to see how much room is left. It also tracks which vehicles are plugged in or finished.</p>
+<p>Each charger is designed to measure the power its car draws. The load-management unit is designed to add the building's other load, such as lighting and lifts, to see how much room is left. It is also designed to track which vehicles are plugged in or finished.</p>
+<p><a href="technology.html#metering">Read about metering</a></p>
 </section>
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 unit3 lim3" style="--x:22%;--y:28%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Step</p><h2>Share capacity</h2></div>
-<p>The unit divides spare capacity among plugged-in vehicles, setting each charger's limit through the standard charging control signal. When there is not enough, charging can be paused or rotated. The sharing policy is still to be defined.</p>
+<p>The unit is designed to divide spare capacity among plugged-in vehicles, setting each charger's limit through the standard charging control signal. When there is not enough, charging can be paused or rotated. The sharing policy is still to be defined.</p>
 <p>Every building has a power limit. If many residents plug in at once, uncontrolled charging can pass it.</p>
 <p><a href="index.html#load">See why the building limit matters</a></p>
 </section>
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 chg3" style="--x:36%;--y:30%"></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Step</p><h2>Charge</h2></div>
-<p>Each charger delivers its allotted current. The unit keeps measuring, aiming to hold demand within the building's limit. A charger can pause a session when no capacity is available, then resume.</p>
+<p>Each charger is designed to deliver its allotted current. The unit is designed to keep measuring, aiming to hold demand within the building's limit. A charger can pause a session when no capacity is available, then resume.</p>
 </section>
 <section class="card reveal">
 <span class="pic3" aria-hidden="true"><span class="s3-stage"><span class="s3-rig"><div class="b3 unit3" style="--x:24%;--y:40%"></div><div class="cld3 cld-icon cld-main" style="--x:50%;--y:36%;--z:34cqw"><svg viewBox="0 0 32 32" focusable="false"><path class="cld-body" d="M16 7a7.66 7.66 0 0 1 1.51.15 8 8 0 0 1 6.35 6.34l.26 1.35 1.35.24a5.5 5.5 0 0 1-1 10.92H7.5a5.5 5.5 0 0 1-1-10.92l1.34-.24.26-1.35A8 8 0 0 1 16 7Z"/></svg></div><div class="cld3 cld-icon cld-slash-bb" style="--x:50%;--y:36%;--z:34cqw"><svg viewBox="0 0 32 32" focusable="false"><path class="cld-slash" d="M3 4L29 28"/></svg></div></span></span></span>
 <div class="card-head"><p class="eyebrow">Resilience</p><h2>Works without the cloud</h2></div>
-<p>Allocation runs locally. The goal is that charging continues safely without the internet, with data buffered until it returns. A fallback for a charger that loses the unit is planned; its behaviour is still being defined.</p>
-<p>Our chargers and the unit are linked by a local wireless mesh, so sharing does not need the internet. The arrangement is not yet decided.</p>
-<p>Wired setups can mean new cable to every charger, and a break means repairing the route. Our charger is fixed to the wall and paired to the mesh, so adding or moving one needs no new data cable. Quicker install and easier upkeep are aims, not yet measured.</p>
+<p>Allocation is designed to run locally. The goal is that charging continues safely without the internet, with data buffered until it returns. A fallback for a charger that loses the unit is planned; its behaviour is still being defined.</p>
+<details class="more"><summary>Show the mesh and install detail</summary>
+<p>Our chargers and the unit are designed to be linked by a local wireless mesh, so sharing is designed to work without the internet. The arrangement is not yet decided.</p>
+<p>Wired setups can mean new cable to every charger, and a break means repairing the route. Our charger is designed to be fixed to the wall and paired to the mesh, so adding or moving one needs no new data cable. Quicker install and easier upkeep are aims, not yet measured.</p>
+</details>
 <p><a href="technology.html#mesh">Read about the wireless mesh</a></p>
 </section>
 </div>
@@ -118,12 +126,12 @@
 <div class="b3 bld3 bld3-big s3-bld" style="--x:18%;--y:12%"></div>
 <div class="b3 unit3 lim3" style="--x:41%;--y:62%"></div>
 <div class="cld3 cld-main" style="--x:50%;--y:30%;--z:40cqw"><svg viewBox="0 0 32 32" focusable="false"><path class="cld-body" d="M16 7a7.66 7.66 0 0 1 1.51.15 8 8 0 0 1 6.35 6.34l.26 1.35 1.35.24a5.5 5.5 0 0 1-1 10.92H7.5a5.5 5.5 0 0 1-1-10.92l1.34-.24.26-1.35A8 8 0 0 1 16 7Z"/></svg></div><div class="cld3 cld-slash-bb" style="--x:50%;--y:30%;--z:40cqw"><svg viewBox="0 0 32 32" focusable="false"><path class="cld-slash" d="M3 4L29 28"/></svg></div>
-</div></div></div></div>
+</div></div></div><p class="note" data-copy="story-ill">Illustration of the design intent.</p></div>
 <p class="eyebrow">Outage</p><h2>When the internet drops</h2>
 <p>Picture an evening when many residents arrive home and the internet fails.</p>
-<p>By design, the chargers keep working. Sharing runs on the unit inside the building, not in the cloud.</p>
-<p>Meter readings and session records are stored locally and sent when the connection returns. Remote start and stop wait until then.</p>
-<p>A charger that loses contact with the unit falls back to a safe current until the link returns. The value and time allowed are still to be decided. The aim is to respect the building limit.</p>
+<p>By design, the chargers keep working. Sharing is designed to run on the unit inside the building, not in the cloud.</p>
+<p>Meter readings and session records are designed to be stored locally and sent when the connection returns. Remote start and stop wait until then.</p>
+<p>A charger that loses contact with the unit is designed to fall back to a safe current until the link returns. The value and time allowed are still to be decided. The aim is to respect the building limit.</p>
 <p>Status: prototype in development. This is the design, not yet validated on a real installation.</p>
 </section>
 </div></div>
