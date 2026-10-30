@@ -30,3 +30,16 @@ Bricolage Grotesque and all Lucide icons were removed from the site (files delet
 | Illustrations (v4): charger front elevation with board in a cut-away window, side-elevation electric car, load-management unit, garage sections, mesh and install plans, story frames, cutaway, cut-the-internet and outage figures, meter dial. 1.5 px line art; navy line, blue accent, pale tint fills, amber only for the building limit | Drawn in-house as inline SVG (sources: shared symbols `#chg`, `#chg-s`, `#car`, `#hatch` in each page) | Project-owned | none |
 | assets/pcb-placeholder.svg (redrawn as line art; still a placeholder for a photo of the real board) | Drawn in-house | Project-owned | none |
 | Palette v3 tokens, 24 px engineering-grid backgrounds (CSS only) | Project tokens | Project-owned | none |
+
+## Portal (W-PT track)
+| Asset | Source | Licence | Attribution |
+|---|---|---|---|
+| assets/vendor/supabase.js (browser bundle, self-hosted, version and SHA-256 in assets/vendor/VENDOR.md) | npm `@supabase/supabase-js` 2.117.3, https://github.com/supabase/supabase-js | MIT, assets/vendor/LICENSE-supabase-js.txt | Copyright (c) 2020 Supabase; licence text kept |
+| portal-config.js, portal-client.js, login/account/admin/news scripts, md-render.js | Written in-house for this project | Project-owned | none |
+
+Portal pages (login, account, admin) and the Home News section request data from the Supabase project origin `https://kwbniolxdstexdkpqffi.supabase.co` only. The key in portal-config.js is the public (publishable) key; no secret key is stored in this repo.
+
+
+| Asset | Source | Licence | Attribution |
+|---|---|---|---|
+| assets/news/*.png (24 News post images, palette-compressed to 100 KB or less each, same filename stems as docs/linkedin/images/) | Made in-house for the project's LinkedIn drafts (docs/linkedin/images/) | Project-owned | none |
