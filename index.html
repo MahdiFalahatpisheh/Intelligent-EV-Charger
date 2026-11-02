@@ -1,16 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://kwbniolxdstexdkpqffi.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; manifest-src 'self'">
+<script src="theme-init.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a1424" media="(prefers-color-scheme: dark)">
-<title>Shared EV Charging</title>
+<title>Charging for Shared Garages - Shared EV Charging</title>
 <meta name="description" content="A charging system designed to link chargers by wireless mesh, meter each charger's energy and share a building's power through local load management.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Shared EV Charging">
+<meta property="og:title" content="Charging for Shared Garages - Shared EV Charging">
 <meta property="og:description" content="A charging system designed to link chargers by wireless mesh, meter each charger's energy and share a building's power through local load management.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Shared EV Charging","description":"A charging system designed to link chargers by wireless mesh, meter each charger's energy and share a building's power through local load management."}</script>
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -21,7 +24,7 @@
 <p class="site-name"><a href="index.html">Shared EV Charging</a></p>
 <input type="checkbox" id="nav-toggle" class="nav-toggle">
 <label for="nav-toggle" class="nav-btn">Menu</label>
-<button type="button" class="theme-btn" id="theme-toggle" hidden><svg class="t-moon" aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M13.5025,5.4136A15.0755,15.0755,0,0,0,25.096,23.6082a11.1134,11.1134,0,0,1-7.9749,3.3893c-.1385,0-.2782.0051-.4178,0A11.0944,11.0944,0,0,1,13.5025,5.4136M14.98,3a1.0024,1.0024,0,0,0-.1746.0156A13.0959,13.0959,0,0,0,16.63,28.9973c.1641.006.3282,0,.4909,0a13.0724,13.0724,0,0,0,10.702-5.5556,1.0094,1.0094,0,0,0-.7833-1.5644A13.08,13.08,0,0,1,15.8892,4.38,1.0149,1.0149,0,0,0,14.98,3Z"/></svg><svg class="t-sun" aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M15 2H17V7H15z"/><path d="M21.668 6.854H26.625999999999998V8.854H21.668z" transform="rotate(-45 24.147 7.853)"/><path d="M25 15H30V17H25z"/><path d="M23.147 21.668H25.147V26.625999999999998H23.147z" transform="rotate(-45 24.147 24.146)"/><path d="M15 25H17V30H15z"/><path d="M5.375 23.147H10.333V25.147H5.375z" transform="rotate(-45 7.853 24.146)"/><path d="M2 15H7V17H2z"/><path d="M6.854 5.375H8.854V10.333H6.854z" transform="rotate(-45 7.854 7.853)"/><path d="M16,12a4,4,0,1,1-4,4,4.0045,4.0045,0,0,1,4-4m0-2a6,6,0,1,0,6,6,6,6,0,0,0-6-6Z"/></svg><span class="t-dark">Dark mode</span><span class="t-light">Light mode</span></button>
+<button type="button" class="theme-btn" id="theme-toggle"><svg class="t-moon" aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M13.5025,5.4136A15.0755,15.0755,0,0,0,25.096,23.6082a11.1134,11.1134,0,0,1-7.9749,3.3893c-.1385,0-.2782.0051-.4178,0A11.0944,11.0944,0,0,1,13.5025,5.4136M14.98,3a1.0024,1.0024,0,0,0-.1746.0156A13.0959,13.0959,0,0,0,16.63,28.9973c.1641.006.3282,0,.4909,0a13.0724,13.0724,0,0,0,10.702-5.5556,1.0094,1.0094,0,0,0-.7833-1.5644A13.08,13.08,0,0,1,15.8892,4.38,1.0149,1.0149,0,0,0,14.98,3Z"/></svg><svg class="t-sun" aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M15 2H17V7H15z"/><path d="M21.668 6.854H26.625999999999998V8.854H21.668z" transform="rotate(-45 24.147 7.853)"/><path d="M25 15H30V17H25z"/><path d="M23.147 21.668H25.147V26.625999999999998H23.147z" transform="rotate(-45 24.147 24.146)"/><path d="M15 25H17V30H15z"/><path d="M5.375 23.147H10.333V25.147H5.375z" transform="rotate(-45 7.853 24.146)"/><path d="M2 15H7V17H2z"/><path d="M6.854 5.375H8.854V10.333H6.854z" transform="rotate(-45 7.854 7.853)"/><path d="M16,12a4,4,0,1,1-4,4,4.0045,4.0045,0,0,1,4-4m0-2a6,6,0,1,0,6,6,6,6,0,0,0-6-6Z"/></svg><span class="t-dark">Dark mode</span><span class="t-light">Light mode</span></button>
 <nav aria-label="Main">
 <ul>
 <li><a href="index.html" aria-current="page">Home</a></li>
@@ -80,7 +83,7 @@
 <div class="b3 pcb" style="--x:20%;--y:22%"><svg viewBox="0 0 240 160" focusable="false"><use href="#board" width="240" height="160"/><g class="radio"><rect class="k-aps" x="168" y="96" width="56" height="40" rx="3"/><path class="k-a" d="M196 96V80M188 84l8-8 8 8M180 76l16-16 16 16"/><circle class="k-dot" cx="196" cy="116" r="4"/><circle class="k-a wave" cx="196" cy="80" r="10"/><circle class="k-a wave w2" cx="196" cy="80" r="10"/></g></svg></div>
 </div></div></div><figcaption data-copy="story-1">The control board is our charger's brain.</figcaption></figure></li>
 <li class="frame" data-frame="2"><figure class="frame-fig"><div class="s3x s3-a">
-<div class="s3-stage" role="img" aria-labelledby="s3a-t s3a-d"><p id="s3a-t" class="visually-hidden">Our charger: control board and wireless-mesh radio in one enclosure.</p><p id="s3a-d" class="visually-hidden">An exploded view of our charger. The back shell, the control board that carries the wireless-mesh radio circuit, and the front cover come together in that order and snap into one enclosure. It is one product that we make, not a board added to another maker's charger.</p>
+<div class="s3-stage" role="img" aria-labelledby="s3a-t s3a-d"><p id="s3a-t" class="visually-hidden">Our charger: control board and wireless-mesh radio in one enclosure.</p><p id="s3a-d" class="visually-hidden">Illustrative. An exploded view of our charger. The back shell, the control board that carries the wireless-mesh radio circuit, and the front cover come together in that order and snap into one enclosure. It is one product that we make, not a board added to another maker's charger.</p>
 <div class="s3-rig" aria-hidden="true">
 <div class="s3-face gnd"></div>
 <div class="s3-part shell"><div class="s3-face back"></div><div class="s3-face l lft"></div><div class="s3-face r rgt"></div><div class="s3-face top"></div><div class="s3-face bot"></div></div>
@@ -111,7 +114,7 @@
 </ul></div>
 <figcaption data-copy="story-2">Our charger, assembled: board and radio in one enclosure.</figcaption></figure></li>
 <li class="frame" data-frame="3"><figure class="frame-fig"><div class="s3x s3-b">
-<div class="s3-stage" role="img" aria-labelledby="s3b-t s3b-d"><p id="s3b-t" class="visually-hidden">Our charger mounted at a parking bay with a car plugged in.</p><p id="s3b-d" class="visually-hidden">Our charger is fixed to a wall beside the bay. Its control board and wireless-mesh radio are built in, and a status light shows it is charging. A car drives into the bay and parks, the cable plugs in, and charge pulses run along the cable. A mains feed comes in from above.</p>
+<div class="s3-stage" role="img" aria-labelledby="s3b-t s3b-d"><p id="s3b-t" class="visually-hidden">Our charger mounted at a parking bay with a car plugged in.</p><p id="s3b-d" class="visually-hidden">Illustrative. Our charger is fixed to a wall beside the bay. Its control board and wireless-mesh radio are built in, and a status light shows it is charging. A car drives into the bay and parks, the cable plugs in, and charge pulses run along the cable. A mains feed comes in from above.</p>
 <div class="s3-rig" aria-hidden="true">
 <div class="s3-layer s3-floor"><svg viewBox="0 0 100 100" focusable="false"><rect class="k-f" x="0" y="0" width="100" height="100"/><rect class="k-h" x="6" y="4" width="44" height="68" rx="1" stroke-dasharray="5 5"/><path class="k-cable plug" pathLength="1" style="--dl:-4s" d="M54 10Q52 25 32 26"/><path class="k-pulse plug2" pathLength="1" style="--dl:-4s" d="M54 10Q52 25 32 26"/></svg></div>
 <div class="s3-wall"><svg viewBox="0 0 100 56" focusable="false"><rect class="k-f" x="0" y="0" width="100" height="56"/><path class="k-h" d="M0 14H100M0 28H100M0 42H100M12 0V14M36 14V28M60 0V14M84 14V28M24 28V42M48 42V56M72 28V42M96 42V56"/><path class="k-l" d="M56 0V21"/></svg></div>
@@ -122,7 +125,7 @@
 </div>
 </div><figcaption data-copy="story-3">Mounted on a garage wall next to the bay.</figcaption></figure></li>
 <li class="frame" data-frame="4"><figure class="frame-fig"><div class="s3x s3-c">
-<div class="s3-stage" role="img" aria-labelledby="s3c-t s3c-d"><p id="s3c-t" class="visually-hidden">Row of our chargers on one garage floor, linked wirelessly to the main load-management unit.</p><p id="s3c-d" class="visually-hidden">Several bays on one floor, each with one of our chargers, control board and wireless-mesh radio built in. Cars drive in and park, cables plug in and charge pulses run along them. Small packets hop over the wireless mesh from charger to charger and to the main load-management unit. One charger blinks amber while it is paused, then resumes.</p>
+<div class="s3-stage" role="img" aria-labelledby="s3c-t s3c-d"><p id="s3c-t" class="visually-hidden">Row of our chargers on one garage floor, linked wirelessly to the main load-management unit.</p><p id="s3c-d" class="visually-hidden">Illustrative. Several bays on one floor, each with one of our chargers, control board and wireless-mesh radio built in. Cars drive in and park, cables plug in and charge pulses run along them. Small packets hop over the wireless mesh from charger to charger and to the main load-management unit. One charger blinks amber while it is paused, then resumes.</p>
 <div class="s3-rig" aria-hidden="true">
 <div class="s3-slab"><svg viewBox="0 0 100 100" focusable="false"><rect class="k-f" x="0" y="0" width="100" height="100"/><path class="k-h" d="M6 50H92" stroke-dasharray="3 6"/><rect class="k-f" x="102" y="16" width="26" height="28"/><rect class="k-h" x="6" y="6" width="28" height="40" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="36" y="6" width="28" height="40" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="66" y="6" width="28" height="40" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="6" y="54" width="28" height="40" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="36" y="54" width="28" height="40" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="66" y="54" width="28" height="40" rx="1" stroke-dasharray="4 4"/><path class="k-cable plug" pathLength="1" style="--dl:-3s" d="M10.6 61.6Q10.6 66 20 64"/><path class="k-pulse plug2" pathLength="1" style="--dl:-3s" d="M10.6 61.6Q10.6 66 20 64"/><path class="k-cable plug" pathLength="1" style="--dl:-9s" d="M42.6 13.6Q42.6 24 47 25"/><path class="k-cable plug" pathLength="1" style="--dl:-6s" d="M72.6 61.6Q72.6 72 77 73"/><path class="k-pulse plug2" pathLength="1" style="--dl:-6s" d="M72.6 61.6Q72.6 72 77 73"/></svg><div class="s3-face l ey"></div><div class="s3-face r ex"></div></div>
 <div class="b3 chg3 " style="--x:8%;--y:6%"></div><div class="b3 chg3 is-limited" style="--x:38%;--y:6%"></div><div class="b3 chg3 " style="--x:68%;--y:6%"></div>
@@ -272,7 +275,7 @@
 <div class="demo-actions"><p id="demo-sum" class="demo-sum" role="status" aria-live="polite"></p><button type="button" class="demo-reset" data-demo-reset>Reset demo</button></div>
 </div>
 </section>
-<figure class="demo-scene s3x s3-dm reveal" data-demo-scene><div class="s3-stage" role="img" aria-label="Small building with an amber limit marker on its supply and four parking bays. Cars pause or switch off as the demo changes.">
+<figure class="demo-scene s3x s3-dm reveal" data-demo-scene><div class="s3-stage" role="img" aria-label="Illustrative demo: small building with an amber limit marker on its supply and a row of parking bays. Cars pause or switch off as the demo changes.">
 <div class="s3-rig" aria-hidden="true">
 <div class="s3-slab"><svg viewBox="0 0 100 100" focusable="false"><rect class="k-f" x="0" y="0" width="100" height="100"/><rect class="k-h" x="3" y="49" width="22" height="46" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="27" y="49" width="22" height="46" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="51" y="49" width="22" height="46" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="75" y="49" width="22" height="46" rx="1" stroke-dasharray="4 4"/><path class="k-a k-flow" d="M17 14H34"/><path class="k-a k-flow" d="M56 24V36"/><path class="k-a k-flow" d="M14 36H86"/><path class="k-a k-flow dp dp0" d="M14 36V45"/><path class="k-a k-flow dp dp1" d="M38 36V45"/><path class="k-a k-flow dp dp2" d="M62 36V45"/><path class="k-a k-flow dp dp3" d="M86 36V45"/></svg><div class="s3-face l ey"></div><div class="s3-face r ex"></div></div>
 <div class="b3 unit3 lim3" style="--x:5%;--y:8%"></div>

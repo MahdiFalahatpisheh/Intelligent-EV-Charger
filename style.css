@@ -111,6 +111,9 @@ nav a{display:block;padding:.5rem 0;min-height:2.75rem}
 /* theme toggle */
 .theme-btn{display:inline-flex;align-items:center;gap:.5rem;font:600 .95rem/1.5 var(--f-body);min-height:2.75rem;padding:.4rem .9rem;border:1.5px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);cursor:pointer}
 .theme-btn[hidden]{display:none}
+/* W-SEO-7.6: the button ships without `hidden` so its slot exists from first paint. No JS: display:none. JS on, before site.js has set data-tip: invisible and inert (visibility:hidden), space kept. */
+html:not(.js) .theme-btn{display:none}
+html.js .theme-btn:not([data-tip]){visibility:hidden}
 .theme-btn:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
 .theme-btn svg{width:1.25rem;height:1.25rem;flex:none}
 .theme-btn .t-sun,.theme-btn .t-light{display:none}
@@ -1281,6 +1284,9 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .s3-ct .s3-rig{--rw:56cqw;top:56%}
 .s3-ct .s3-slab{--T:2.4cqw}
 .s3-ct .chg3{--bw:5cqw;--bd:4.2cqw;--bh:11cqw}
+.s3-ct .chg3{--x:22%;--y:52%}
+.s3-ct .env3{--x:52%;--y:34%}
+.s3-ct .post3{--x:78%;--y:60%}
 .contact-grid.no-art{grid-template-columns:1fr}
 .contact-grid.no-art .card{max-width:44rem}
 /* 404 */
@@ -1288,6 +1294,30 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .s3-nf .s3-slab{--T:2.4cqw}
 .s3-nf .chg3{--bw:5cqw;--bd:4.2cqw;--bh:11cqw}
 .s3-nf .car3{--k:1;--cw:5.8cqw;--cl:11.4cqw;animation:none}
+.s3-nf .chg3:nth-child(2){--x:12%;--y:40%}
+.s3-nf .chg3:nth-child(3){--x:45%;--y:40%}
+.s3-nf .chg3:nth-child(4){--x:78%;--y:40%}
+.s3-nf .car3:nth-child(5){--x:calc(17% - 2.9cqw);--y:62%;--dl:0s}
+.s3-nf .car3:nth-child(6){--x:calc(50% - 2.9cqw);--y:62%;--dl:0s}
+.s3-nf .plug3{--x:80%;--y:52%}
+/* FAQ positions (W-SEC-7.3a); hero scoped to .s3-q, question pictures to .pic3.fq-* */
+.s3-q .qmark3{--x:38%;--y:38%}
+.s3-q .chg3{--x:10%;--y:52%}
+.s3-q .mtr3{--x:76%;--y:56%}
+.pic3.fq-bld .bld3{--x:24%;--y:30%}
+.pic3.fq-speed .chg3{--x:34%;--y:34%}
+.pic3.fq-meter .mtr3{--x:22%;--y:30%}
+.pic3.fq-offline .unit3{--x:26%;--y:40%}
+.pic3.fq-offline .cld-main,.pic3.fq-offline .cld-slash-bb{--x:50%;--y:34%;--z:38cqw}
+.pic3.fq-cables .chg3:first-child{--x:8%;--y:34%}
+.pic3.fq-cables .chg3:last-child{--x:58%;--y:34%}
+.pic3.fq-talk .unit3{--x:26%;--y:34%}
+.pic3.fq-standards .pcb3{--x:14%;--y:30%}
+.pic3.fq-standards .chip3{--x:38%;--y:40%}
+.pic3.fq-ready .chg3{--x:34%;--y:34%}
+.pic3.fq-cloud .unit3{--x:26%;--y:40%}
+.pic3.fq-cloud .cld-main{--x:50%;--y:34%;--z:38cqw}
+.pic3.fq-future .bat3{--x:22%;--y:34%}
 /* Technology hotspots at small widths: leaders from edge anchors to the objects */
 .hs-leaders{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none;overflow:visible}
 .hs-leaders line{stroke:var(--c-accent);stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-linecap:round}
@@ -1612,8 +1642,7 @@ footer a{min-height:0}
 .story3-progress{display:none!important}
 figure,.card,.tease,.glance-item,.frame,.faq-item,.demo-car,.install-panel,.chart-card{break-inside:avoid}
 .cutaway-fig{break-inside:auto}
-.cutaway-stage{break-inside:avoid;break-after:avoid;max-width:30rem;margin-bottom:0}
-.cutaway-fig .cutaway-stage{max-width:20rem}
+.cutaway-stage{break-inside:avoid;break-after:avoid;max-width:20rem;margin-bottom:0}
 .page-head:has(+.status-band) .phero-art{max-width:18rem}
 .demo-bar,.demo-meter-fill{print-color-adjust:exact;-webkit-print-color-adjust:exact;border-right:2px solid #000}
 .demo-range,.demo-reset{display:none!important}

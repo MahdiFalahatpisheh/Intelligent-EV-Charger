@@ -1,16 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'; manifest-src 'self'">
+<script src="theme-init.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a1424" media="(prefers-color-scheme: dark)">
 <title>How it works - Shared EV Charging</title>
-<meta name="description" content="How a charger on a wireless mesh, meters and local load management are designed to sense load, share capacity and aim to keep charging offline.">
+<meta name="description" content="The loop the system is designed to repeat: sense load, share capacity, charge. It aims to keep charging going when the internet is lost.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="How it works - Shared EV Charging">
-<meta property="og:description" content="How a charger on a wireless mesh, meters and local load management are designed to sense load, share capacity and aim to keep charging offline.">
+<meta property="og:description" content="The loop the system is designed to repeat: sense load, share capacity, charge. It aims to keep charging going when the internet is lost.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -21,7 +23,7 @@
 <p class="site-name"><a href="index.html">Shared EV Charging</a></p>
 <input type="checkbox" id="nav-toggle" class="nav-toggle">
 <label for="nav-toggle" class="nav-btn">Menu</label>
-<button type="button" class="theme-btn" id="theme-toggle" hidden><svg class="t-moon" aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M13.5025,5.4136A15.0755,15.0755,0,0,0,25.096,23.6082a11.1134,11.1134,0,0,1-7.9749,3.3893c-.1385,0-.2782.0051-.4178,0A11.0944,11.0944,0,0,1,13.5025,5.4136M14.98,3a1.0024,1.0024,0,0,0-.1746.0156A13.0959,13.0959,0,0,0,16.63,28.9973c.1641.006.3282,0,.4909,0a13.0724,13.0724,0,0,0,10.702-5.5556,1.0094,1.0094,0,0,0-.7833-1.5644A13.08,13.08,0,0,1,15.8892,4.38,1.0149,1.0149,0,0,0,14.98,3Z"/></svg><svg class="t-sun" aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M15 2H17V7H15z"/><path d="M21.668 6.854H26.625999999999998V8.854H21.668z" transform="rotate(-45 24.147 7.853)"/><path d="M25 15H30V17H25z"/><path d="M23.147 21.668H25.147V26.625999999999998H23.147z" transform="rotate(-45 24.147 24.146)"/><path d="M15 25H17V30H15z"/><path d="M5.375 23.147H10.333V25.147H5.375z" transform="rotate(-45 7.853 24.146)"/><path d="M2 15H7V17H2z"/><path d="M6.854 5.375H8.854V10.333H6.854z" transform="rotate(-45 7.854 7.853)"/><path d="M16,12a4,4,0,1,1-4,4,4.0045,4.0045,0,0,1,4-4m0-2a6,6,0,1,0,6,6,6,6,0,0,0-6-6Z"/></svg><span class="t-dark">Dark mode</span><span class="t-light">Light mode</span></button>
+<button type="button" class="theme-btn" id="theme-toggle"><svg class="t-moon" aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M13.5025,5.4136A15.0755,15.0755,0,0,0,25.096,23.6082a11.1134,11.1134,0,0,1-7.9749,3.3893c-.1385,0-.2782.0051-.4178,0A11.0944,11.0944,0,0,1,13.5025,5.4136M14.98,3a1.0024,1.0024,0,0,0-.1746.0156A13.0959,13.0959,0,0,0,16.63,28.9973c.1641.006.3282,0,.4909,0a13.0724,13.0724,0,0,0,10.702-5.5556,1.0094,1.0094,0,0,0-.7833-1.5644A13.08,13.08,0,0,1,15.8892,4.38,1.0149,1.0149,0,0,0,14.98,3Z"/></svg><svg class="t-sun" aria-hidden="true" focusable="false" viewBox="0 0 32 32" fill="currentColor"><path d="M15 2H17V7H15z"/><path d="M21.668 6.854H26.625999999999998V8.854H21.668z" transform="rotate(-45 24.147 7.853)"/><path d="M25 15H30V17H25z"/><path d="M23.147 21.668H25.147V26.625999999999998H23.147z" transform="rotate(-45 24.147 24.146)"/><path d="M15 25H17V30H15z"/><path d="M5.375 23.147H10.333V25.147H5.375z" transform="rotate(-45 7.853 24.146)"/><path d="M2 15H7V17H2z"/><path d="M6.854 5.375H8.854V10.333H6.854z" transform="rotate(-45 7.854 7.853)"/><path d="M16,12a4,4,0,1,1-4,4,4.0045,4.0045,0,0,1,4-4m0-2a6,6,0,1,0,6,6,6,6,0,0,0-6-6Z"/></svg><span class="t-dark">Dark mode</span><span class="t-light">Light mode</span></button>
 <nav aria-label="Main">
 <ul>
 <li><a href="index.html">Home</a></li>
@@ -68,7 +70,7 @@
 <div class="section"><div class="wrap">
 <section class="cutnet reveal" id="cutnet" data-cutnet data-offline="false" aria-labelledby="cutnet-h">
 <div class="cutnet-head"><div><p class="eyebrow">Resilience</p><h2 id="cutnet-h">If the internet fails</h2></div></div>
-<figure class="cutnet-fig"><div class="s3x s3-o"><div class="s3-stage" role="img" aria-label="Illustration of the design intent. A load-management unit is linked to four of our chargers (each with its control board and wireless-mesh radio built in, and linked to its neighbours) by flowing dots, and to the charging network operator in the cloud by a link that can be cut. When the link is cut the charger lines keep flowing and the charger bars keep moving.">
+<figure class="cutnet-fig"><div class="s3x s3-o"><div class="s3-stage" role="img" aria-label="Illustration of the design intent. A load-management unit is linked to several of our chargers (each with its control board and wireless-mesh radio built in, and linked to its neighbours) by flowing dots, and to the charging network operator in the cloud by a link that can be cut. When the link is cut the charger lines keep flowing and the charger bars keep moving.">
 <div class="s3-rig" aria-hidden="true">
 <div class="s3-slab"><svg viewBox="0 0 100 100" focusable="false"><rect class="k-f" x="0" y="0" width="100" height="100"/><rect class="k-h" x="3" y="66" width="22" height="30" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="27" y="66" width="22" height="30" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="51" y="66" width="22" height="30" rx="1" stroke-dasharray="4 4"/><rect class="k-h" x="75" y="66" width="22" height="30" rx="1" stroke-dasharray="4 4"/><path class="k-a k-flow" d="M50 32V50"/><path class="k-a k-flow" d="M14 50H86"/><path class="k-a k-flow" d="M14 50V56"/><path class="k-a k-flow" d="M38 50V56"/><path class="k-a k-flow" d="M62 50V56"/><path class="k-a k-flow" d="M86 50V56"/><path class="k-a k-flow" d="M20 62H80"/><rect class="k-h" x="5" y="76" width="18" height="4"/><rect class="bar-fill b1" x="5" y="76" width="18" height="4"/><rect class="k-h" x="29" y="76" width="18" height="4"/><rect class="bar-fill b2" x="29" y="76" width="18" height="4"/><rect class="k-h" x="53" y="76" width="18" height="4"/><rect class="bar-fill b3" x="53" y="76" width="18" height="4"/><rect class="k-h" x="77" y="76" width="18" height="4"/><rect class="bar-fill b4" x="77" y="76" width="18" height="4"/></svg><div class="s3-face l ey"></div><div class="s3-face r ex"></div></div>
 <div class="b3 unit3" style="--x:41%;--y:16%"></div>
