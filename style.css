@@ -1841,3 +1841,6 @@ figure,.card,.tease,.glance-item,.frame,.faq-item,.demo-car,.install-panel,.char
 :root[data-theme="dark"] .btn-danger.btn-small{color:var(--c-error)}
 :root[data-theme="dark"] .btn-danger.btn-small:hover{color:#1a0a08}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger.btn-small{color:var(--c-error)}:root:not([data-theme="light"]) .btn-danger.btn-small:hover{color:#1a0a08}}
+
+/* Sign in link: keep the one-row header at 60-72rem (960-1152px) */
+@media (min-width:60rem) and (max-width:72rem){nav ul{column-gap:var(--s-2)}}
