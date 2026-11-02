@@ -46,33 +46,33 @@
 <noscript><p class="notice notice-warn">Signing in needs JavaScript. Turn it on for this page and reload.</p></noscript>
 <p class="notice" id="auth-msg" role="status" aria-live="polite" hidden></p>
 
-<form id="form-signin" class="form" novalidate data-mode="signin">
+<form id="form-signin" class="form" method="post" novalidate hidden data-mode="signin">
 <div class="field"><label for="si-email">Email</label><input id="si-email" name="email" type="email" autocomplete="email" inputmode="email" required></div>
 <div class="field"><label for="si-pass">Password</label><input id="si-pass" name="password" type="password" autocomplete="current-password" required></div>
 <button class="btn" type="submit" data-busy="Signing in">Sign in</button>
 <p class="form-links"><button type="button" class="link-btn" data-go="reset">Forgot your password?</button> <button type="button" class="link-btn" data-go="magic" id="go-magic" hidden>Email me a sign-in link</button> <button type="button" class="link-btn" data-go="signup" id="go-signup" hidden>Create an account</button></p>
 </form>
 
-<form id="form-signup" class="form" novalidate hidden data-mode="signup">
+<form id="form-signup" class="form" method="post" novalidate hidden data-mode="signup">
 <div class="field"><label for="su-email">Email</label><input id="su-email" name="email" type="email" autocomplete="email" inputmode="email" required></div>
 <div class="field"><label for="su-pass">Password</label><input id="su-pass" name="password" type="password" autocomplete="new-password" required aria-describedby="su-hint"><p class="hint" id="su-hint">Use a long password that you do not use anywhere else.</p></div>
 <button class="btn" type="submit" data-busy="Creating account">Create account</button>
 <p class="form-links"><button type="button" class="link-btn" data-go="signin">Back to sign in</button></p>
 </form>
 
-<form id="form-reset" class="form" novalidate hidden data-mode="reset">
+<form id="form-reset" class="form" method="post" novalidate hidden data-mode="reset">
 <div class="field"><label for="rs-email">Email</label><input id="rs-email" name="email" type="email" autocomplete="email" inputmode="email" required></div>
 <button class="btn" type="submit" data-busy="Sending">Email me a reset link</button>
 <p class="form-links"><button type="button" class="link-btn" data-go="signin">Back to sign in</button></p>
 </form>
 
-<form id="form-magic" class="form" novalidate hidden data-mode="magic">
+<form id="form-magic" class="form" method="post" novalidate hidden data-mode="magic">
 <div class="field"><label for="mg-email">Email</label><input id="mg-email" name="email" type="email" autocomplete="email" inputmode="email" required></div>
 <button class="btn" type="submit" data-busy="Sending">Email me a sign-in link</button>
 <p class="form-links"><button type="button" class="link-btn" data-go="signin">Back to sign in</button></p>
 </form>
 
-<form id="form-newpass" class="form" novalidate hidden data-mode="newpass">
+<form id="form-newpass" class="form" method="post" novalidate hidden data-mode="newpass">
 <div class="field"><label for="np-pass">New password</label><input id="np-pass" name="password" type="password" autocomplete="new-password" required></div>
 <button class="btn" type="submit" data-busy="Saving">Save new password</button>
 </form>

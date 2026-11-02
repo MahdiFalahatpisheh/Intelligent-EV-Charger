@@ -40,7 +40,7 @@
 <p class="eyebrow">Project portal</p>
 <h1>Admin: posts</h1>
 <p class="lead">Write, publish and unpublish the news posts shown on the Home page.</p>
-<p class="portal-bar" id="portal-bar" hidden><span id="who"></span> <a href="account.html">Your chargers</a> <button type="button" class="link-btn" id="signout">Sign out</button></p>
+<p class="portal-bar" id="portal-bar" hidden><span id="who"></span> <a href="admin-customers.html">Customers</a> <a href="account.html">Your chargers</a> <button type="button" class="link-btn" id="signout">Sign out</button></p>
 </div></div>
 <div class="wrap content portal">
 <noscript><p class="notice notice-warn">This page needs JavaScript. Turn it on for this page and reload.</p></noscript>
@@ -51,6 +51,10 @@
 <section aria-labelledby="pl-h" class="admin-list">
 <div class="admin-list-head"><h2 id="pl-h">Posts</h2><button type="button" class="btn btn-secondary" id="new-post">New post</button></div>
 <p class="notice" id="pl-msg" role="status" aria-live="polite" hidden></p>
+<div class="confirm confirm-danger" id="del-confirm" role="group" aria-labelledby="del-q" hidden>
+<p id="del-q"></p><p class="hint" id="del-note"></p>
+<div class="btn-row"><button class="btn btn-secondary" type="button" id="del-no">Cancel</button><button class="btn btn-danger" type="button" id="del-yes">Delete post</button></div>
+</div>
 <ul class="post-list" id="post-list"></ul>
 </section>
 

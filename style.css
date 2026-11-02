@@ -1809,3 +1809,35 @@ figure,.card,.tease,.glance-item,.frame,.faq-item,.demo-car,.install-panel,.char
 .post-img{display:block;width:100%;max-width:32rem;height:auto;aspect-ratio:1/1;margin:0 auto var(--s-4);border:var(--bd);border-radius:var(--r)}
 .post-date{margin-top:var(--s-2)}
 .post-back{margin-top:var(--s-5)}
+
+/* ===== Portal v2 (W-PT-18, 22): post actions, destructive buttons ===== */
+.post-pick{cursor:default}
+.post-actions{margin-top:var(--s-2)}
+.btn-small{min-height:2.25rem;padding:.4rem .9rem;font-size:.875rem}
+.btn-danger{background:var(--c-error);border-color:var(--c-error);color:#fff}
+.btn-danger:hover{background:#8f1f18;border-color:#8f1f18;color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger{color:#1a0a08}:root:not([data-theme="light"]) .btn-danger:hover{background:#ffb4ad;border-color:#ffb4ad;color:#1a0a08}}
+:root[data-theme="dark"] .btn-danger{color:#1a0a08}:root[data-theme="dark"] .btn-danger:hover{background:#ffb4ad;border-color:#ffb4ad;color:#1a0a08}
+.confirm-danger{border-color:var(--c-error);margin-top:var(--s-3)}
+.post-item{display:grid;gap:var(--s-1);padding:var(--s-2) var(--s-3);border:var(--bd);border-radius:var(--r);background:var(--c-bg)}
+.post-item.is-sel{border-color:var(--c-accent);background:var(--c-surface)}
+.post-item .post-pick{border:0;padding:0;background:none;width:auto}
+/* W-PT v2 review (design-manager): row-level danger buttons are outlined; only the confirm button is filled red */
+.btn-danger.btn-small{background:transparent;color:var(--c-error);border-color:var(--c-error)}
+.btn-danger.btn-small:hover{background:var(--c-error);color:#fff;border-color:var(--c-error)}
+:root[data-theme="dark"] .btn-danger.btn-small:hover{color:#1a0a08}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger.btn-small:hover{color:#1a0a08}}
+.csv-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2) var(--s-3);margin:var(--s-3) 0 0}
+.csv-row .hint{margin:0;flex:1 1 16rem}
+
+/* ===== Portal v2 round 2 (design feedback): search, truncation, confirm under its row ===== */
+#cu-search{max-width:none;margin-top:var(--s-3)}
+#cu-search label{margin-bottom:var(--s-2)}
+.post-pick{min-width:0}
+.cu-pick .post-title{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post-item .confirm{margin-top:var(--s-2)}
+.cu-pick{grid-template-columns:minmax(0,1fr)}
+/* row-level outlined danger button keeps its red text in dark mode (the filled rule above sets dark text) */
+:root[data-theme="dark"] .btn-danger.btn-small{color:var(--c-error)}
+:root[data-theme="dark"] .btn-danger.btn-small:hover{color:#1a0a08}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger.btn-small{color:var(--c-error)}:root:not([data-theme="light"]) .btn-danger.btn-small:hover{color:#1a0a08}}

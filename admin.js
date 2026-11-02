@@ -33,20 +33,65 @@
     }, function () { say($('pl-msg'), 'We could not load the posts. Check your connection and try again.', 'error', function () { loadPosts(keepId); }); });
   }
 
+  var delHome = $('del-confirm').parentNode;
   function drawList(selId) {
-    var ul = $('post-list'); ul.textContent = '';
+    var ul = $('post-list');
+    if (ul.contains($('del-confirm'))) delHome.insertBefore($('del-confirm'), ul);  // keep the confirm node alive across redraws
+    ul.textContent = '';
     posts.forEach(function (p) {
       var li = el('li', 'post-item' + (selId === p.id ? ' is-sel' : ''));
-      var b = el('button', 'post-pick'); b.type = 'button';
-      b.appendChild(el('span', 'post-title', p.title));
+      var info = el('div', 'post-pick');
+      info.appendChild(el('span', 'post-title', p.title));
       var meta = el('span', 'post-meta');
       meta.appendChild(el('span', 'tag tag-' + p.status, p.status === 'published' ? 'Published' : 'Draft'));
       if (p.source === 'linkedin') meta.appendChild(el('span', 'tag tag-src', 'LinkedIn'));
       meta.appendChild(el('span', '', p.status === 'published' ? fmtDate(p.published_at) : 'Edited ' + fmtDate(p.updated_at)));
-      b.appendChild(meta);
-      if (selId === p.id) b.setAttribute('aria-current', 'true');
-      b.addEventListener('click', function () { edit(p); });
-      li.appendChild(b); ul.appendChild(li);
+      info.appendChild(meta);
+      li.appendChild(info);
+      var row = el('div', 'btn-row post-actions');
+      var be = el('button', 'btn btn-secondary btn-small', 'Edit'); be.type = 'button'; be.setAttribute('aria-label', 'Edit post: ' + p.title);
+      if (selId === p.id) be.setAttribute('aria-current', 'true');
+      be.addEventListener('click', function () { edit(p); $('p-title').focus(); });
+      var bd = el('button', 'btn btn-danger btn-small', 'Delete'); bd.type = 'button'; bd.setAttribute('aria-label', 'Delete post: ' + p.title);
+      bd.addEventListener('click', function () { askDelete(p, bd); });
+      row.appendChild(be); row.appendChild(bd); li.appendChild(row); ul.appendChild(li);
+    });
+  }
+
+  // Delete: inline confirm that names the post, focus on Cancel, Escape cancels. One request only after the confirm.
+  var delTarget = null, delOpener = null;
+  function closeDelete(refocus) {
+    $('del-confirm').hidden = true; delTarget = null;
+    if (refocus && delOpener && document.body.contains(delOpener)) delOpener.focus();
+    delOpener = null;
+  }
+  function askDelete(p, opener) {
+    delTarget = p; delOpener = opener;
+    $('del-q').textContent = 'Delete post "' + p.title + '"? This cannot be undone.';
+    $('del-note').textContent = p.status === 'published' ? 'It disappears from the Home page.' : 'It is a draft, so visitors do not see it.';
+    var row = opener && opener.closest ? opener.closest('li') : null;
+    if (row) row.appendChild($('del-confirm'));  // directly under the post it is about
+    $('del-confirm').hidden = false; $('del-no').focus();
+  }
+  $('del-no').addEventListener('click', function () { closeDelete(true); });
+  $('del-confirm').addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.stopPropagation(); closeDelete(true); } });
+  $('del-yes').addEventListener('click', function () {
+    var p = delTarget; if (!p) return;
+    $('del-yes').disabled = true;
+    P.client.from('posts').delete().eq('id', p.id).select('id').then(function (r) {
+      $('del-yes').disabled = false;
+      var ok = !r.error && Array.isArray(r.data) && r.data.length === 1;
+      closeDelete(false);
+      if (!ok) { say($('pl-msg'), r.error ? 'The post was not deleted. You may not have permission, or the connection failed.' : 'The post was not deleted. It may already be gone.', 'error'); return; }
+      if (cur && cur.id === p.id) edit(null);
+      say($('pl-msg'), 'Post deleted.', 'ok'); loadPostsAfterDelete();
+    }, function () { $('del-yes').disabled = false; closeDelete(false); say($('pl-msg'), T.network, 'error'); });
+  });
+  function loadPostsAfterDelete() {
+    P.client.from('posts').select('id,title,body_md,image_url,image_alt,status,source,published_at,updated_at,created_at').order('updated_at', { ascending: false }).then(function (r) {
+      if (r.error) return;
+      posts = r.data || []; drawList(cur ? cur.id : null);
+      if (!posts.length) say($('pl-msg'), 'Post deleted. No posts left. Write the next one.', 'empty');
     });
   }
 

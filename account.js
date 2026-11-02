@@ -40,14 +40,14 @@
 
   if (!P || !P.ready) { say(msg, 'The portal is not available right now. Try again later.', 'warn'); return; }
 
-  var devices = [], reports = [], selDate = null, demoAny = false;
+  var csvDays = [], devices = [], reports = [], selDate = null, demoAny = false, uid = null;  // uid comes from the verified session only
 
   function setDemo(on) { $('demo-banner').hidden = !on; demoAny = on; }
 
   function loadDevices() {
     say(msg, 'Loading your devices…');
     $('devices-sec').hidden = true; $('report-sec').hidden = true;
-    P.client.from('devices').select('id,name,location_label,installed_on,status,is_demo').order('name').then(function (r) {
+    P.client.from('devices').select('id,name,location_label,installed_on,status,is_demo').eq('owner_id', uid).order('name').then(function (r) {
       if (r.error) { say(msg, 'We could not load your devices. Check your connection and try again.', 'error', loadDevices); return; }
       devices = r.data || [];
       if (!devices.length) { say(msg, 'No devices yet. When a charger is linked to your account, it will appear here.', 'empty'); return; }
@@ -80,9 +80,11 @@
   }
 
   function loadReports(deviceId) {
+    // Only devices from the owner-filtered list may be queried (an admin can read every device, so never trust the picker value).
+    if (!devices.some(function (d) { return d.id === deviceId; })) { say($('rep-msg'), 'That charger is not on your account.', 'error'); return; }
     var end = new Date(), start = new Date(); start.setDate(end.getDate() - 13);
     say($('rep-msg'), 'Loading the report…');
-    $('chart-fig').hidden = true; $('table-wrap').hidden = true; $('path-sec').hidden = true;
+    $('chart-fig').hidden = true; $('table-wrap').hidden = true; $('path-sec').hidden = true; $('csv-row').hidden = true;
     P.client.from('daily_reports')
       .select('report_date,energy_delivered_kwh,peak_power_kw,avg_power_kw,session_start,session_end,power_path,is_demo')
       .eq('device_id', deviceId).gte('report_date', iso(start)).lte('report_date', iso(end)).order('report_date', { ascending: true })
@@ -106,6 +108,7 @@
     drawTable(days, map);
     selDate = selDate && map[selDate] ? selDate : last;
     drawChart(days, map); select(selDate, days, map); hintScroll();
+    $('csv-row').hidden = false; csvDays = days;
   }
 
   function drawTable(days, map) {
@@ -222,12 +225,29 @@
   window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (chartState && !$('chart-fig').hidden) { drawChart(chartState.days, chartState.map); hintScroll(); } }, 150); });
   function hintScroll() { var w = $('table-wrap'); w.classList.toggle('can-scroll', w.scrollWidth > w.clientWidth + 2); }
   $('table-wrap').addEventListener('scroll', function () { this.classList.toggle('at-end', this.scrollLeft + this.clientWidth >= this.scrollWidth - 2); }, { passive: true });
+  // CSV: built from the rows already on screen (no new query). Fixed column order; cells are escaped in csv.js.
+  var CSV_COLS = ['device_name', 'report_date', 'energy_delivered_kwh', 'peak_power_kw', 'avg_power_kw', 'session_start', 'session_end', 'demo'];
+  $('csv-btn').addEventListener('click', function () {
+    if (!reports.length || !window.CsvExport) return;
+    var dev = devices.filter(function (d) { return d.id === $('dev-pick').value; })[0];
+    if (!dev) return;
+    var rows = reports.map(function (x) {
+      return { device_name: dev.name, report_date: x.report_date, energy_delivered_kwh: x.energy_delivered_kwh, peak_power_kw: x.peak_power_kw,
+               avg_power_kw: x.avg_power_kw, session_start: x.session_start, session_end: x.session_end, demo: x.is_demo ? 'yes' : 'no' };
+    });
+    var text = window.CsvExport.toCsv(rows, CSV_COLS);
+    var name = 'daily-report-' + window.CsvExport.slug(dev.name) + '-' + csvDays[0] + '-' + csvDays[csvDays.length - 1] + '.csv';
+    var url = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }));
+    var a = document.createElement('a'); a.href = url; a.download = name; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
   $('dev-pick').addEventListener('change', function () { selDate = null; loadReports(this.value); });
 
   $('signout').addEventListener('click', function () { P.signOut().then(function () { window.location.replace('login.html'); }); });
 
   P.getSession().then(function (s) {
     if (!s) { window.location.replace('login.html'); return; }
+    uid = s.user.id;
     P.getRole(s).then(function (role) {
       $('who').textContent = 'Signed in as ' + (s.user.email || 'your account') + '.';
       $('portal-bar').hidden = false;

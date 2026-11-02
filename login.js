@@ -80,6 +80,7 @@
     say(T.unavailable, 'warn');
     return;
   }
+  forms.signin.hidden = false;  // forms stay hidden until this script runs, so a no-JS visitor never gets a working GET/POST form
   document.getElementById('go-signup').hidden = !cfg.allowSignUp;
   document.getElementById('go-magic').hidden = !cfg.magicLink;
 
