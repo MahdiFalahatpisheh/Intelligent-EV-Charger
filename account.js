@@ -251,6 +251,7 @@
     P.getRole(s).then(function (role) {
       $('who').textContent = 'Signed in as ' + (s.user.email || 'your account') + '.';
       $('portal-bar').hidden = false;
+      if (role === 'disabled') { say(msg, 'Your account is disabled. Contact the site admin.', 'warn'); return; }  // no further requests
       if (role === 'admin') $('admin-link').hidden = false;
       loadDevices();
     });

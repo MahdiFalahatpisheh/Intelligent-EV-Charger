@@ -15,6 +15,7 @@
     reset: ['Reset your password', 'Enter your email and we will send a link to choose a new password.'],
     magic: ['Email me a sign-in link', 'Enter your email and we will send a link that signs you in.'],
     newpass: ['Choose a new password', 'Enter a new password for your account.'],
+    invite: ['Set your password', 'Welcome. Choose a password to finish setting up your account.'],
     done: ['You are signed in', 'Continue to your page or sign out.']
   };
   var T = {
@@ -158,12 +159,19 @@
 
   // Recovery link: the library exchanges the code in the URL, then fires PASSWORD_RECOVERY.
   var recovering = /type=recovery/.test(window.location.href) || false;
-  P.client.auth.onAuthStateChange(function (ev) {
+  // An invite link comes back with ?code=... ; the library exchanges it (PKCE) and signs the invited user in. They have no password yet,
+  // so show the set-password form first. Only invited users (invited_at set) get it; ordinary sign-in links do not.
+  var hadCode = !!P.arrivedWithCode;
+  function invitedSession(s) { return !!(hadCode && s && s.user && s.user.invited_at); }
+  function showInvite() { recovering = true; show('newpass'); H.textContent = TITLES.invite[0]; L.textContent = TITLES.invite[1]; document.title = TITLES.invite[0] + ' - Shared EV Charging'; try { history.replaceState(null, '', window.location.pathname); } catch (e) {} }
+  P.client.auth.onAuthStateChange(function (ev, sess) {
     if (ev === 'PASSWORD_RECOVERY') { recovering = true; show('newpass'); }
+    else if (ev === 'SIGNED_IN' && invitedSession(sess)) setTimeout(showInvite, 0);  // not inside the callback: avoids library re-entry
   });
 
   // Already signed in (and not in the middle of a recovery): offer to continue.
   P.getSession().then(function (s) {
+    if (invitedSession(s)) { showInvite(); return; }
     if (recovering || !s) return;
     window.setTimeout(function () {
       if (recovering) return;

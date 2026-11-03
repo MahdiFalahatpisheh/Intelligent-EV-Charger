@@ -5,6 +5,8 @@
   var P = window.Portal = { ready: false, client: null };
   // Clickjacking guard for the portal pages (a meta CSP cannot set frame-ancestors).
   try { if (window.top !== window.self) document.documentElement.hidden = true; } catch (e) { document.documentElement.hidden = true; }
+  // Remember whether this page load came from an email link (?code=...) before the library strips it from the address.
+  P.arrivedWithCode = /[?&]code=/.test(window.location.search);
   if (!cfg || !cfg.url || !cfg.key || !lib || !lib.createClient) return;
   P.client = lib.createClient(cfg.url, cfg.key, {
     auth: { flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }

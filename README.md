@@ -5,6 +5,7 @@ Static public site for the EV charging load-management project. Plain HTML and o
 ## Files
 - `index.html`, `how-it-works.html`, `technology.html`, `project.html`, `contact.html` - the five pages
 - `style.css` - shared styles
+- `portal.css` - portal styles, loaded only by login, account, admin and admin-customers (W-P-97)
 - `.github/workflows/pages.yml` - deploys to GitHub Pages on push to `main` or manual run
 
 ## Preview locally

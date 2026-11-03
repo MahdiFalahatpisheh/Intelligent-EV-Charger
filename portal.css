@@ -1,0 +1,152 @@
+/* ===== Portal (W-PT-10): login, account, admin. Tokens only; AA in light and dark. ===== */
+.portal{max-width:68rem}
+.portal h2{margin:var(--s-5) 0 var(--s-3);font-size:var(--fs-2)}
+.portal h3{margin:var(--s-4) 0 var(--s-2);font-size:var(--fs-1)}
+.auth-card{max-width:28rem;margin-inline:auto;padding:var(--s-4)}
+.form{display:grid;gap:var(--s-3)}
+.field{display:grid;gap:var(--s-1)}
+.field label{font-weight:600}
+.field input,.field select,.field textarea{width:100%;box-sizing:border-box;min-height:2.75rem;padding:.6rem .75rem;border:1.5px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);font:400 var(--fs-0)/1.4 var(--f-body)}
+.field textarea{min-height:10rem;resize:vertical}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible,.link-btn:focus-visible,.post-pick:focus-visible,.notice[tabindex="-1"]:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
+/* W-P-99.3: the 5px focus ring on the notice below must not paint over this line (it ended flush with the notice) */
+#dv-owner{margin-bottom:.4rem}
+.field [aria-invalid="true"]{border-color:var(--c-error)}
+.field-inline{max-width:22rem;margin-bottom:var(--s-3)}
+.hint{margin:0;font-size:var(--fs-s);color:var(--c-muted)}
+.field-error{margin:0;font-size:var(--fs-s);font-weight:600;color:var(--c-error)}
+.field-error::before{content:"\26A0\00a0"}
+.notice-ok{border-left-color:var(--c-ok)}
+.notice-error{border-left-color:var(--c-error)}
+.notice-warn,.notice-demo{border-left-color:var(--c-signal);background:var(--c-demo-bg)}
+.link-btn{display:inline;padding:.25rem 0;min-height:2rem;border:0;background:none;color:var(--c-accent);font:inherit;text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
+.link-btn:hover{color:var(--c-accent-hover)}
+.form-links{display:flex;flex-wrap:wrap;gap:var(--s-1) var(--s-3);margin:0}
+.btn:disabled{opacity:.6;cursor:progress}
+.btn-row{display:flex;flex-wrap:wrap;gap:var(--s-2)}
+.portal-note,.portal-bar{margin:var(--s-4) 0 0;font-size:var(--fs-s);color:var(--c-muted);max-width:none}
+.portal-bar{display:flex;flex-wrap:wrap;gap:var(--s-1) var(--s-3);align-items:center;margin-top:var(--s-3)}
+.dev-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-3);grid-template-columns:repeat(auto-fill,minmax(16rem,1fr))}
+.dev{padding:var(--s-3)}
+.dev h3{margin:0 0 var(--s-2)}
+.dev-meta{display:grid;gap:var(--s-1);margin:0}
+.dev-meta div{display:flex;gap:var(--s-2);flex-wrap:wrap}
+.dev-meta dt{min-width:5.5rem;color:var(--c-muted)}
+.dev-meta dd{margin:0}
+.dot{display:inline-block;width:.6rem;height:.6rem;margin-right:.45rem;border-radius:50%;background:var(--c-border-strong)}
+.dot-active{background:var(--c-ok)}.dot-fault{background:var(--c-error)}.dot-inactive{background:transparent;border:2px solid var(--c-border-strong)}
+.tag-demo,.tag{display:inline-block;margin:var(--s-2) 0 0;padding:.1rem .5rem;border:1px solid var(--c-border-strong);border-radius:var(--r);font:500 var(--fs-xs)/1.6 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--c-text)}
+.tag{margin:0}
+.tag-published{border-color:var(--c-ok);color:var(--c-ok)}
+.tag-src{color:var(--c-muted)}
+.rep-table{width:100%;border-collapse:collapse;font-size:var(--fs-s)}
+.rep-table caption{padding:var(--s-2) var(--s-3);text-align:left;color:var(--c-muted)}
+.rep-table th,.rep-table td{padding:.5rem var(--s-3);border-top:var(--bd);text-align:left;white-space:nowrap}
+.rep-table thead th{background:var(--c-surface);font-weight:600}
+.rep-table .num{text-align:right;font-variant-numeric:tabular-nums}
+.rep-table tr.is-sel{background:var(--c-surface)}
+.rep-table tbody th{font-weight:400}
+.muted{color:var(--c-muted)}
+.chart3{margin:var(--s-3) 0 0;padding:var(--s-3);border:var(--bd);border-radius:var(--r);background:var(--c-bg)}
+.chart3-svg svg{display:block;width:100%;height:auto;max-height:18rem}
+.chart3 figcaption{margin-top:var(--s-2);font-size:var(--fs-s);color:var(--c-muted)}
+.ch-axis text,.ch-x{font:500 11px/1 var(--f-mono);fill:var(--c-muted)}
+.ch-grid{stroke:var(--c-border);stroke-width:1}
+.ch-base{stroke:var(--c-border-strong);stroke-width:1}
+.ch-bar{fill:var(--c-accent);cursor:pointer}
+.ch-bar:hover{fill:var(--c-accent-hover)}
+.ch-bar.is-sel{stroke:var(--c-text);stroke-width:2}
+.path3{list-style:none;margin:var(--s-2) 0 0;padding:0;display:grid;gap:var(--s-2);grid-template-columns:repeat(auto-fit,minmax(10rem,1fr))}
+.path3-step{position:relative;display:grid;gap:var(--s-1);padding:var(--s-2) var(--s-3);border:var(--bd);border-radius:var(--r);background:var(--c-surface)}
+.path3-label{font-size:var(--fs-s);color:var(--c-muted)}
+.path3-kw{font:600 var(--fs-1)/1.3 var(--f-body);font-variant-numeric:tabular-nums}
+.path3-kw.is-null{font-size:var(--fs-s);font-weight:400;color:var(--c-muted)}
+@media (min-width:40rem){.path3-step:not(:last-child)::after{content:"\2192";position:absolute;right:-1.1rem;top:50%;transform:translateY(-50%);color:var(--c-muted);z-index:1}.path3{column-gap:var(--s-4)}}
+.admin-grid{display:grid;gap:var(--s-5)}
+@media (min-width:60rem){.admin-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}}
+.admin-list-head{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3)}
+.admin-list-head h2{margin:0}
+.post-list{list-style:none;margin:var(--s-3) 0 0;padding:0;display:grid;gap:var(--s-2)}
+.post-pick{display:grid;gap:var(--s-1);width:100%;padding:var(--s-2) var(--s-3);text-align:left;border:var(--bd);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);font:inherit;cursor:pointer}
+.post-pick:hover,.post-item.is-sel .post-pick{border-color:var(--c-accent);background:var(--c-surface)}
+.post-title{font-weight:600}
+.post-meta{display:flex;flex-wrap:wrap;gap:var(--s-2);align-items:center;font-size:var(--fs-s);color:var(--c-muted)}
+.confirm{padding:var(--s-3);border:1.5px solid var(--c-signal);border-radius:var(--r);background:var(--c-demo-bg)}
+.confirm p{margin:0 0 var(--s-2)}
+.post-preview{padding:var(--s-3)}
+.post-preview h4{margin:0 0 var(--s-2);font-size:var(--fs-1)}
+.admin-edit h2{margin-top:0}
+/* W-PT review (design-manager): centre the portal note under the narrow sign-in card */
+.auth-card+.portal-note{max-width:28rem;margin-inline:auto;text-align:left}
+
+/* ===== Portal round 2 (design feedback W-PT 1-10): chart, table hint, admin alignment, buttons, focus ===== */
+:root{--c-bar:#1650b8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-bar:#4f8ae8}}
+:root[data-theme="dark"]{--c-bar:#4f8ae8}
+.chart3{position:relative}
+.chart3-svg{position:relative;width:100%}
+.chart3-svg svg{display:block;width:100%;max-height:none}
+.chart3-yt,.chart3-xt{margin:0;font:500 var(--fs-s)/1.4 var(--f-body);color:var(--c-muted)}
+.chart3-yt{margin-bottom:var(--s-2)}
+.chart3-xt{margin-top:var(--s-2);text-align:center}
+.chart3 figcaption{margin-top:var(--s-1)}
+.ch-axis text,.ch-x{font:500 11px/1 var(--f-mono);fill:var(--c-muted)}
+.ch-val{font:600 12px/1 var(--f-mono);fill:var(--c-text)}
+.ch-bar{fill:var(--c-bar);stroke:none}
+.ch-bar:hover,.ch-bar.is-sel{fill:var(--c-bar)}
+.ch-bar.is-sel{filter:brightness(.85)}
+.ch-none{fill:var(--c-border-strong)}
+.ch-hit{fill:transparent;cursor:pointer}
+.ch-hit:hover{fill:var(--c-grid)}
+.chart-tip{position:absolute;z-index:3;pointer-events:none;padding:.25rem .5rem;border:var(--bd);border-radius:var(--r);background:var(--c-bg);box-shadow:var(--shadow-2);font:500 var(--fs-xs)/1.4 var(--f-mono);color:var(--c-text);white-space:nowrap}
+.chart3 .chart-tip{margin:0}
+.rep-table caption{white-space:normal}
+.rep-table tbody th,.rep-table thead th:first-child{position:sticky;left:0;z-index:1;background:var(--c-bg)}
+.rep-table thead th:first-child{background:var(--c-surface)}
+.rep-table tr.is-sel th{background:var(--c-surface)}
+.table-wrap{position:relative}
+.scroll-hint{display:none;margin:var(--s-1) 0 0;font-size:var(--fs-s);color:var(--c-muted)}
+.table-wrap.can-scroll+.scroll-hint{display:block}
+.table-wrap.can-scroll:not(.at-end){box-shadow:inset -16px 0 14px -12px rgb(11 31 58/.28)}
+.portal .btn,.portal .btn-secondary,.portal .demo-reset{font-size:.9375rem}
+.admin-edit h2,.admin-list-head h2{margin:0;font-size:var(--fs-2);line-height:1.2}
+.admin-list-head{min-height:2.75rem}
+.admin-edit>.back-link{margin:0 0 var(--s-2);font-size:var(--fs-s)}
+.admin-edit h2{margin-bottom:var(--s-3);min-height:2.75rem;display:flex;align-items:center}
+@media (max-width:59.99rem){.admin-edit{margin-top:var(--s-4);padding-top:var(--s-4);border-top:var(--bd)}}
+@media (min-width:60rem){.admin-edit>.back-link{display:none}}
+.img-missing{margin:0 0 var(--s-2);padding:var(--s-3);border:1.5px dashed var(--c-border-strong);border-radius:var(--r);color:var(--c-muted);text-align:center;font-size:var(--fs-s)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--c-focus);outline-offset:1px;border-color:var(--c-accent)}
+.field input:focus:not(:focus-visible),.field select:focus:not(:focus-visible),.field textarea:focus:not(:focus-visible){outline:3px solid var(--c-focus)}
+
+/* ===== Portal v2 (W-PT-18, 22): post actions, destructive buttons ===== */
+.post-pick{cursor:default}
+.post-actions{margin-top:var(--s-2)}
+.btn-small{min-height:2.25rem;padding:.4rem .9rem;font-size:.875rem}
+.btn-danger{background:var(--c-error);border-color:var(--c-error);color:#fff}
+.btn-danger:hover{background:#8f1f18;border-color:#8f1f18;color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger{color:#1a0a08}:root:not([data-theme="light"]) .btn-danger:hover{background:#ffb4ad;border-color:#ffb4ad;color:#1a0a08}}
+:root[data-theme="dark"] .btn-danger{color:#1a0a08}:root[data-theme="dark"] .btn-danger:hover{background:#ffb4ad;border-color:#ffb4ad;color:#1a0a08}
+.confirm-danger{border-color:var(--c-error);margin-top:var(--s-3)}
+.post-item{display:grid;gap:var(--s-1);padding:var(--s-2) var(--s-3);border:var(--bd);border-radius:var(--r);background:var(--c-bg)}
+.post-item.is-sel{border-color:var(--c-accent);background:var(--c-surface)}
+.post-item .post-pick{border:0;padding:0;background:none;width:auto}
+/* W-PT v2 review (design-manager): row-level danger buttons are outlined; only the confirm button is filled red */
+.btn-danger.btn-small{background:transparent;color:var(--c-error);border-color:var(--c-error)}
+.btn-danger.btn-small:hover{background:var(--c-error);color:#fff;border-color:var(--c-error)}
+:root[data-theme="dark"] .btn-danger.btn-small:hover{color:#1a0a08}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger.btn-small:hover{color:#1a0a08}}
+.csv-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2) var(--s-3);margin:var(--s-3) 0 0}
+.csv-row .hint{margin:0;flex:1 1 16rem}
+
+/* ===== Portal v2 round 2 (design feedback): search, truncation, confirm under its row ===== */
+#cu-search{max-width:none;margin-top:var(--s-3)}
+#cu-search label{margin-bottom:var(--s-2)}
+.post-pick{min-width:0}
+.cu-pick .post-title{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post-item .confirm{margin-top:var(--s-2)}
+.cu-pick{grid-template-columns:minmax(0,1fr)}
+/* row-level outlined danger button keeps its red text in dark mode (the filled rule above sets dark text) */
+:root[data-theme="dark"] .btn-danger.btn-small{color:var(--c-error)}
+:root[data-theme="dark"] .btn-danger.btn-small:hover{color:#1a0a08}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger.btn-small{color:var(--c-error)}:root:not([data-theme="light"]) .btn-danger.btn-small:hover{color:#1a0a08}}

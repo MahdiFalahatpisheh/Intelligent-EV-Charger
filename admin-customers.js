@@ -99,8 +99,23 @@
   }
 
   // Result message at the top of the chargers panel (live region), so it is seen next to the list that changed.
-  var resultTimer = null;
-  function result(text) { say($('dv-result'), text, 'ok'); clearTimeout(resultTimer); resultTimer = setTimeout(function () { say($('dv-result'), ''); }, 6000); }
+  // After a confirmed action the focused control is gone, so focus goes to the message (tabindex -1: reachable by script, not a Tab stop).
+  // The message is never hidden while it holds focus (that would drop focus to body): after 6 s it stays until focus leaves it.
+  function hold(node) { node.tabIndex = -1; node.focus(); }
+  var resultTimer = null, resultSeq = 0, resultBlur = null;
+  function result(text) {
+    var n = $('dv-result'), seq = ++resultSeq;
+    if (resultBlur) { n.removeEventListener('blur', resultBlur); resultBlur = null; }
+    say(n, text, 'ok'); clearTimeout(resultTimer);
+    resultTimer = setTimeout(function () {
+      if (document.activeElement !== n) { say(n, ''); return; }
+      resultBlur = function () {
+        if (document.activeElement === n) return;  // the window lost focus, not the message
+        n.removeEventListener('blur', resultBlur); resultBlur = null; if (seq === resultSeq) say(n, '');
+      };
+      n.addEventListener('blur', resultBlur);
+    }, 6000);
+  }
 
   // ---- add / edit form (allow-listed fields only) ----
   function resetForm() {
@@ -176,12 +191,13 @@
         var b = el('button', 'btn btn-secondary btn-small', 'Set to inactive'); b.type = 'button';
         b.addEventListener('click', function () { open('inactive', d, b, 'Set charger "' + d.name + '" to inactive?', 'It stays on the customer\'s account with its history. Status is only a label.', 'Set to inactive'); });
         $('dv-msg').appendChild(document.createTextNode(' ')); $('dv-msg').appendChild(b);
+        b.focus();
         return;
       }
-      if (n !== 1) { closeAct(false); say($('dv-msg'), r.error && /row-level|permission|42501/i.test((r.error.code || '') + (r.error.message || '')) ? G.denied : G.failed, 'error'); return; }
+      if (n !== 1) { closeAct(false); say($('dv-msg'), r.error && /row-level|permission|42501/i.test((r.error.code || '') + (r.error.message || '')) ? G.denied : G.failed, 'error'); hold($('dv-msg')); return; }
       closeAct(false); if (editing && editing.id === d.id) resetForm();
-      loadDevices(); result(a.kind === 'remove' ? 'Charger removed.' : 'Charger set to inactive.');
-    }, function () { $('dv-yes').disabled = false; closeAct(false); say($('dv-msg'), G.network, 'error'); });
+      loadDevices(); result(a.kind === 'remove' ? 'Charger removed.' : 'Charger set to inactive.'); hold($('dv-result'));
+    }, function () { $('dv-yes').disabled = false; closeAct(false); say($('dv-msg'), G.network, 'error'); hold($('dv-msg')); });
   });
 
   $('signout').addEventListener('click', function () { P.signOut().then(function () { window.location.replace('login.html'); }); });

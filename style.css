@@ -1195,6 +1195,34 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .cutaway:has(.hotspot[data-part="board"]:is(:hover,:focus-visible)) .s3-t [data-part-art="board"],
 .cutaway:has(.hotspot[data-part="ocpp"]:is(:hover,:focus-visible)) .s3-t [data-part-art="ocpp"]{--s3-top:color-mix(in srgb,var(--c-accent) 30%,var(--c-bg));--s3-left:color-mix(in srgb,var(--c-accent) 38%,var(--c-bg));--s3-right:color-mix(in srgb,var(--c-accent) 46%,var(--c-bg));--s3-line:var(--c-accent)}
 .s3-t .s3-mesh.is-active svg .k-a,.cutaway:has(.hotspot[data-part="mesh"]:is(:hover,:focus-visible)) .s3-t .s3-mesh svg .k-a{stroke-width:calc(var(--s3-w)*2.4)}
+/* W-SEC-7.4: values moved unchanged from the inline style attributes of technology.html (only page with .s3-t / .cutaway). */
+.tp-sprite{position:absolute}
+#hatch path{stroke:var(--c-border-strong);stroke-width:.8}
+.s3-t .tp-mtr{--x:4%;--y:54%}
+.s3-t .tp-unit{--x:20%;--y:52%}
+.s3-t .tp-chg1{--x:46%;--y:52%}
+.s3-t .tp-chg2{--x:64%;--y:52%}
+.s3-t .tp-chg3{--x:82%;--y:52%}
+.s3-t .tp-car1{--x:calc(50.3% - 2.7cqw);--y:68%;--dl:0s}
+.s3-t .tp-car2{--x:calc(68.3% - 2.7cqw);--y:68%;--dl:-3s}
+.s3-t .tp-car3{--x:calc(86.3% - 2.7cqw);--y:68%;--dl:-6s}
+.s3-t .s3-mesh .pkt{offset-path:path('M27 57H50H68H86');--pl:-1s;--pd:5s}
+.s3-t .tp-bld{--x:6%;--y:2%}
+.s3-t .tp-ant{--x:38%;--y:6%}
+.s3-t .tp-cld{--x:80%;--y:8%;--z:30cqw}
+.cutaway .hotspot[data-part="controller"]{--dx:42.7%;--dy:64%;--mx:18%;--my:88%}
+.cutaway .hotspot[data-part="board"]{--dx:66.5%;--dy:53%;--mx:86%;--my:82%}
+.cutaway .hotspot[data-part="mesh"]{--dx:56%;--dy:45.5%;--mx:80%;--my:22%}
+.cutaway .hotspot[data-part="ocpp"]{--dx:45.8%;--dy:17%;--mx:18%;--my:12%}
+.pic3.tp-lim .unit3{--x:26%;--y:34%}
+.pic3.tp-brd .pcb3{--x:14%;--y:30%}
+.pic3.tp-brd .chip3{--x:38%;--y:40%}
+.pic3.tp-met .mtr3{--x:22%;--y:30%}
+.pic3.tp-cab .chg3:nth-child(1){--x:8%;--y:34%}
+.pic3.tp-cab .chg3:nth-child(2){--x:58%;--y:34%}
+.pic3.tp-cab .s3-layer>svg{transform:translateZ(0)}
+.pic3.tp-srv .srv3{--x:26%;--y:34%}
+.pic3.tp-rdy .chg3{--x:34%;--y:34%}
 
 /* ===== W-P-9 round 2 ===== */
 .page-head .lead{margin:var(--s-2) 0 0;max-width:34rem;font-size:var(--fs-1);color:var(--c-muted)}
@@ -1227,7 +1255,7 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .s3-d .s3-chip{padding-inline:.3rem}
 .s3-d .s3-chip.lead-r{--len-eff:1.5cqw}
 }
-/* W-P-79.1: how-it-works flow scene (.s3-f), Charge chip. !important beats the inline --x/--y on #fc3. Its target sits level with the end of the Share capacity chip at phone width, so the target moves down onto the charger body (still the same charger) and the chip clears the one above. */
+/* W-P-79.1: how-it-works flow scene (.s3-f), Charge chip. !important beats the --x/--y that `.s3-f .hw-f-fc3` sets on #fc3 (W-SEC-7.6). Its target sits level with the end of the Share capacity chip at phone width, so the target moves down onto the charger body (still the same charger) and the chip clears the one above. */
 @media (max-width:30rem){#fc3{--x:64%!important;--y:32.5%!important}}
 
 /* ===== W-P-10: Project, FAQ, Contact, 404 ===== */
@@ -1268,6 +1296,32 @@ html.js .install-panel.is-visible .pair-arc{animation:dash14 1.6s linear infinit
 .step3{width:2.75rem;height:2.75rem;margin:0 0 0 auto;order:3;flex:none}
 .pic3 .step-b{--bw:30cqw;--bd:30cqw}
 .pic3.step3 .s3-rig{top:66%}
+/* W-SEC-7.5: values moved unchanged from the inline style attributes of project.html (hero .s3-pr, timeline [data-stage], card pictures .pj-*, step bars .step-b, audience pictures .pj-*). */
+.s3-pr .pr-chg1{--x:14%;--y:40%}
+.s3-pr .pr-chg2{--x:21%;--y:50%}
+.s3-pr .pr-pcb{--x:40%;--y:42%}
+.s3-pr .pr-chip{--x:46%;--y:48%}
+.s3-pr .pr-mark{--x:57%;--y:36%}
+.s3-pr .pr-flag{--x:58.4%;--y:36%}
+.s3-pr .pr-bld{--x:70%;--y:34%}
+.timeline [data-stage="idea"] .cube3{--x:30%;--y:30%;--a:.0}
+.timeline [data-stage="bench"] .pcb3{--x:16%;--y:34%;--a:.15}
+.timeline [data-stage="bench"] .chip3{--x:40%;--y:44%;--a:.3}
+.timeline [data-stage="bench"] .mark3{--x:70%;--y:30%;--a:.45}
+.timeline [data-stage="real"] .bld3{--x:26%;--y:30%}
+.pic3.pj-what .bld3{--x:24%;--y:30%}
+.pic3.pj-status .chg3{--x:34%;--y:34%}
+.pic3.pj-scope .pcb3{--x:14%;--y:30%}
+.pic3.pj-scope .chip3{--x:38%;--y:40%}
+.pic3.pj-future .bat3{--x:22%;--y:34%}
+.next .step-b{--x:34%;--y:34%;--a:0}
+.next .step-b.pj-h1{--bh:18cqw}
+.next .step-b.pj-h2{--bh:26cqw}
+.next .step-b.pj-h3{--bh:34cqw}
+.next .step-b.pj-h4{--bh:42cqw}
+.pic3.pj-own .bld3{--x:24%;--y:30%}
+.pic3.pj-res .chg3{--x:34%;--y:34%}
+.pic3.pj-utl .mtr3{--x:22%;--y:30%}
 .next li{align-items:center}
 .audience li>.pic3{margin-bottom:var(--s-2)}
 /* FAQ */
@@ -1655,87 +1709,13 @@ figure,.card,.tease,.glance-item,.frame,.faq-item,.demo-car,.install-panel,.char
 .note:is([data-copy=story-cap],[data-copy=mesh-ill],[data-copy=meters-fig-cap],[data-copy=chart-note],[data-copy=inst-ill],[data-copy=cutaway-cap],[data-copy=story-ill])::before{display:none}
 .demo-note{text-align:center;border:0;padding:0}
 
-/* ===== Portal (W-PT-10): login, account, admin. Tokens only; AA in light and dark. ===== */
+/* ===== Portal rules that must stay in the public stylesheet (W-P-97): they can match pages that do not load portal.css. The rest of the portal block is in portal.css. ===== */
 :root{--c-error:#b3261e;--c-demo-bg:#fff4dc}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-error:#ff9b92;--c-demo-bg:#2a2210}}
 :root[data-theme="dark"]{--c-error:#ff9b92;--c-demo-bg:#2a2210}
-.portal{max-width:68rem}
-.portal h2{margin:var(--s-5) 0 var(--s-3);font-size:var(--fs-2)}
-.portal h3{margin:var(--s-4) 0 var(--s-2);font-size:var(--fs-1)}
-.auth-card{max-width:28rem;margin-inline:auto;padding:var(--s-4)}
-.form{display:grid;gap:var(--s-3)}
-.field{display:grid;gap:var(--s-1)}
-.field label{font-weight:600}
-.field input,.field select,.field textarea{width:100%;box-sizing:border-box;min-height:2.75rem;padding:.6rem .75rem;border:1.5px solid var(--c-border-strong);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);font:400 var(--fs-0)/1.4 var(--f-body)}
-.field textarea{min-height:10rem;resize:vertical}
-.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible,.link-btn:focus-visible,.post-pick:focus-visible{outline:3px solid var(--c-focus);outline-offset:2px}
-.field [aria-invalid="true"]{border-color:var(--c-error)}
-.field-inline{max-width:22rem;margin-bottom:var(--s-3)}
-.hint{margin:0;font-size:var(--fs-s);color:var(--c-muted)}
-.field-error{margin:0;font-size:var(--fs-s);font-weight:600;color:var(--c-error)}
-.field-error::before{content:"\26A0\00a0"}
 .notice{margin:0 0 var(--s-3);padding:var(--s-2) var(--s-3);border:var(--bd);border-left:4px solid var(--c-accent);border-radius:var(--r);background:var(--c-surface);color:var(--c-text);max-width:none}
-.notice-ok{border-left-color:var(--c-ok)}
-.notice-error{border-left-color:var(--c-error)}
-.notice-warn,.notice-demo{border-left-color:var(--c-signal);background:var(--c-demo-bg)}
 .notice-empty{border-style:dashed;border-left-width:1.5px;background:transparent;color:var(--c-muted)}
-.link-btn{display:inline;padding:.25rem 0;min-height:2rem;border:0;background:none;color:var(--c-accent);font:inherit;text-decoration:underline;text-underline-offset:.2em;cursor:pointer}
-.link-btn:hover{color:var(--c-accent-hover)}
-.form-links{display:flex;flex-wrap:wrap;gap:var(--s-1) var(--s-3);margin:0}
-.btn:disabled{opacity:.6;cursor:progress}
-.btn-row{display:flex;flex-wrap:wrap;gap:var(--s-2)}
-.portal-note,.portal-bar{margin:var(--s-4) 0 0;font-size:var(--fs-s);color:var(--c-muted);max-width:none}
-.portal-bar{display:flex;flex-wrap:wrap;gap:var(--s-1) var(--s-3);align-items:center;margin-top:var(--s-3)}
-.dev-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-3);grid-template-columns:repeat(auto-fill,minmax(16rem,1fr))}
-.dev{padding:var(--s-3)}
-.dev h3{margin:0 0 var(--s-2)}
-.dev-meta{display:grid;gap:var(--s-1);margin:0}
-.dev-meta div{display:flex;gap:var(--s-2);flex-wrap:wrap}
-.dev-meta dt{min-width:5.5rem;color:var(--c-muted)}
-.dev-meta dd{margin:0}
-.dot{display:inline-block;width:.6rem;height:.6rem;margin-right:.45rem;border-radius:50%;background:var(--c-border-strong)}
-.dot-active{background:var(--c-ok)}.dot-fault{background:var(--c-error)}.dot-inactive{background:transparent;border:2px solid var(--c-border-strong)}
-.tag-demo,.tag{display:inline-block;margin:var(--s-2) 0 0;padding:.1rem .5rem;border:1px solid var(--c-border-strong);border-radius:var(--r);font:500 var(--fs-xs)/1.6 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--c-text)}
-.tag{margin:0}
-.tag-published{border-color:var(--c-ok);color:var(--c-ok)}
-.tag-src{color:var(--c-muted)}
 .table-wrap{overflow-x:auto;margin-top:var(--s-3);border:var(--bd);border-radius:var(--r)}
-.rep-table{width:100%;border-collapse:collapse;font-size:var(--fs-s)}
-.rep-table caption{padding:var(--s-2) var(--s-3);text-align:left;color:var(--c-muted)}
-.rep-table th,.rep-table td{padding:.5rem var(--s-3);border-top:var(--bd);text-align:left;white-space:nowrap}
-.rep-table thead th{background:var(--c-surface);font-weight:600}
-.rep-table .num{text-align:right;font-variant-numeric:tabular-nums}
-.rep-table tr.is-sel{background:var(--c-surface)}
-.rep-table tbody th{font-weight:400}
-.muted{color:var(--c-muted)}
-.chart3{margin:var(--s-3) 0 0;padding:var(--s-3);border:var(--bd);border-radius:var(--r);background:var(--c-bg)}
-.chart3-svg svg{display:block;width:100%;height:auto;max-height:18rem}
-.chart3 figcaption{margin-top:var(--s-2);font-size:var(--fs-s);color:var(--c-muted)}
-.ch-axis text,.ch-x{font:500 11px/1 var(--f-mono);fill:var(--c-muted)}
-.ch-grid{stroke:var(--c-border);stroke-width:1}
-.ch-base{stroke:var(--c-border-strong);stroke-width:1}
-.ch-bar{fill:var(--c-accent);cursor:pointer}
-.ch-bar:hover{fill:var(--c-accent-hover)}
-.ch-bar.is-sel{stroke:var(--c-text);stroke-width:2}
-.path3{list-style:none;margin:var(--s-2) 0 0;padding:0;display:grid;gap:var(--s-2);grid-template-columns:repeat(auto-fit,minmax(10rem,1fr))}
-.path3-step{position:relative;display:grid;gap:var(--s-1);padding:var(--s-2) var(--s-3);border:var(--bd);border-radius:var(--r);background:var(--c-surface)}
-.path3-label{font-size:var(--fs-s);color:var(--c-muted)}
-.path3-kw{font:600 var(--fs-1)/1.3 var(--f-body);font-variant-numeric:tabular-nums}
-.path3-kw.is-null{font-size:var(--fs-s);font-weight:400;color:var(--c-muted)}
-@media (min-width:40rem){.path3-step:not(:last-child)::after{content:"\2192";position:absolute;right:-1.1rem;top:50%;transform:translateY(-50%);color:var(--c-muted);z-index:1}.path3{column-gap:var(--s-4)}}
-.admin-grid{display:grid;gap:var(--s-5)}
-@media (min-width:60rem){.admin-grid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}}
-.admin-list-head{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3)}
-.admin-list-head h2{margin:0}
-.post-list{list-style:none;margin:var(--s-3) 0 0;padding:0;display:grid;gap:var(--s-2)}
-.post-pick{display:grid;gap:var(--s-1);width:100%;padding:var(--s-2) var(--s-3);text-align:left;border:var(--bd);border-radius:var(--r);background:var(--c-bg);color:var(--c-text);font:inherit;cursor:pointer}
-.post-pick:hover,.post-item.is-sel .post-pick{border-color:var(--c-accent);background:var(--c-surface)}
-.post-title{font-weight:600}
-.post-meta{display:flex;flex-wrap:wrap;gap:var(--s-2);align-items:center;font-size:var(--fs-s);color:var(--c-muted)}
-.confirm{padding:var(--s-3);border:1.5px solid var(--c-signal);border-radius:var(--r);background:var(--c-demo-bg)}
-.confirm p{margin:0 0 var(--s-2)}
-.post-preview{padding:var(--s-3)}
-.post-preview h4{margin:0 0 var(--s-2);font-size:var(--fs-1)}
 .post-img{max-width:100%;height:auto;border-radius:var(--r)}
 .md-case{padding:var(--s-3);margin-bottom:var(--s-3)}
 .md-case h2{margin:0 0 var(--s-2);font-size:var(--fs-1)}
@@ -1746,49 +1726,6 @@ figure,.card,.tease,.glance-item,.frame,.faq-item,.demo-car,.install-panel,.char
 .news-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-3)}
 @media print{.notice-demo,.notice-demo *{display:block!important;color:#000!important;background:#fff!important;border:2px solid #000!important}.portal-bar,.form-links,.btn{display:none!important}.table-wrap{overflow:visible}}
 [hidden]{display:none!important}  /* the portal sets display on grid/flex blocks that also use the hidden attribute */
-.admin-edit h2{margin-top:0}
-/* W-PT review (design-manager): centre the portal note under the narrow sign-in card */
-.auth-card+.portal-note{max-width:28rem;margin-inline:auto;text-align:left}
-
-/* ===== Portal round 2 (design feedback W-PT 1-10): chart, table hint, admin alignment, buttons, focus ===== */
-:root{--c-bar:#1650b8}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-bar:#4f8ae8}}
-:root[data-theme="dark"]{--c-bar:#4f8ae8}
-.chart3{position:relative}
-.chart3-svg{position:relative;width:100%}
-.chart3-svg svg{display:block;width:100%;max-height:none}
-.chart3-yt,.chart3-xt{margin:0;font:500 var(--fs-s)/1.4 var(--f-body);color:var(--c-muted)}
-.chart3-yt{margin-bottom:var(--s-2)}
-.chart3-xt{margin-top:var(--s-2);text-align:center}
-.chart3 figcaption{margin-top:var(--s-1)}
-.ch-axis text,.ch-x{font:500 11px/1 var(--f-mono);fill:var(--c-muted)}
-.ch-val{font:600 12px/1 var(--f-mono);fill:var(--c-text)}
-.ch-bar{fill:var(--c-bar);stroke:none}
-.ch-bar:hover,.ch-bar.is-sel{fill:var(--c-bar)}
-.ch-bar.is-sel{filter:brightness(.85)}
-.ch-none{fill:var(--c-border-strong)}
-.ch-hit{fill:transparent;cursor:pointer}
-.ch-hit:hover{fill:var(--c-grid)}
-.chart-tip{position:absolute;z-index:3;pointer-events:none;padding:.25rem .5rem;border:var(--bd);border-radius:var(--r);background:var(--c-bg);box-shadow:var(--shadow-2);font:500 var(--fs-xs)/1.4 var(--f-mono);color:var(--c-text);white-space:nowrap}
-.chart3 .chart-tip{margin:0}
-.rep-table caption{white-space:normal}
-.rep-table tbody th,.rep-table thead th:first-child{position:sticky;left:0;z-index:1;background:var(--c-bg)}
-.rep-table thead th:first-child{background:var(--c-surface)}
-.rep-table tr.is-sel th{background:var(--c-surface)}
-.table-wrap{position:relative}
-.scroll-hint{display:none;margin:var(--s-1) 0 0;font-size:var(--fs-s);color:var(--c-muted)}
-.table-wrap.can-scroll+.scroll-hint{display:block}
-.table-wrap.can-scroll:not(.at-end){box-shadow:inset -16px 0 14px -12px rgb(11 31 58/.28)}
-.portal .btn,.portal .btn-secondary,.portal .demo-reset{font-size:.9375rem}
-.admin-edit h2,.admin-list-head h2{margin:0;font-size:var(--fs-2);line-height:1.2}
-.admin-list-head{min-height:2.75rem}
-.admin-edit>.back-link{margin:0 0 var(--s-2);font-size:var(--fs-s)}
-.admin-edit h2{margin-bottom:var(--s-3);min-height:2.75rem;display:flex;align-items:center}
-@media (max-width:59.99rem){.admin-edit{margin-top:var(--s-4);padding-top:var(--s-4);border-top:var(--bd)}}
-@media (min-width:60rem){.admin-edit>.back-link{display:none}}
-.img-missing{margin:0 0 var(--s-2);padding:var(--s-3);border:1.5px dashed var(--c-border-strong);border-radius:var(--r);color:var(--c-muted);text-align:center;font-size:var(--fs-s)}
-.field input:focus,.field select:focus,.field textarea:focus{outline:3px solid var(--c-focus);outline-offset:1px;border-color:var(--c-accent)}
-.field input:focus:not(:focus-visible),.field select:focus:not(:focus-visible),.field textarea:focus:not(:focus-visible){outline:3px solid var(--c-focus)}
 
 /* ===== Home News and post page (W-PT-8) ===== */
 .news-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-4);grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr))}
@@ -1810,37 +1747,70 @@ figure,.card,.tease,.glance-item,.frame,.faq-item,.demo-car,.install-panel,.char
 .post-date{margin-top:var(--s-2)}
 .post-back{margin-top:var(--s-5)}
 
-/* ===== Portal v2 (W-PT-18, 22): post actions, destructive buttons ===== */
-.post-pick{cursor:default}
-.post-actions{margin-top:var(--s-2)}
-.btn-small{min-height:2.25rem;padding:.4rem .9rem;font-size:.875rem}
-.btn-danger{background:var(--c-error);border-color:var(--c-error);color:#fff}
-.btn-danger:hover{background:#8f1f18;border-color:#8f1f18;color:#fff}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger{color:#1a0a08}:root:not([data-theme="light"]) .btn-danger:hover{background:#ffb4ad;border-color:#ffb4ad;color:#1a0a08}}
-:root[data-theme="dark"] .btn-danger{color:#1a0a08}:root[data-theme="dark"] .btn-danger:hover{background:#ffb4ad;border-color:#ffb4ad;color:#1a0a08}
-.confirm-danger{border-color:var(--c-error);margin-top:var(--s-3)}
-.post-item{display:grid;gap:var(--s-1);padding:var(--s-2) var(--s-3);border:var(--bd);border-radius:var(--r);background:var(--c-bg)}
-.post-item.is-sel{border-color:var(--c-accent);background:var(--c-surface)}
-.post-item .post-pick{border:0;padding:0;background:none;width:auto}
-/* W-PT v2 review (design-manager): row-level danger buttons are outlined; only the confirm button is filled red */
-.btn-danger.btn-small{background:transparent;color:var(--c-error);border-color:var(--c-error)}
-.btn-danger.btn-small:hover{background:var(--c-error);color:#fff;border-color:var(--c-error)}
-:root[data-theme="dark"] .btn-danger.btn-small:hover{color:#1a0a08}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger.btn-small:hover{color:#1a0a08}}
-.csv-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2) var(--s-3);margin:var(--s-3) 0 0}
-.csv-row .hint{margin:0;flex:1 1 16rem}
-
-/* ===== Portal v2 round 2 (design feedback): search, truncation, confirm under its row ===== */
-#cu-search{max-width:none;margin-top:var(--s-3)}
-#cu-search label{margin-bottom:var(--s-2)}
-.post-pick{min-width:0}
-.cu-pick .post-title{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.post-item .confirm{margin-top:var(--s-2)}
-.cu-pick{grid-template-columns:minmax(0,1fr)}
-/* row-level outlined danger button keeps its red text in dark mode (the filled rule above sets dark text) */
-:root[data-theme="dark"] .btn-danger.btn-small{color:var(--c-error)}
-:root[data-theme="dark"] .btn-danger.btn-small:hover{color:#1a0a08}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-danger.btn-small{color:var(--c-error)}:root:not([data-theme="light"]) .btn-danger.btn-small:hover{color:#1a0a08}}
-
 /* Sign in link: keep the one-row header at 60-72rem (960-1152px) */
 @media (min-width:60rem) and (max-width:72rem){nav ul{column-gap:var(--s-2)}}
+
+/* W-SEC-7.6: values moved unchanged from the inline style attributes of how-it-works.html. Each rule is scoped to a scene of this page (.s3-h hero, .s3-f flow, .s3-o offline, .s3-s story, .pic3 cards), one class per element, no important flags. The sprite svg takes .tp-sprite (position:absolute, above) and the hatch pattern path takes the existing #hatch path rule (same two values). Placed last so equal-specificity ties go to these rules. */
+.s3-h .hw-h-pl1{--dl:-3s}
+.s3-h .hw-h-pu1{--dl:-3s}
+.s3-h .hw-h-pl2{--dl:-9s}
+.s3-h .hw-h-c1{--x:4%;--y:34%}
+.s3-h .hw-h-c2{--x:28%;--y:34%}
+.s3-h .hw-h-c3{--x:52%;--y:34%}
+.s3-h .hw-h-c4{--x:76%;--y:34%}
+.s3-h .hw-h-k1{--x:calc(37% - 3.75cqw);--y:44%;--dl:-3s;--dd:8cqw}
+.s3-h .hw-h-k2{--x:calc(85% - 3.75cqw);--y:44%;--dl:-9s;--dd:8cqw}
+.s3-h .hw-h-u{--x:110%;--y:38%}
+.s3-h .hw-h-p1{offset-path:path('M8.6 39.7H80.6L116 47.7');--pl:-1s;--pd:6s}
+.s3-h .hw-h-p2{offset-path:path('M116 47.7L80.6 39.7H8.6');--pl:-4s;--pd:7s}
+.s3-f .hw-f-p1{offset-path:path('M29 50H41H61H75');--pl:-1s;--pd:4s}
+.s3-f .hw-f-p2{offset-path:path('M88 50H94V86H19V57');--pl:-2s;--pd:6s}
+.s3-f .hw-f-m{--x:10%;--y:44%;--a:.02}
+.s3-f .hw-f-u{--x:42%;--y:44%;--a:.25}
+.s3-f .hw-f-c{--x:76%;--y:44%;--a:.5}
+.s3-f .hw-f-k{--x:calc(82% - 2.9cqw);--y:62%;--dl:0s}
+.s3-f .hw-f-fc1{--x:27.3%;--y:41.2%;--len:2cqw;--at:.05}
+.s3-f .hw-f-fc2{--x:50.4%;--y:26.6%;--len:2.5cqw;--at:.3}
+.s3-f .hw-f-fc3{--x:67.9%;--y:15.1%;--len:5cqw;--at:.55}
+.s3-o .hw-o-u{--x:41%;--y:16%}
+.s3-o .hw-o-up-on{--x:49%;--y:21%}
+.s3-o .hw-o-up-off{--x:49%;--y:21%}
+.s3-o .hw-o-q1{--x:64%;--y:20%}
+.s3-o .hw-o-q2{--x:64%;--y:26%}
+.s3-o .hw-o-q3{--x:70%;--y:20%}
+.s3-o .hw-o-c1{--x:calc(14% - 2.2cqw);--y:56%}
+.s3-o .hw-o-c2{--x:calc(38% - 2.2cqw);--y:56%}
+.s3-o .hw-o-c3{--x:calc(62% - 2.2cqw);--y:56%}
+.s3-o .hw-o-c4{--x:calc(86% - 2.2cqw);--y:56%}
+.s3-o .hw-o-cl{--x:50%;--y:22%;--z:30cqw}
+.s3-o .hw-o-cs{--x:50%;--y:22%;--z:30cqw}
+.s3-o .hw-o-cx{--x:50%;--y:22%;--z:20cqw}
+.s3-o .hw-o-t1{--x:48.8%;--y:21.6%;--len:2cqw}
+.s3-o .hw-o-t2{--x:41.5%;--y:33%;--len:2cqw}
+.s3-o .hw-o-t2b{--x:41.5%;--y:33%;--len:2cqw}
+.s3-o .hw-o-t3{--x:36.2%;--y:46.4%;--len:2cqw}
+.s3-o .hw-o-t4{--x:64.7%;--y:47.6%;--len:3cqw}
+.s3-o .hw-o-t5{--x:47%;--y:45%;--len:2cqw}
+.pic3 .hw-p1-m{--x:22%;--y:28%}
+.pic3 .hw-p2-u{--x:22%;--y:28%}
+.pic3 .hw-p3-c{--x:36%;--y:30%}
+.pic3 .hw-p4-u{--x:24%;--y:40%}
+.pic3 .hw-p4-cm{--x:50%;--y:36%;--z:34cqw}
+.pic3 .hw-p4-cs{--x:50%;--y:36%;--z:34cqw}
+.s3-s .hw-s-b{--x:18%;--y:12%}
+.s3-s .hw-s-u{--x:41%;--y:62%}
+.s3-s .hw-s-cm{--x:50%;--y:30%;--z:40cqw}
+.s3-s .hw-s-cs{--x:50%;--y:30%;--z:40cqw}
+/* ===== Admin users (role tags, per-row actions, typed confirmation) ===== */
+.user-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2);margin-top:var(--s-2)}
+.user-actions .field-inline{margin:0;max-width:11rem}
+.user-actions select{min-height:2.25rem;padding:.35rem .6rem;font-size:.9375rem}
+.user-item .post-title{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag-role-admin{border-color:var(--c-accent);color:var(--c-accent)}
+.tag-role-disabled{border-color:var(--c-error);color:var(--c-error)}
+#us-search{max-width:none;margin-top:var(--s-3)}
+#us-search label{margin-bottom:var(--s-2)}
+.pager{display:flex;align-items:center;gap:var(--s-3);margin:var(--s-3) 0 0}
+.user-item.is-disabled{background:var(--c-surface);border-style:dashed}
+.user-item.is-disabled .post-title{color:var(--c-muted);text-decoration:line-through;text-decoration-thickness:1px}
+.user-note{display:block;margin-top:var(--s-1);font-size:var(--fs-s);font-weight:600;color:var(--c-error)}
